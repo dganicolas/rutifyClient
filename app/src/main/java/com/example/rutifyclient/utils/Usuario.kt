@@ -1,4 +1,4 @@
-package com.example.interfazadat.utils
+package com.example.rutifyclient.utils
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
