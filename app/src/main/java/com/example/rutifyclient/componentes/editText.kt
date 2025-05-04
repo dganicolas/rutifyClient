@@ -4,9 +4,9 @@ package com.example.rutifyclient.componentes
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -14,13 +14,11 @@ import androidx.compose.material3.TextFieldDefaults
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.rutifyclient.componentes.TextoInformativo
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,10 +59,16 @@ fun CampoTexto(
     @StringRes textoId: Int,
     error: Boolean = false,
     modifier: Modifier = Modifier,
-    isPassword: Boolean = false,
-) {
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    readOnly: Boolean = false,
+    icono: ImageVector? = null,
+    descripcion: String? = null,
+    modifierIcon: Modifier = Modifier,
+
+    ) {
     OutlinedTextField(
         value = value,
+        readOnly = readOnly,
         onValueChange = onValueChange,
         label = { TextoInformativo(textoId) },
         modifier = modifier
@@ -80,8 +84,13 @@ fun CampoTexto(
             focusedLabelColor = MaterialTheme.colorScheme.primary, // Color de la etiqueta cuando está enfocado
             unfocusedLabelColor = MaterialTheme.colorScheme.secondary // Color de la etiqueta cuando no está enfocado
         ),
-        visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = visualTransformation,
         singleLine = true,
-        isError = error
+        isError = error,
+        trailingIcon = {
+            icono?.let {
+                Icon(modifier = modifierIcon, imageVector = it, contentDescription = descripcion)
+            }
+        }
     )
 }
