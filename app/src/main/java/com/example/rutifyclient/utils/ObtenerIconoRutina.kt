@@ -16,15 +16,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @Composable
 fun obtenerIconoRutina(nombreIcono: String): ImageVector {
     return when (nombreIcono.lowercase()) {
-        "fb"     -> Icons.Filled.Accessibility
-        "pn"       -> Icons.Filled.AirlineSeatLegroomExtra
-        "bz"        -> Icons.Filled.FitnessCenter
-        "pc"         -> Icons.Filled.SelfImprovement
-        "ed"       -> Icons.Filled.AccessibilityNew
-        "cd"        -> Icons.Filled.Favorite
-        "ht"          -> Icons.Filled.Bolt
-        "am"       -> Icons.Filled.SportsGymnastics
-        "mn"    -> Icons.Filled.FitnessCenter
-        else               -> Icons.AutoMirrored.Filled.Help
+        "fb" -> Icons.Filled.Accessibility
+        "pn" -> Icons.Filled.AirlineSeatLegroomExtra
+        "bz" -> Icons.Filled.FitnessCenter
+        "pc" -> Icons.Filled.SelfImprovement
+        "ed" -> Icons.Filled.AccessibilityNew
+        "cd" -> Icons.Filled.Favorite
+        "ht" -> Icons.Filled.Bolt
+        "am" -> Icons.Filled.SportsGymnastics
+        "mn" -> Icons.Filled.FitnessCenter
+        else -> Icons.AutoMirrored.Filled.Help
     }
 }

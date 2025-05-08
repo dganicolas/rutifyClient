@@ -17,10 +17,10 @@ import com.example.rutifyclient.pantalla.MiZona
 import com.example.rutifyclient.pantalla.Registro
 import com.example.rutifyclient.pantalla.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Comunidad
-import com.example.rutifyclient.pantalla.estadisticas.Cursos
+import com.example.rutifyclient.pantalla.cursos.Cursos
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
-import com.example.rutifyclient.pantalla.uiUtils.PantallaConBarraInferior
+import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
 
 @Composable
 fun AppNavigation() {
@@ -78,7 +78,7 @@ fun AppNavigation() {
         }
         composable(Rutas.Ajustes) {
             PantallaConBarraInferior(navControlador, Rutas.Ajustes) {
-                Ajustes()
+                Ajustes(Modifier.padding(it))
             }
         }
 

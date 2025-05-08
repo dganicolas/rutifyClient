@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.rutifyclient.domain.UsuarioBusquedaDto
 import com.example.rutifyclient.pantalla.comunidad.utils.PantallaBusquedaUsuarios
-import com.example.rutifyclient.pantalla.uiUtils.PantallaConBarraInferior
+import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
 
 @Preview
 @Composable

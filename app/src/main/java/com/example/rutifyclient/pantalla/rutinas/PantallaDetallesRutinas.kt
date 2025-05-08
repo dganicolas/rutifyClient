@@ -1,14 +1,12 @@
 package com.example.rutifyclient.pantalla.rutinas
 
-import androidx.compose.foundation.content.MediaType.Companion.Text
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.rutifyclient.pantalla.uiUtils.PantallaConBarraSuperiorRutinas
+import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraSuperiorRutinas
 
 @Composable
 fun PantallaDetallesRutinas(idRutina:String){
