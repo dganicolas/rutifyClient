@@ -13,16 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="previewLogin">
+      <SelectionState runConfigName="Buscador">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="comprobarContrasena()">
+      <SelectionState runConfigName="PreviewIconosRutinas">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="comprobarCorreo()">
+      <SelectionState runConfigName="previewRutinas">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="TokenDataStoreTest">
+      <SelectionState runConfigName="preview23">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="x">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

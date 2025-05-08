@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
     //private const val BASE_URL = "https://app-adat-9a4d.onrender.com/"
-    private const val BASE_URL = "http://10.0.2.2:8080/"
+    private const val BASE_URL = "http://192.168.1.43:8080/"
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(50, TimeUnit.SECONDS)  // Tiempo de espera para la conexión
         .readTimeout(50, TimeUnit.SECONDS)     // Tiempo de espera para leer la respuesta

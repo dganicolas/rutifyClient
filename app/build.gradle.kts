@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,5 +80,6 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation (libs.androidx.datastore.preferences)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation (libs.androidx.material.icons.extended)
 
 }
