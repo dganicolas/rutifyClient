@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,12 +18,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.textos.TextoTitulo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarConFavorito(
-    titulo: String,
+    titulo: Int = R.string.rutinas,
     esFavorito: Boolean,
     onVolverClick: () -> Unit,
     onFavoritoClick: () -> Unit
@@ -31,12 +34,12 @@ fun TopBarConFavorito(
     TopAppBar(
         title = {
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Text(text = titulo)
+                TextoTitulo(textoId = titulo)
             }
         },
         navigationIcon = {
             IconButton(onClick = onVolverClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                Icon(imageVector =  Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
             }
         },
         actions = {
@@ -50,10 +53,10 @@ fun TopBarConFavorito(
         modifier = Modifier
             .height(56.dp),
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorScheme.onBackground,
-            titleContentColor = colorScheme.background,
-            navigationIconContentColor = colorScheme.background,
-            actionIconContentColor = colorScheme.background
+            containerColor = Color.Transparent,
+            titleContentColor = colorScheme.onSurface,
+            navigationIconContentColor = colorScheme.onSurface,
+            actionIconContentColor = colorScheme.onSurface
         )
     )
 }

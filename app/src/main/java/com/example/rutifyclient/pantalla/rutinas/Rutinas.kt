@@ -10,168 +10,24 @@ import com.example.rutifyclient.pantalla.comunidad.utils.PantallaBusquedaRutina
 @Composable
 fun Rutinas(modifier: Modifier, navControlador: NavHostController) {
     val rutinas = listOf(
-        RutinaBuscadorDto(
-            id = "abc123",
-            nombre = "Rutina Full Body",
-            imagen = "ic_full_body",
-            descripcion = "Entrenamiento completo para todo el",
-            cuantosEjercicios = 8,
-            esPremium = false,
-            equipo = "mancuernas"
-        ),
-        RutinaBuscadorDto(
-            id = "abc124",
-            nombre = "Rutina Piernas",
-            imagen = "ic_piernas",
-            descripcion = "Rutina centrada en las piernas",
-            cuantosEjercicios = 6,
-            esPremium = true,
-            equipo = "mancuernas"
-        ),
-        RutinaBuscadorDto(
-            id = "abc125",
-            nombre = "Rutina Brazos",
-            imagen = "ic_brazos",
-            descripcion = "Trabajo de fuerza para los brazos",
-            cuantosEjercicios = 7,
-            esPremium = false,
-            equipo = "mancuernas"
-        ),
-        RutinaBuscadorDto(
-            id = "abc126",
-            nombre = "Rutina Pecho",
-            imagen = "ic_pecho",
-            descripcion = "Ejercicios para trabajar el pecho",
-            cuantosEjercicios = 5,
-            esPremium = true,
-            equipo = "banco"
-        ),
-        RutinaBuscadorDto(
-            id = "abc127",
-            nombre = "Rutina Espalda",
-            imagen = "ic_espalda",
-            descripcion = "Rutina centrada en la espalda",
-            cuantosEjercicios = 8,
-            esPremium = false,
-            equipo = "barras"
-        ),
-        RutinaBuscadorDto(
-            id = "abc128",
-            nombre = "Rutina Cardio",
-            imagen = "ic_cardio",
-            descripcion = "Entrenamiento cardiovascular",
-            cuantosEjercicios = 4,
-            esPremium = true,
-            equipo = "cinta"
-        ),
-        RutinaBuscadorDto(
-            id = "abc129",
-            nombre = "Rutina HIIT",
-            imagen = "ic_hiit",
-            descripcion = "Entrenamiento de alta intensidad",
-            cuantosEjercicios = 6,
-            esPremium = false,
-            equipo = "ninguno"
-        ),
-        RutinaBuscadorDto(
-            id = "abc130",
-            nombre = "Rutina Abdomen",
-            imagen = "ic_abdomen",
-            descripcion = "Trabajo para el abdomen",
-            cuantosEjercicios = 5,
-            esPremium = true,
-            equipo = "banco"
-        ),
-        RutinaBuscadorDto(
-            id = "abc131",
-            nombre = "Rutina Bodyweight",
-            imagen = "ic_bodyweight",
-            descripcion = "Rutina sin equipo",
-            cuantosEjercicios = 7,
-            esPremium = false,
-            equipo = "ninguno"
-        ),
-        RutinaBuscadorDto(
-            id = "abc132",
-            nombre = "Rutina Mancuernas",
-            imagen = "ic_mancuernas",
-            descripcion = "Entrenamiento con mancuernas",
-            cuantosEjercicios = 6,
-            esPremium = true,
-            equipo = "mancuernas"
-        ),
-        RutinaBuscadorDto(
-            id = "abc133",
-            nombre = "Rutina Full Body 2",
-            imagen = "ic_full_body",
-            descripcion = "Entrenamiento completo para todo el cuerpo",
-            cuantosEjercicios = 8,
-            esPremium = false,
-            equipo = "barras"
-        ),
-        RutinaBuscadorDto(
-            id = "abc134",
-            nombre = "Rutina Piernas 2",
-            imagen = "ic_piernas",
-            descripcion = "Rutina centrada en las piernas",
-            cuantosEjercicios = 6,
-            esPremium = true,
-            equipo = "barras"
-        ),
-        RutinaBuscadorDto(
-            id = "abc135",
-            nombre = "Rutina Brazos 2",
-            imagen = "ic_brazos",
-            descripcion = "Trabajo de fuerza para los brazos",
-            cuantosEjercicios = 7,
-            esPremium = false,
-            equipo = "banco"
-        ),
-        RutinaBuscadorDto(
-            id = "abc136",
-            nombre = "Rutina Pecho 2",
-            imagen = "ic_pecho",
-            descripcion = "Ejercicios para trabajar el pecho",
-            cuantosEjercicios = 5,
-            esPremium = true,
-            equipo = "mancuernas"
-        ),
-        RutinaBuscadorDto(
-            id = "abc137",
-            nombre = "Rutina Espalda 2",
-            imagen = "ic_espalda",
-            descripcion = "Rutina centrada en la espalda",
-            cuantosEjercicios = 8,
-            esPremium = false,
-            equipo = "ninguno"
-        ),
-        RutinaBuscadorDto(
-            id = "abc138",
-            nombre = "Rutina Cardio 2",
-            imagen = "ic_cardio",
-            descripcion = "Entrenamiento cardiovascular",
-            cuantosEjercicios = 4,
-            esPremium = true,
-            equipo = "cinta"
-        ),
-        RutinaBuscadorDto(
-            id = "abc139",
-            nombre = "Rutina HIIT 2",
-            imagen = "ic_hiit",
-            descripcion = "Entrenamiento de alta intensidad",
-            cuantosEjercicios = 6,
-            esPremium = false,
-            equipo = "ninguno"
-        ),
-        RutinaBuscadorDto(
-            id = "abc140",
-            nombre = "Rutina Abdomen 2",
-            imagen = "ic_abdomen",
-            descripcion = "Trabajo para el abdomen",
-            cuantosEjercicios = 5,
-            esPremium = true,
-            equipo = "mancuernas"
-        )
+        RutinaBuscadorDto("abc123", "Rutina Full Body", "fb", "Entrenamiento completo para todo el", 8, false, "mancuernas"),
+        RutinaBuscadorDto("abc124", "Rutina Piernas", "pn", "Rutina centrada en las piernas", 6, true, "mancuernas"),
+        RutinaBuscadorDto("abc125", "Rutina Brazos", "bz", "Trabajo de fuerza para los brazos", 7, false, "mancuernas"),
+        RutinaBuscadorDto("abc126", "Rutina Pecho", "pc", "Ejercicios para trabajar el pecho", 5, true, "banco"),
+        RutinaBuscadorDto("abc127", "Rutina Espalda", "ed", "Rutina centrada en la espalda", 8, false, "barras"),
+        RutinaBuscadorDto("abc128", "Rutina Cardio", "cd", "Entrenamiento cardiovascular", 4, true, "cinta"),
+        RutinaBuscadorDto("abc129", "Rutina HIIT", "ht", "Entrenamiento de alta intensidad", 6, false, "ninguno"),
+        RutinaBuscadorDto("abc130", "Rutina Abdomen", "am", "Trabajo para el abdomen", 5, true, "banco"),
+        RutinaBuscadorDto("abc131", "Rutina Bodyweight", "mn", "Rutina sin equipo", 7, false, "ninguno"),
+        RutinaBuscadorDto("abc132", "Rutina Mancuernas", "bz", "Entrenamiento con mancuernas", 6, true, "mancuernas"),
+        RutinaBuscadorDto("abc133", "Rutina Full Body 2", "fb", "Entrenamiento completo para todo el cuerpo", 8, false, "barras"),
+        RutinaBuscadorDto("abc134", "Rutina Piernas 2", "pn", "Rutina centrada en las piernas", 6, true, "barras"),
+        RutinaBuscadorDto("abc135", "Rutina Brazos 2", "bz", "Trabajo de fuerza para los brazos", 7, false, "banco"),
+        RutinaBuscadorDto("abc136", "Rutina Pecho 2", "pc", "Ejercicios para trabajar el pecho", 5, true, "mancuernas"),
+        RutinaBuscadorDto("abc137", "Rutina Espalda 2", "ed", "Rutina centrada en la espalda", 8, false, "ninguno"),
+        RutinaBuscadorDto("abc138", "Rutina Cardio 2", "cd", "Entrenamiento cardiovascular", 4, true, "cinta"),
+        RutinaBuscadorDto("abc139", "Rutina HIIT 2", "ht", "Entrenamiento de alta intensidad", 6, false, "ninguno"),
+        RutinaBuscadorDto("abc140", "Rutina Abdomen 2", "am", "Trabajo para el abdomen", 5, true, "mancuernas")
     )
 
     Column(modifier = modifier) {

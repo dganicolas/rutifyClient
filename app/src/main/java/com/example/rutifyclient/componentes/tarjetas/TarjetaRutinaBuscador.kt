@@ -49,8 +49,7 @@ fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto,navController: NavController
             .fillMaxWidth()
             .size(120.dp)
             .clickable {
-                // Aquí puedes manejar la navegación a detalles de la rutina
-                // navController.navigate("detalles/${rutina.id}")
+                navController.navigate("rutinas/${rutina.id}")
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = shapes.medium,

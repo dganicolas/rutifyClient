@@ -6,18 +6,21 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
-import com.example.rutifyclient.pantalla.estadisticas.Cursos
 import com.example.rutifyclient.pantalla.Login
 import com.example.rutifyclient.pantalla.MiZona
 import com.example.rutifyclient.pantalla.Registro
 import com.example.rutifyclient.pantalla.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Comunidad
-import com.example.rutifyclient.pantalla.uiUtils.PantallaConBarraInferior
+import com.example.rutifyclient.pantalla.estadisticas.Cursos
+import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
+import com.example.rutifyclient.pantalla.uiUtils.PantallaConBarraInferior
 
 @Composable
 fun AppNavigation() {
@@ -39,44 +42,51 @@ fun AppNavigation() {
             fadeOut(animationSpec = tween(durationMillis = duracion))
         }
     ) {
-        composable(Rutas.Splash){
+        composable(Rutas.Splash) {
             SplashScreen(navControlador)
         }
-        composable(Rutas.Rutina){
-            PantallaConBarraInferior(navControlador,Rutas.Rutina){
-                Rutinas(Modifier.padding(it),navControlador)
+        composable(Rutas.Rutina) {
+            PantallaConBarraInferior(navControlador, Rutas.Rutina) {
+                Rutinas(Modifier.padding(it), navControlador)
             }
         }
-
-        composable(Rutas.Registro){
-                Registro(navControlador)
+        composable(
+            route = Rutas.DetallesRutinas,
+            arguments = listOf(navArgument("idRutina") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val idRutina = backStackEntry.arguments?.getString("idRutina") ?: ""
+            PantallaDetallesRutinas(idRutina = idRutina)
         }
-        composable(Rutas.Cursos){
-            PantallaConBarraInferior(navControlador,Rutas.Cursos) {
+
+        composable(Rutas.Registro) {
+            Registro(navControlador)
+        }
+        composable(Rutas.Cursos) {
+            PantallaConBarraInferior(navControlador, Rutas.Cursos) {
                 Cursos()
             }
         }
-        composable(Rutas.MiZona){
-            PantallaConBarraInferior(navControlador,Rutas.MiZona) {
+        composable(Rutas.MiZona) {
+            PantallaConBarraInferior(navControlador, Rutas.MiZona) {
                 MiZona()
             }
         }
-        composable(Rutas.Comunidad){
-            PantallaConBarraInferior(navControlador,Rutas.Comunidad) {
-                Comunidad(Modifier.padding(it),navControlador)
+        composable(Rutas.Comunidad) {
+            PantallaConBarraInferior(navControlador, Rutas.Comunidad) {
+                Comunidad(Modifier.padding(it), navControlador)
             }
         }
-        composable(Rutas.Ajustes){
-            PantallaConBarraInferior(navControlador,Rutas.Ajustes) {
+        composable(Rutas.Ajustes) {
+            PantallaConBarraInferior(navControlador, Rutas.Ajustes) {
                 Ajustes()
             }
         }
 
-        composable(Rutas.Menu){
+        composable(Rutas.Menu) {
         }
 
         composable(Rutas.Login) {
-                    Login(navControlador)
+            Login(navControlador)
         }
         composable(Rutas.Buscar) {
             //Buscar(navControlador)
@@ -84,6 +94,7 @@ fun AppNavigation() {
         composable(Rutas.DetallesUsuario) {
             //DetallesUsuario(navControlador)
         }
+
     }
 }
 
