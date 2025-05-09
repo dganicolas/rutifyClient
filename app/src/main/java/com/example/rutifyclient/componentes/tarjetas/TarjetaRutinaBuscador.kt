@@ -32,15 +32,7 @@ import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoInput
 import com.example.rutifyclient.utils.obtenerIconoRutina
 
-data class RutinaBuscadorDto(
-    val id: String? = null,
-    val nombre: String,
-    val imagen: String,
-    val descripcion: String,
-    val cuantosEjercicios: Int,
-    val esPremium: Boolean,
-    val equipo:String,
-)
+
 
 @Composable
 fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto,navController: NavController) {

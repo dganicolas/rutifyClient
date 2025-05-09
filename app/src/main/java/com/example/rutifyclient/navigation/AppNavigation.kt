@@ -21,6 +21,7 @@ import com.example.rutifyclient.pantalla.cursos.Cursos
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
 import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
+import com.example.rutifyclient.pantalla.rutinas.HacerEjercicioRutina
 
 @Composable
 fun AppNavigation() {
@@ -55,7 +56,7 @@ fun AppNavigation() {
             arguments = listOf(navArgument("idRutina") { type = NavType.StringType })
         ) { backStackEntry ->
             val idRutina = backStackEntry.arguments?.getString("idRutina") ?: ""
-            PantallaDetallesRutinas(idRutina = idRutina)
+            PantallaDetallesRutinas(idRutina = idRutina, navControlador)
         }
 
         composable(Rutas.Registro) {
@@ -82,18 +83,22 @@ fun AppNavigation() {
             }
         }
 
-        composable(Rutas.Menu) {
-        }
+        composable(route = Rutas.HacerEjercicio,
+            arguments = listOf(navArgument("ejercicioJson") { type = NavType.StringType })) {
+                    backStackEntry ->
+                val ejercicioIds = backStackEntry.arguments?.getString("ejercicioJson") ?: ""
+                HacerEjercicioRutina(ejercicioIds)
+            }
 
-        composable(Rutas.Login) {
-            Login(navControlador)
-        }
-        composable(Rutas.Buscar) {
-            //Buscar(navControlador)
-        }
-        composable(Rutas.DetallesUsuario) {
-            //DetallesUsuario(navControlador)
-        }
+                    composable (Rutas.Login) {
+                Login(navControlador)
+            }
+                    composable (Rutas.Buscar) {
+                //Buscar(navControlador)
+            }
+                    composable (Rutas.DetallesUsuario) {
+                //DetallesUsuario(navControlador)
+            }
 
     }
 }
