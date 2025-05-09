@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth
 fun SplashScreen(navControlador: NavHostController) {
     LaunchedEffect(Unit) {
         val usuario = FirebaseAuth.getInstance().currentUser
-        if (usuario != null ) {
+        if (usuario == null ) {
             navControlador.navigate(Rutas.Rutina) {
                 popUpTo(Rutas.Splash) { inclusive = true }
             }

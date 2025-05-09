@@ -13,11 +13,13 @@ import com.example.rutifyclient.componentes.textos.TextoBotones
 fun ButtonPrincipal(
     @StringRes textoId: Int,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary

@@ -1,4 +1,4 @@
-package com.example.rutifyclient.pantalla.comunidad.utils
+package com.example.rutifyclient.pantalla.foro.utils
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

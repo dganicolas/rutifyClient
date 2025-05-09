@@ -16,7 +16,7 @@ import com.example.rutifyclient.pantalla.Login
 import com.example.rutifyclient.pantalla.MiZona
 import com.example.rutifyclient.pantalla.Registro
 import com.example.rutifyclient.pantalla.SplashScreen
-import com.example.rutifyclient.pantalla.comunidad.Comunidad
+import com.example.rutifyclient.pantalla.foro.Foro
 import com.example.rutifyclient.pantalla.cursos.Cursos
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
@@ -73,7 +73,7 @@ fun AppNavigation() {
         }
         composable(Rutas.Comunidad) {
             PantallaConBarraInferior(navControlador, Rutas.Comunidad) {
-                Comunidad(Modifier.padding(it), navControlador)
+                Foro(Modifier.padding(it), navControlador)
             }
         }
         composable(Rutas.Ajustes) {

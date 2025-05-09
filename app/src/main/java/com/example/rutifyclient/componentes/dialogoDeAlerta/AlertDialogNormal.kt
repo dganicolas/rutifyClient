@@ -26,7 +26,7 @@ fun AlertDialogNormal(@StringRes titulo: Int,
             },
             title = { TextoSubtitulo(titulo) },
             text = { TextoInformativo(mensaje) },
-            containerColor = colorScheme.surface.copy(alpha = 0.9f),
+            containerColor = colorScheme.surface,
             textContentColor = colorScheme.onSurface
         )
     }

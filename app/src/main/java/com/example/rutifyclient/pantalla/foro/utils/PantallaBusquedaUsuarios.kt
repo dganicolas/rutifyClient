@@ -1,4 +1,4 @@
-package com.example.rutifyclient.pantalla.comunidad.utils
+package com.example.rutifyclient.pantalla.foro.utils
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable

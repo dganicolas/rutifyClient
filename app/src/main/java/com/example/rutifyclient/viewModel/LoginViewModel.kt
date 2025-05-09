@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel() : ViewModel() {
 
+    private val _iniciandoSesion = MutableLiveData(true)
+    val iniciandoSesion: LiveData<Boolean> = _iniciandoSesion
 
     private val _textoCorreo = MutableLiveData("")
     val textoCorreo: LiveData<String> = _textoCorreo
@@ -50,6 +52,7 @@ class LoginViewModel() : ViewModel() {
     }
 
     fun iniciarSesion(correo: String, contrasena: String, onResultado: (Boolean) -> Unit) {
+        _iniciandoSesion.value = false
         if (!comprobarInicioSesion(correo, contrasena)) {
             viewModelScope.launch {
                 try {
@@ -85,6 +88,7 @@ class LoginViewModel() : ViewModel() {
             _tituloVentanaModal.value = R.string.error_inicio_sesion
             _mostrarVentanaModal.value = true
         }
+        _iniciandoSesion.value = true
     }
 
     fun mostrarContrasena(estado: Boolean) {

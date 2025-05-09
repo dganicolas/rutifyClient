@@ -2,6 +2,7 @@ package com.example.rutifyclient.componentes.camposDeTextos
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -23,6 +24,7 @@ fun CampoTexto(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     readOnly: Boolean = false,
     icono: ImageVector? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     descripcion: String? = null,
     modifierIcon: Modifier = Modifier,
 
@@ -48,6 +50,7 @@ fun CampoTexto(
         visualTransformation = visualTransformation,
         singleLine = true,
         isError = error,
+        keyboardOptions = keyboardOptions,
         trailingIcon = {
             icono?.let {
                 Icon(modifier = modifierIcon, imageVector = it, contentDescription = descripcion)

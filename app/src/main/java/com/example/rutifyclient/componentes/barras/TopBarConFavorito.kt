@@ -1,6 +1,7 @@
 package com.example.rutifyclient.componentes.barras
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
@@ -29,7 +30,7 @@ fun TopBarConFavorito(
     titulo: Int = R.string.rutinas,
     esFavorito: Boolean,
     onVolverClick: () -> Unit,
-    onFavoritoClick: () -> Unit
+    onFavoritoClick: () -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -39,12 +40,17 @@ fun TopBarConFavorito(
         },
         navigationIcon = {
             IconButton(onClick = onVolverClick) {
-                Icon(imageVector =  Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                Icon(
+                    modifier = Modifier.fillMaxSize(),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Volver"
+                )
             }
         },
         actions = {
             IconButton(onClick = onFavoritoClick) {
                 Icon(
+                    modifier = Modifier.fillMaxSize(),
                     imageVector = if (esFavorito) Icons.Default.Star else Icons.Default.StarBorder,
                     contentDescription = "Favorito"
                 )
@@ -53,7 +59,7 @@ fun TopBarConFavorito(
         modifier = Modifier
             .height(56.dp),
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
+            containerColor = colorScheme.background,
             titleContentColor = colorScheme.onSurface,
             navigationIconContentColor = colorScheme.onSurface,
             actionIconContentColor = colorScheme.onSurface

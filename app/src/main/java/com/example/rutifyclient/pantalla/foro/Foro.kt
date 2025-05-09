@@ -1,14 +1,14 @@
-package com.example.rutifyclient.pantalla.comunidad
+package com.example.rutifyclient.pantalla.foro
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.domain.ComentarioDto
-import com.example.rutifyclient.pantalla.comunidad.utils.PantallaComentarios
+import com.example.rutifyclient.pantalla.foro.utils.PantallaComentarios
 
 @Composable
-fun Comunidad(modifier: Modifier,navControlador: NavHostController) {
+fun Foro(modifier: Modifier, navControlador: NavHostController) {
     val comentarioEjemplo = ComentarioDto(
         idFirebase = "123",
         nombreUsuario = "Juan Pérez",

@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.componentes.tarjetas.RutinaBuscadorDto
-import com.example.rutifyclient.pantalla.comunidad.utils.PantallaBusquedaRutina
+import com.example.rutifyclient.pantalla.foro.utils.PantallaBusquedaRutina
 
 @Composable
 fun Rutinas(modifier: Modifier, navControlador: NavHostController) {

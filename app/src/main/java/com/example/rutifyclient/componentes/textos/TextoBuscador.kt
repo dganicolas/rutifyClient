@@ -13,11 +13,7 @@ import androidx.compose.ui.unit.sp
 fun TextoBuscador(texto: String, modifier: Modifier = Modifier) {
     Text(
         text = texto,
-        style = typography.labelLarge.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 22.sp,
-            letterSpacing = 0.1.sp
-        ),
+        style = typography.titleLarge,
         color = colorScheme.onBackground,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -17,6 +18,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,12 +51,21 @@ fun Login(navControlador: NavHostController) {
     val mostrarVentana by viewModel.mostrarVentanaModal.observeAsState(false)
     val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
     val toastMostrado by viewModel.toastMostrado.observeAsState(true)
+    val iniciandoSesion by viewModel.iniciandoSesion.observeAsState(true)
     val mostrarVentanaContrasenaPerdida by viewModel.mostrarVentanaContrasenaPerdida.observeAsState(
         false
     )
     val mostrarContrasena by viewModel.mostrarContrasena.observeAsState(false)
     val context = LocalContext.current
     val activity = context as Activity
+
+    val iniciarSesion: () -> Unit = {
+        viewModel.iniciarSesion(correo, contrasena) { exito ->
+            if (exito) {
+                navControlador.navigate(Rutas.Menu)
+            }
+        }
+    }
 
     LaunchedEffect(mensajeToast) {
         if (!toastMostrado) {
@@ -74,8 +86,8 @@ fun Login(navControlador: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp), // Agregar un poco de padding
-        contentAlignment = Alignment.Center // Centra el contenido
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
         FormularioCard(R.string.bienvenida) {
             TextoSubtitulo(textoId = R.string.iniciar_sesion)
@@ -85,9 +97,13 @@ fun Login(navControlador: NavHostController) {
                 onValueChange = { viewModel.cambiarCorreo(it) },
                 textoIdLabel = R.string.correo,
                 error = !viewModel.comprobarCorreo(correo),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email
+                ),
             )
             CampoTexto(
                 value = contrasena,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 onValueChange = { viewModel.cambiarContrasena(it) },
                 textoIdLabel = R.string.contrasena,
                 error = viewModel.comprobarContrasena(contrasena),
@@ -98,13 +114,9 @@ fun Login(navControlador: NavHostController) {
             )
             ButtonPrincipal(
                 textoId = R.string.iniciar_sesion,
-                onClick = {
-                    viewModel.iniciarSesion(correo, contrasena) { exito ->
-                        if (exito) {
-                            navControlador.navigate(Rutas.Menu)
-                        }
-                    }
-                }
+                enabled = iniciandoSesion,
+                onClick = iniciarSesion
+
             )
 
             TextoEnlace(

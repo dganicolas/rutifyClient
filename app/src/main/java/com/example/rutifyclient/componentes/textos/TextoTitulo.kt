@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
 @Composable
-fun TextoTitulo(textoId: Int) {
+fun TextoTitulo(textoId: Int,vararg args:Any) {
     Text(
-        text = stringResource(id = textoId),
+        text = stringResource(id = textoId, *args),
         style = typography.headlineLarge,
         color = colorScheme.onBackground
     )

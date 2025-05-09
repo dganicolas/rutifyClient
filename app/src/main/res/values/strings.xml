@@ -1,0 +1,80 @@
+<resources>
+    <!-- cosas generales -->
+    <string name="nombre_app">Rutify</string>
+    <string name="copyright">© 2025 Rutify Technologies S.L.\nTodos los derechos reservados.</string>
+    <string name="error_general">Error de conexión o inesperado</string>
+    <string name="correo">Correo electrónico</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="dato_defecto">Lorem Ipsum</string>
+    <string name="salir">Salir</string>
+    <string name="enviar">Enviar</string>
+    <!-- fin cosas generales -->
+    <!-- Pantalla Login -->
+    <string name="bienvenida">¡Bienvenido a Rutify!</string>
+    <string name="error_firebase_no_cuenta">No existe una cuenta con este correo</string>
+    <string name="error_firebase_credenciales_incorrecta">Correo o contraseña incorrectos</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="contrasena_perdida">¿Perdiste tu contraseña?</string>
+    <string name="no_cuenta">¿No tienes una cuenta?</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="indique_correo">Indique su correo</string>
+    <string name="sesion_iniciada">Sesion iniciada</string>
+    <string name="recuperar_contrasena">Restablecer contraseña</string>
+    <string name="error_en_respuesta">Credenciales incorrectas.</string>
+    <string name="contrasena_enviada">Se ha enviado un correo para restablecer tu contraseña.</string>
+    <string name="error_envio_correo">Error. Verifica tu dirección de correo.</string>
+    <string name="error_conexion">Error de conexión con el servidor.</string>
+    <string name="error_inicio_sesion">Error en el inicio de sesión</string>
+    <string name="datos_no_rellenados">El correo y la contraseña son obligatorios.</string>
+    <string name="mostrar_contrasena">Mostrar contraseña</string>
+    <!-- Fin Pantalla Login -->
+    <!-- Pantalla Register-->
+    <string name="toast_terminos">redirige a una pagina de terminos</string>
+    <string name="terminos"> términos y condiciones</string>
+    <string name="cuenta_existe">¿Tienes una cuenta?</string>
+    <string name="nueva_cuenta">¿Nuevo en Rutify?</string>
+    <string name="registro_exitoso">Registro exitoso.</string>
+    <string name="registro_info">Regístrate gratis</string>
+    <string name="contrasena_confirmacion">Confirmar contraseña:</string>
+    <string name="nombre">Nombre</string>
+    <string name="fecha_nacimiento">Fecha nacimiento</string>
+    <string name="sexo">Sexo</string>
+    <string name="hombre">Hombre</string>
+    <string name="mujer">Mujer</string>
+    <string name="fecha_invalida">Fecha inválida, debes ser mayor a 16 años</string>
+    <string name="error_nombre_vacio">Por favor, introduce tu nombre.</string>
+    <string name="error_fecha_nacimiento_vacia">Selecciona tu fecha de nacimiento.</string>
+    <string name="error_correo_invalido">El correo electrónico no es válido.</string>
+    <string name="error_sexo_no_seleccionado">Selecciona una opción de sexo.</string>
+    <string name="error_contrasenas_diferentes">Las contraseñas no coinciden.</string>
+    <string name="error_terminos_no_aceptados">Debes aceptar los términos y condiciones para continuar.</string>
+    <string name="error_contrasena_invalida">La contraseña debe tener al menos 6 caracteres.</string>
+    <!-- Fin Pantalla Register -->
+    <!-- pantalla menu -->
+
+    <string name="usuario">usuario:</string>
+    <!-- pantalla Rutinas -->
+    <string name="ejercicios">ejercicios: %1$d</string>
+    <string name="equipo">Equipo: %1$s</string>
+    <string name="descripcion">Descripcion:\n %1$s</string>
+    <string name="puntuacion">%1$s/10</string>
+    <string name="rutinas">Rutinas</string>
+    <!-- pantalla detalles rutina-->
+    <string name="titulo_rutina_detalle">%1$s</string>
+    <string name="titulo_descripcion">Descripcion</string>
+    <string name="titulo_ejercicios">Ejercicios</string>
+    <string name="titulo_equipo">Equipo</string>
+    <string name="mensaje_acordeon">%1$s</string>
+    <string name="empezar">empezar Rutina</string>
+
+
+
+    <!-- pantalla Foro-->
+    <string name="autor">Autor: %1$s</string>
+    <string name="fecha">Fecha: %1$s</string>
+    <string name="estado">Estado: %1$s</string>
+    <string name="comentario">%1$s</string>
+    <!-- pantalla Ajuste-->
+    <string name="eliminar_cuenta">Eliminar cuenta</string>
+</resources>
