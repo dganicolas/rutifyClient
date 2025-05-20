@@ -1,10 +1,11 @@
 package com.example.rutifyclient.domain.estadisticas
 
 data class EstadisticasPatchDto(
-    val lvlBrazo: Float? = null,
-    val lvlPecho: Float? = null,
-    val lvlEspalda: Float? = null,
-    val lvlPiernas: Float? = null,
+    val lvlBrazo: Double? = null,
+    val lvlPecho: Double? = null,
+    val lvlEspalda: Double? = null,
+    var lvlAbdominal: Double,
+    val lvlPiernas: Double? = null,
     val ejerciciosRealizados: Int? = null,
-    val caloriasQuemadas: Float? = null
+    val caloriasQuemadas: Double? = null
 )

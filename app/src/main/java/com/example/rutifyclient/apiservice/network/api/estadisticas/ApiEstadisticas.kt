@@ -2,11 +2,14 @@ package com.example.rutifyclient.apiservice.network.api.estadisticas
 
 import com.example.rutifyclient.apiservice.network.ApiRoutes
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
+import com.example.rutifyclient.domain.estadisticas.EstadisticasPatchDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiEstadisticas {
@@ -24,15 +27,15 @@ interface ApiEstadisticas {
     suspend fun actualizarEstadisticas(
         @Path("usuarioId") usuarioId: String,
         @Body estadisticasActualizadas: EstadisticasPatchDto
-    ): Response<Estadisticas>
+    ): Response<EstadisticasDto>
 
     @PUT("${ApiRoutes.ESTADISTICAS}/reiniciar/{usuarioId}")
     suspend fun reiniciarEstadisticas(
         @Path("usuarioId") usuarioId: String
-    ): Response<Estadisticas>
+    ): Response<EstadisticasDto>
 
     @DELETE("${ApiRoutes.ESTADISTICAS}/{usuarioId}")
     suspend fun eliminarEstadisticas(
         @Path("usuarioId") usuarioId: String
-    ): Response<Void>
+    ): Response<EstadisticasDto>
 }

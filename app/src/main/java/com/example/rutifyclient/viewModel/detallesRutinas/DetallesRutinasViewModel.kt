@@ -18,6 +18,12 @@ class DetallesRutinasViewModel: ViewModel() {
     private val _favorito = MutableLiveData<Boolean>(false)
     val favorito: LiveData<Boolean> = _favorito
 
+    private val _sinInternet = MutableLiveData<Boolean>(false)
+    val sinInternet: LiveData<Boolean> = _sinInternet
+
+    private val _estado = MutableLiveData<Boolean>(false)
+    val estado: LiveData<Boolean> = _estado
+
     private val _rutina = MutableLiveData<RutinaDTO>()
     val rutina: LiveData<RutinaDTO> = _rutina
 
@@ -66,13 +72,17 @@ class DetallesRutinasViewModel: ViewModel() {
     }
 
     fun obtenerRutina(idRutina: String) {
+        _sinInternet.value = false
+        _estado.value = false
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.apiRutinas.obtenerRutina(idRutina)
                 if (response.isSuccessful) {
                     _rutina.value = response.body()
+                    _estado.value = true
                 }
             } catch (e: Exception) {
+                _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }
         }

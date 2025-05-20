@@ -1,6 +1,7 @@
 package com.example.rutifyclient.apiservice.network
 
 import com.example.rutifyclient.apiservice.network.api.ejercicios.ApiEjercicios
+import com.example.rutifyclient.apiservice.network.api.estadisticas.ApiEstadisticas
 import com.example.rutifyclient.apiservice.network.api.rutinas.ApiRutinas
 import com.example.rutifyclient.apiservice.network.api.usuarios.ApiUsuarios
 import com.google.android.gms.common.api.Api
@@ -59,5 +60,9 @@ object RetrofitClient {
 
     val apiRutinas: ApiRutinas by lazy {
         retrofit.create(ApiRutinas::class.java)
+    }
+
+    val apiEstadisticas: ApiEstadisticas by lazy {
+        retrofit.create(ApiEstadisticas::class.java)
     }
 }

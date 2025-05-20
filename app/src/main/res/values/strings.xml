@@ -109,4 +109,18 @@
     <string name="equipoRutinaEjercicio">Equipo:</string>
     <string name="grupoMuscularRutinaEjercicio">Grupo:</string>
     <string name="repeticionesEjercicioRutina">%1$d repeticiones</string>
+    <string name="rutinaFinalizada">Rutina finalizada</string>
+    <string name="BRutinaFinalizar">Guardar progreso</string>
+    <string name="puntuacionPecho">Pecho: %1$.2f (+%2$.2f)</string>
+    <string name="PuntuacionBrazo">Brazos: %1$.2f (+%2$.2f)</string>
+    <string name="puntuacionQuemadas">Cal quemadas: %1$.2f (+%2$.2f)</string>
+    <string name="puntuacionEjercicios">Ejercicios totales: %1$d (+%2$d)</string>
+    <string name="puntuacionPiernas">Piernas: %1$.2f (+%2$.2f)</string>
+    <string name="puntuacionAbdominal">Abdominales: %1$.2f (+%2$.2f)</string>
+    <string name="PuntuacionEspalda">Espalda: %1$.2f (+%2$.2f)</string>
+    <string name="mensajeMotivador">¡Estás subiendo de nivel! Tu esfuerzo está dando resultados</string>
+    <string name="error_guardar">Error al guardar estadisticas intantalo de nuevo</string>
+    <string name="estadisticasGuardada">Las estadisticas han sido guardada</string>
+    <string name="sininternet">Sin conexión a internet</string>
+    <string name="reintentar">Reintentar</string>
 </resources>

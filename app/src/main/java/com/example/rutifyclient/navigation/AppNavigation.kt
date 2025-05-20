@@ -23,7 +23,7 @@ import com.example.rutifyclient.pantalla.rutinas.Rutinas
 import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
 import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferiorConBoton
 import com.example.rutifyclient.pantalla.rutinas.CrearRutinas
-import com.example.rutifyclient.pantalla.rutinas.HacerEjercicioRutina
+import com.example.rutifyclient.pantalla.rutinas.hacerRutina.HacerEjercicioRutina
 
 @Composable
 fun AppNavigation() {
