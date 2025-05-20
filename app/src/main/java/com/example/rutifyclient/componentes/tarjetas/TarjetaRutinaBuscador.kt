@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,24 +27,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.espaciadores.SpacerVertical
+import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoInput
+import com.example.rutifyclient.domain.rutinas.RutinaBuscadorDto
 import com.example.rutifyclient.utils.obtenerIconoRutina
 
 
 
 @Composable
-fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto,navController: NavController) {
+fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto, navController: NavController) {
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .size(120.dp)
             .clickable {
                 navController.navigate("rutinas/${rutina.id}")
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = shapes.medium,
-        border = BorderStroke(2.dp, colorScheme.primary),
+        border = BorderStroke(4.dp, colorScheme.primary),
         colors = CardDefaults.cardColors(containerColor = colorScheme.surface)
     ) {
         Row(
@@ -53,12 +53,15 @@ fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto,navController: NavController
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)  // Ajustado para mejorar el espaciado
         ) {
             // Mostrar la imagen representativa de la rutina
-            Icon(
+            Icono(
                 modifier = Modifier
                     .size(60.dp)  // Tamaño ajustado
                     .clip(RoundedCornerShape(8.dp)),  // Esquinas redondeadas
-                imageVector = obtenerIconoRutina(rutina.imagen),  // Usamos el método que asigna los iconos
-                contentDescription = "Imagen de la rutina",
+                imagen = obtenerIconoRutina(rutina.imagen),  // Usamos el método que asigna los iconos
+                descripcion = R.string.descripcionIconoRutina,
+                onClick = {
+                    navController.navigate("rutinas/${rutina.id}")
+                }
             )
 
             Spacer(modifier = Modifier.width(10.dp))  // Espaciado entre la imagen y el texto

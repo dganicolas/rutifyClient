@@ -1,14 +1,14 @@
 package com.example.rutifyclient.apiservice.network.api.usuarios
 
 import com.example.rutifyclient.apiservice.network.ApiRoutes
-import com.example.rutifyclient.domain.UsuarioCredencialesDto
-import com.example.rutifyclient.domain.UsuarioInformacionDto
-import com.example.rutifyclient.domain.UsuarioLoginDto
-import com.example.rutifyclient.domain.UsuarioRegistroDTO
-import com.example.rutifyclient.domain.UsuarioregistradoDto
-import com.example.rutifyclient.domain.ActualizarUsuarioDTO
-import com.example.rutifyclient.domain.EliminarUsuarioDTO
-import com.example.rutifyclient.domain.UsuarioBusquedaDto
+import com.example.rutifyclient.domain.usuario.UsuarioCredencialesDto
+import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
+import com.example.rutifyclient.domain.usuario.UsuarioLoginDto
+import com.example.rutifyclient.domain.usuario.UsuarioRegistroDTO
+import com.example.rutifyclient.domain.usuario.UsuarioregistradoDto
+import com.example.rutifyclient.domain.usuario.ActualizarUsuarioDTO
+import com.example.rutifyclient.domain.usuario.EliminarUsuarioDTO
+import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE

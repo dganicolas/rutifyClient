@@ -1,7 +1,8 @@
 package com.example.rutifyclient.navigation
 
 object Rutas {
-    const val HacerEjercicio = "ejercicio/{ejercicioJson}"
+    const val CrearRutinas = "rutinas/crear"
+    const val HacerEjercicio = "ejercicio"
     const val Cursos = "Cursos"
     const val Estadisticas = "estadisticas"
     const val Ajustes = "ajustes"

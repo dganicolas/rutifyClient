@@ -1,5 +1,7 @@
 <resources>
     <!-- cosas generales -->
+    <string name="cerrarVentana">Cerrar ventana</string>
+    <string name="expandirContraer">expandir o contraer</string>
     <string name="nombre_app">Rutify</string>
     <string name="copyright">© 2025 Rutify Technologies S.L.\nTodos los derechos reservados.</string>
     <string name="error_general">Error de conexión o inesperado</string>
@@ -9,6 +11,7 @@
     <string name="dato_defecto">Lorem Ipsum</string>
     <string name="salir">Salir</string>
     <string name="enviar">Enviar</string>
+    <string name="texto_input">%1$s</string>
     <!-- fin cosas generales -->
     <!-- Pantalla Login -->
     <string name="bienvenida">¡Bienvenido a Rutify!</string>
@@ -67,7 +70,18 @@
     <string name="titulo_equipo">Equipo</string>
     <string name="mensaje_acordeon">%1$s</string>
     <string name="empezar">empezar Rutina</string>
-
+    <!-- pantalla crear rutinas-->
+    <string name="crearRutina">Crear Rutina nueva</string>
+    <string name="icono">Icono:</string>
+    <string name="caloriasEstimadas">cal quemadas: %1$s</string>
+    <string name="puntosGanados">exp ganada: %1$s</string>
+    <string name="descripcionEjercicio">descripcion:</string>
+    <string name="nombreRutina">Nombre de la rutina:</string>
+    <string name="descripcionRutina">Descripcion de la rutina:</string>
+    <string name="ejerciciosRutinas">Ejercicio:</string>
+    <string name="grupoMuscular">Grupo: %1$s</string>
+    <string name="cantidad">Repeticiones:</string>
+    <string name="anadirEjercicio">Añadir ejercicio</string>
 
 
     <!-- pantalla Foro-->
@@ -77,4 +91,22 @@
     <string name="comentario">%1$s</string>
     <!-- pantalla Ajuste-->
     <string name="eliminar_cuenta">Eliminar cuenta</string>
+    <string name="noHayMasResultados">No hay mas rutinas</string>
+    <string name="rutinaCreada">Rutina creada exitosamente</string>
+    <string name="errorNombreRutinaVacio">el nombre de la rutina no puede estar vacia</string>
+    <string name="descripcionIconoRutina">Imagen de la rutina</string>
+    <string name="descripcionRutinaVacia">La descripcion no puede estr vaica</string>
+    <string name="ejercicioCon0Repeticion">"las repeticiones debe ser mayor a 0"</string>
+    <string name="listaEjerciciosVacia">debes de añadir como minimo 1 ejercicio</string>
+    <string name="iconoCambiado">la iamgen ha sido cambiada</string>
+    <string name="confirmar">Confirmacion</string>
+    <string name="cancelar">cancelar</string>
+    <string name="eliminarEjercicio">¿Seguro que quiere eliminar un ejercicio?</string>
+    <string name="cargandoMas">cargando mas rutinas</string>
+    <string name="rutinaGuardada">Rutina guardada en favoritos</string>
+    <string name="rutinaNoGuardada">Rutina ha sido eliminado de favoritos</string>
+    <string name="siguienteEjercicio">Siguiente ejercicio</string>
+    <string name="equipoRutinaEjercicio">Equipo:</string>
+    <string name="grupoMuscularRutinaEjercicio">Grupo:</string>
+    <string name="repeticionesEjercicioRutina">%1$d repeticiones</string>
 </resources>

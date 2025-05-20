@@ -89,7 +89,7 @@ fun RutifyClientTheme(
     } else {
         R.drawable.imagen_fondo
     }
-    val AppTypography = Typography(
+    val appTypography = Typography(
         displayLarge = TextStyle(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold,
@@ -129,7 +129,7 @@ fun RutifyClientTheme(
     )
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AppTypography ,
+        typography = appTypography ,
         content = {
             Box(
                 modifier = Modifier

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
+import com.example.rutifyclient.componentes.botones.ButtonSecundario
 import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
 import com.example.rutifyclient.componentes.espaciadores.SpacerVertical
 import com.example.rutifyclient.componentes.textos.TextoInformativo
@@ -22,11 +23,12 @@ fun AlertDialogConTexto(
     correo:String,
     @StringRes textoId: Int = R.string.enviar,
     onValueChanged: (String) ->Unit,
-    onConfirm: () -> Unit
+    onConfirm: () -> Unit,
+    denegar: () -> Unit
 ) {
 
     AlertDialog(
-        onDismissRequest = { /* No hacemos nada si se cierra el diálogo */ },
+        onDismissRequest = {},
         confirmButton = {
             ButtonPrincipal(textoId,{onConfirm()})
         },
@@ -42,6 +44,11 @@ fun AlertDialogConTexto(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+        },
+        dismissButton = {
+            ButtonSecundario(R.string.cancelar, onClick = {
+                denegar()
+            })
         },
         containerColor = colorScheme.surface.copy(alpha = 0.9f),
         textContentColor = colorScheme.onSurface

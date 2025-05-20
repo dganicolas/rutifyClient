@@ -12,21 +12,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
-import com.example.rutifyclient.pantalla.Login
-import com.example.rutifyclient.pantalla.MiZona
-import com.example.rutifyclient.pantalla.Registro
+import com.example.rutifyclient.pantalla.login.Login
+import com.example.rutifyclient.pantalla.miZona.MiZona
+import com.example.rutifyclient.pantalla.register.Registro
 import com.example.rutifyclient.pantalla.SplashScreen
 import com.example.rutifyclient.pantalla.foro.Foro
 import com.example.rutifyclient.pantalla.cursos.Cursos
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
 import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
+import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferiorConBoton
+import com.example.rutifyclient.pantalla.rutinas.CrearRutinas
 import com.example.rutifyclient.pantalla.rutinas.HacerEjercicioRutina
 
 @Composable
 fun AppNavigation() {
     val navControlador = rememberNavController()
-    val duracion = 900
+    val duracion = 700
     NavHost(
         navController = navControlador,
         startDestination = Rutas.Splash,
@@ -47,9 +49,19 @@ fun AppNavigation() {
             SplashScreen(navControlador)
         }
         composable(Rutas.Rutina) {
-            PantallaConBarraInferior(navControlador, Rutas.Rutina) {
+            PantallaConBarraInferiorConBoton(
+                navControlador,
+                Rutas.Rutina,
+                { navControlador.navigate(Rutas.CrearRutinas) }) {
                 Rutinas(Modifier.padding(it), navControlador)
             }
+        }
+        composable(
+            route = Rutas.CrearRutinas
+        ) {
+
+            CrearRutinas(navControlador)
+
         }
         composable(
             route = Rutas.DetallesRutinas,
@@ -83,24 +95,25 @@ fun AppNavigation() {
             }
         }
 
-        composable(route = Rutas.HacerEjercicio,
-            arguments = listOf(navArgument("ejercicioJson") { type = NavType.StringType })) {
-                    backStackEntry ->
-                val ejercicioIds = backStackEntry.arguments?.getString("ejercicioJson") ?: ""
-                HacerEjercicioRutina(ejercicioIds)
-            }
+        composable(
+            route = Rutas.HacerEjercicio,
+        ) {
+            HacerEjercicioRutina(navControlador)
+        }
 
-                    composable (Rutas.Login) {
-                Login(navControlador)
-            }
-                    composable (Rutas.Buscar) {
-                //Buscar(navControlador)
-            }
-                    composable (Rutas.DetallesUsuario) {
-                //DetallesUsuario(navControlador)
-            }
+        composable(Rutas.Login) {
+            Login(navControlador)
+        }
+        composable(Rutas.Buscar) {
+            //Buscar(navControlador)
+        }
+        composable(Rutas.DetallesUsuario) {
+            //DetallesUsuario(navControlador)
+        }
 
     }
 }
+
+
 
 

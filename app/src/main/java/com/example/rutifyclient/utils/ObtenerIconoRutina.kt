@@ -1,30 +1,25 @@
 package com.example.rutifyclient.utils
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Help
-import androidx.compose.material.icons.filled.Accessibility
-import androidx.compose.material.icons.filled.AccessibilityNew
-import androidx.compose.material.icons.filled.AirlineSeatLegroomExtra
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.SelfImprovement
-import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import com.example.rutifyclient.R
 
 @Composable
-fun obtenerIconoRutina(nombreIcono: String): ImageVector {
+fun obtenerIconoRutina(nombreIcono: String): Painter {
     return when (nombreIcono.lowercase()) {
-        "fb" -> Icons.Filled.Accessibility
-        "pn" -> Icons.Filled.AirlineSeatLegroomExtra
-        "bz" -> Icons.Filled.FitnessCenter
-        "pc" -> Icons.Filled.SelfImprovement
-        "ed" -> Icons.Filled.AccessibilityNew
-        "cd" -> Icons.Filled.Favorite
-        "ht" -> Icons.Filled.Bolt
-        "am" -> Icons.Filled.SportsGymnastics
-        "mn" -> Icons.Filled.FitnessCenter
-        else -> Icons.AutoMirrored.Filled.Help
+        "r1" -> painterResource(id = R.drawable.r1)
+        "r2" -> painterResource(id = R.drawable.r2)
+        "r3" -> painterResource(id = R.drawable.r3)
+        "r4" -> painterResource(id = R.drawable.r4)
+        "r5" -> painterResource(id = R.drawable.r5)
+        "r6" -> painterResource(id = R.drawable.r6)
+        "r7" -> painterResource(id = R.drawable.r7)
+        "r8" -> painterResource(id = R.drawable.r8)
+        "r9" -> painterResource(id = R.drawable.r9)
+        "r10" -> painterResource(id = R.drawable.r10)
+        "r11" -> painterResource(id = R.drawable.r11)
+        "r12" -> painterResource(id = R.drawable.r12)
+        else -> painterResource(id = R.drawable.r1)
     }
 }

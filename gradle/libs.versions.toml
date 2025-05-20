@@ -1,6 +1,8 @@
 [versions]
 accompanistSystemuicontroller = "0.34.0"
 agp = "8.6.0"
+coilCompose = "2.4.0"
+coilGif = "2.4.0"
 datastorePreferences = "1.1.4"
 firebaseBom = "33.13.0"
 kotlin = "2.1.20"
@@ -23,8 +25,13 @@ runtimeLivedata = "1.8.0"
 firebaseAuthKtx = "23.2.0"
 datastoreCoreAndroid = "1.1.4"
 storage = "1.5.0"
+roomRuntime = "2.7.1"
+devtoolsKsp = "2.1.20-2.0.0"
 
 [libraries]
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastorePreferences" }
@@ -35,6 +42,8 @@ androidx-datastore-preferences-rxjava3 = { module = "androidx.datastore:datastor
 androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coilGif" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -66,4 +75,5 @@ androidx-storage = { group = "androidx.test.services", name = "storage", version
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+androidx-room = { id = "androidx.room", version.ref = "roomRuntime" }
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKsp" }

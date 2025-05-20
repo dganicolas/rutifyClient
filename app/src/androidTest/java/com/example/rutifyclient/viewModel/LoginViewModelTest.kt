@@ -1,5 +1,6 @@
 package com.example.rutifyclient.viewModel
 
+import com.example.rutifyclient.viewModel.login.LoginViewModel
 import junit.framework.TestCase.assertFalse
 import org.junit.Test
 

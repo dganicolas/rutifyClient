@@ -1,23 +1,30 @@
 package com.example.rutifyclient.apiservice.network.api.rutinas
 
 import com.example.rutifyclient.apiservice.network.ApiRoutes
-import com.example.rutifyclient.domain.UsuarioCredencialesDto
-import com.example.rutifyclient.domain.UsuarioInformacionDto
-import com.example.rutifyclient.domain.UsuarioLoginDto
-import com.example.rutifyclient.domain.UsuarioRegistroDTO
-import com.example.rutifyclient.domain.UsuarioregistradoDto
-import com.example.rutifyclient.domain.ActualizarUsuarioDTO
-import com.example.rutifyclient.domain.EliminarUsuarioDTO
-import com.example.rutifyclient.domain.UsuarioBusquedaDto
+import com.example.rutifyclient.domain.rutinas.RutinaBuscadorDto
+import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiRutinas {
+    @GET("${ApiRoutes.RUTINAS}/verRutinas")
+    suspend fun verRutinas(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("equipo") equipo: String? = null
+    ): Response<List<RutinaBuscadorDto>>
 
+    @POST("${ApiRoutes.RUTINAS}/crear")
+    suspend fun crearRutina(
+        @Body rutinaDTO: RutinaDTO
+    ): Response<RutinaDTO>
+
+    @GET("${ApiRoutes.RUTINAS}/{idRutina}")
+    suspend fun obtenerRutina(
+        @Path("idRutina") idRutina: String
+    ): Response<RutinaDTO>
 }

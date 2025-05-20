@@ -35,7 +35,7 @@ import com.example.rutifyclient.componentes.textos.TextoTitulo
 @Composable
 fun Acordeon(titulo: Int, contenido: String) {
     var expandido by remember { mutableStateOf(false) }
-    val rotacion by animateFloatAsState(if (expandido) 180f else 0f)
+    val rotacion by animateFloatAsState(if (expandido) 180f else 0f, label = "")
     Surface(
         color = colorScheme.background,
         shape = RoundedCornerShape(8.dp),

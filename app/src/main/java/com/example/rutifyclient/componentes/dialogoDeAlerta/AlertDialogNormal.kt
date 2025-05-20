@@ -14,15 +14,18 @@ import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 
 @Composable
-fun AlertDialogNormal(@StringRes titulo: Int,
-                @StringRes mensaje: Int,
-                accion: () -> Unit) {
+fun AlertDialogNormal(
+    @StringRes titulo: Int,
+    @StringRes mensaje: Int,
+    accion: () -> Unit,
+
+) {
     var showDialog by remember { mutableStateOf(true) }
     if (showDialog) {
         AlertDialog(
             onDismissRequest = accion,
             confirmButton = {
-                ButtonPrincipal(R.string.aceptar,onClick = accion)
+                ButtonPrincipal(R.string.aceptar, onClick = accion)
             },
             title = { TextoSubtitulo(titulo) },
             text = { TextoInformativo(mensaje) },
@@ -31,3 +34,4 @@ fun AlertDialogNormal(@StringRes titulo: Int,
         )
     }
 }
+

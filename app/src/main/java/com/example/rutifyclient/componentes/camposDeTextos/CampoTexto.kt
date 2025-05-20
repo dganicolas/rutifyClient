@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,7 +28,8 @@ fun CampoTexto(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     descripcion: String? = null,
     modifierIcon: Modifier = Modifier,
-
+    maxLength: Int? = null,
+    mostrarContador: Boolean = false,
     ) {
     OutlinedTextField(
         value = value,
@@ -52,8 +54,21 @@ fun CampoTexto(
         isError = error,
         keyboardOptions = keyboardOptions,
         trailingIcon = {
-            icono?.let {
-                Icon(modifier = modifierIcon, imageVector = it, contentDescription = descripcion)
+            when {
+                mostrarContador && maxLength != null -> {
+                    Text(
+                        text = "${value.length}/${maxLength}",
+                        style = typography.labelSmall.copy(color = colorScheme.onSurfaceVariant),
+                        modifier = modifierIcon
+                    )
+                }
+                icono != null -> {
+                    Icon(
+                        modifier = modifierIcon,
+                        imageVector = icono,
+                        contentDescription = descripcion
+                    )
+                }
             }
         }
     )

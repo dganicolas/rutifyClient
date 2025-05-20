@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
+    alias(libs.plugins.androidx.room)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -49,6 +51,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -75,11 +80,16 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation (libs.gson)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.androidx.datastore.core.android)
     implementation (libs.androidx.datastore.preferences)
     implementation(libs.lifecycle.runtime.ktx)
     implementation (libs.androidx.material.icons.extended)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
 
 }

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.example.rutifyclient.domain.ComentarioDto
+import com.example.rutifyclient.domain.comentario.ComentarioDto
 import com.example.rutifyclient.pantalla.foro.utils.PantallaComentarios
 
 @Composable

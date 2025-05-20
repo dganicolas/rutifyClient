@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rutifyclient.componentes.espaciadores.SpacerVertical
 import com.example.rutifyclient.componentes.tarjetas.TarjetaComentario
-import com.example.rutifyclient.domain.ComentarioDto
+import com.example.rutifyclient.domain.comentario.ComentarioDto
 
 @Composable
-fun PantallaComentarios(listaComentarios:List<ComentarioDto>,navController: NavController) {
+fun PantallaComentarios(listaComentarios:List<ComentarioDto>, navController: NavController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

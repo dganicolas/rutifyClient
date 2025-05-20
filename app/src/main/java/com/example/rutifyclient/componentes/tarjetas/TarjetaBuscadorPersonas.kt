@@ -27,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rutifyclient.componentes.textos.TextoBuscador
-import com.example.rutifyclient.domain.UsuarioBusquedaDto
+import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
 import com.example.rutifyclient.utils.obtenerAvatarResource
 
 @Composable
@@ -45,7 +45,7 @@ fun TarjetaBuscadorPersonas(usuario: UsuarioBusquedaDto, navController: NavContr
             Image(
                 modifier = Modifier.fillMaxHeight(),contentScale = ContentScale.Crop,
                 painter = painterResource(id = obtenerAvatarResource(usuario.avatar)),
-                contentDescription = "Avatar Nivel 1"
+                contentDescription = "Foto avatar"
             )
             Icon(
                 modifier = Modifier.fillMaxHeight().size(38.dp),
