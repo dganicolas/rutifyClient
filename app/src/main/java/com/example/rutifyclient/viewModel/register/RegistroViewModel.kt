@@ -9,11 +9,12 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.usuario.UsuarioRegistroDTO
 import com.example.rutifyclient.interfaces.IRegistroViewModel
+import com.example.rutifyclient.viewModel.ViewModelBase
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class RegistroViewModel : ViewModel(), IRegistroViewModel {
+class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
 
     private val _opcionesSexo = MutableLiveData(listOf(R.string.hombre, R.string.mujer))
     val opcionesSexo = _opcionesSexo
@@ -30,13 +31,7 @@ class RegistroViewModel : ViewModel(), IRegistroViewModel {
     private val _textoContrasenaConfirmacion = MutableLiveData("")
     val contrasenaConfirmacion: LiveData<String> = _textoContrasenaConfirmacion
 
-    private val _mensajeToast = MutableLiveData<Int>()
-    val mensajeToast: LiveData<Int> = _mensajeToast
-
-    private val _toastMostrado = MutableLiveData<Boolean>()
-    val toastMostrado: LiveData<Boolean> = _toastMostrado
-
-    private  val _textoCorreo = MutableLiveData("")
+    private val _textoCorreo = MutableLiveData("")
     val correo = _textoCorreo
 
     private val _mostrarContrasena = MutableLiveData(true)
@@ -51,22 +46,12 @@ class RegistroViewModel : ViewModel(), IRegistroViewModel {
         date.format(formatter)
     }
 
-    fun mostrarToast(mensaje: Int) {
-        _toastMostrado.value = false
-        _mensajeToast.value = mensaje
-    }
-
     fun cambiarCorreo(mensaje: String) {
         _textoCorreo.value = mensaje
     }
 
     fun cambiarContrasena(mensaje: String) {
         _textoContrasena.value = mensaje
-    }
-
-    fun toastMostrado() {
-        _mensajeToast.value = 1
-        _toastMostrado.value = true
     }
 
     fun esFechaValida(fecha: String): Boolean {

@@ -12,13 +12,14 @@ import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasPatchDto
 import com.example.rutifyclient.domain.voto.VotodDto
 import com.example.rutifyclient.utils.ente
+import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class EjercicioRutinasViewModel : ViewModel() {
+class EjercicioRutinasViewModel : ViewModelBase() {
 
     private val _ejerciciosCargados = MutableLiveData(false)
 
@@ -31,12 +32,6 @@ class EjercicioRutinasViewModel : ViewModel() {
 
     private val _voto = MutableLiveData<VotodDto>(VotodDto(null,FirebaseAuth.getInstance().currentUser!!.uid,ente.rutina.value!!,0.0f))
     val voto: LiveData<VotodDto> = _voto
-
-    private val _mensajeToast = MutableLiveData<Int>()
-    val mensajeToast: LiveData<Int> = _mensajeToast
-
-    private val _toastMostrado = MutableLiveData<Boolean>()
-    val toastMostrado: LiveData<Boolean> = _toastMostrado
 
     private val _finalizado = MutableLiveData(false)
     val finalizado: LiveData<Boolean> = _finalizado
@@ -60,16 +55,6 @@ class EjercicioRutinasViewModel : ViewModel() {
     val tiempo: LiveData<Int> = _tiempo
 
     private var job: Job? = null
-
-    private fun mostrarToast(mensaje: Int) {
-        _toastMostrado.value = false
-        _mensajeToast.value = mensaje
-    }
-
-    fun toastMostrado() {
-        _mensajeToast.value = 1
-        _toastMostrado.value = true
-    }
 
     fun iniciarTemporizador() {
         job = viewModelScope.launch {

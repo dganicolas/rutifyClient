@@ -14,21 +14,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.componentes.textos.TextoInput
+import com.example.rutifyclient.viewModel.usuario.UsuarioViewModel
 
 @Preview(showBackground = true)
 @Composable
 fun MiZona() {
 
+    val viewModel: UsuarioViewModel = viewModel()
+    LaunchedEffect(Unit) {
+        viewModel.obtenerUsuario()
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        //cabecera
         Row(
             modifier = Modifier
                 .fillMaxWidth()

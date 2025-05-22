@@ -27,7 +27,7 @@ interface ApiUsuarios {
     suspend fun loginUsuario(@Body usuario: UsuarioCredencialesDto): Response<UsuarioLoginDto>
 
     @DELETE("${ApiRoutes.USUARIOS}/eliminar")
-    suspend fun eliminarCuenta(@Body correo: EliminarUsuarioDTO, @Header("Authorization") token: String): Response<Void>
+    suspend fun eliminarCuenta(@Body correo: EliminarUsuarioDTO): Response<Void>
 
     @GET("${ApiRoutes.USUARIOS}/buscar/{nombre}")
     fun buscarUsuariosPorNombre(
@@ -38,13 +38,11 @@ interface ApiUsuarios {
     @GET("${ApiRoutes.USUARIOS}/detalle/{idFirebase}")
     fun obtenerDetalleUsuario(
         @Path("idFirebase") idFirebase: String,
-        @Header("Authorization") token: String,
     ): Response<UsuarioInformacionDto>
 
     // Actualizar cuenta de usuario
     @PUT("${ApiRoutes.USUARIOS}/actualizar")
     fun actualizarCuenta(
-        @Header("Authorization") token: String, // El token de autenticación
         @Body actualizarUsuarioDTO: ActualizarUsuarioDTO,
     ): Response<ActualizarUsuarioDTO> // ActualizarUsuarioDTO es la clase de datos a actualizar
 

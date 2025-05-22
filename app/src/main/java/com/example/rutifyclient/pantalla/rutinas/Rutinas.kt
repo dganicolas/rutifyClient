@@ -11,9 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
-import com.example.rutifyclient.componentes.Cargando
 import com.example.rutifyclient.componentes.SinConexionPantalla
-import com.example.rutifyclient.pantalla.foro.utils.PantallaBusquedaRutina
+import com.example.rutifyclient.utils.PantallaBusquedaRutina
 import com.example.rutifyclient.viewModel.rutinas.BuscarRutinasViewModel
 
 @Composable

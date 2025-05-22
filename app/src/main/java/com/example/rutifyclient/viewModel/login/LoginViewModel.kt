@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
+import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel() : ViewModelBase() {
 
     private val _iniciandoSesion = MutableLiveData(true)
     val iniciandoSesion: LiveData<Boolean> = _iniciandoSesion
@@ -35,12 +36,6 @@ class LoginViewModel() : ViewModel() {
 
     private val _mostrarContrasena = MutableLiveData(true)
     val mostrarContrasena = _mostrarContrasena
-
-    private val _mensajeToast = MutableLiveData<Int>()
-    val mensajeToast: LiveData<Int> = _mensajeToast
-
-    private val _toastMostrado = MutableLiveData<Boolean>()
-    val toastMostrado: LiveData<Boolean> = _toastMostrado
 
     fun cambiarCorreo(mensaje: String) {
         _textoCorreo.value = mensaje
@@ -92,17 +87,6 @@ class LoginViewModel() : ViewModel() {
 
     fun mostrarContrasena(estado: Boolean) {
         _mostrarContrasena.value = estado
-    }
-
-    private fun mostrarToast(mensaje: Int) {
-        _toastMostrado.value = false
-        _mensajeToast.value = mensaje
-    }
-
-
-    fun toastMostrado() {
-        _mensajeToast.value = 1
-        _toastMostrado.value = true
     }
 
     fun recuperarContrasena() {

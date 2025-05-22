@@ -9,10 +9,11 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
+import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class CrearRutinasViewModel : ViewModel() {
+class CrearRutinasViewModel : ViewModelBase() {
 
     private val _calorias = MutableLiveData(0.0)
     val calorias: LiveData<Double> = _calorias
@@ -85,13 +86,8 @@ class CrearRutinasViewModel : ViewModel() {
     private val _limiteDescripcion: MutableLiveData<Int> = MutableLiveData(250)
     val limiteDescripcion: LiveData<Int> = _limiteDescripcion
 
-    private val _mensajeToast = MutableLiveData<Int>()
-    val mensajeToast: LiveData<Int> = _mensajeToast
-
     private val _posicionAEliminar  = MutableLiveData<Int>()
 
-    private val _toastMostrado = MutableLiveData<Boolean>()
-    val toastMostrado: LiveData<Boolean> = _toastMostrado
     fun cambiarIcono(icono: String) {
         _iconoEscogido.value = icono
         _mostrarVentanacambiarIcono.value = false
@@ -242,16 +238,6 @@ class CrearRutinasViewModel : ViewModel() {
                 _cargando.value = false
             }
         }
-    }
-
-    fun mostrarToast(mensaje: Int) {
-        _toastMostrado.value = false
-        _mensajeToast.value = mensaje
-    }
-
-    fun toastMostrado() {
-        _mensajeToast.value = 1
-        _toastMostrado.value = true
     }
 
     fun abrirVentanaImagenes() {

@@ -16,7 +16,7 @@ import com.example.rutifyclient.pantalla.login.Login
 import com.example.rutifyclient.pantalla.miZona.MiZona
 import com.example.rutifyclient.pantalla.register.Registro
 import com.example.rutifyclient.pantalla.SplashScreen
-import com.example.rutifyclient.pantalla.foro.Foro
+import com.example.rutifyclient.pantalla.comunidad.Foro
 import com.example.rutifyclient.pantalla.cursos.Cursos
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
