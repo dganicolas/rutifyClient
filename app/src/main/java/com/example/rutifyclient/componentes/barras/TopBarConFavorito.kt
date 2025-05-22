@@ -6,22 +6,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,8 +28,10 @@ import com.example.rutifyclient.componentes.textos.TextoTitulo
 fun TopBarConFavorito(
     titulo: Int = R.string.rutinas,
     esFavorito: Boolean,
+    esSuyaOEsAdmin: Boolean,
     onVolverClick: () -> Unit,
     onFavoritoClick: () -> Unit,
+    onBorrarClick: () -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -43,16 +44,23 @@ fun TopBarConFavorito(
                 Icon(
                     modifier = Modifier.fillMaxSize(),
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Volver"
+                    contentDescription = "Volver", tint = colorScheme.onBackground
                 )
             }
         },
         actions = {
-            IconButton(onClick = onFavoritoClick) {
-                Icon(
-                    modifier = Modifier.fillMaxSize(),
-                    imageVector = if (esFavorito) Icons.Default.Star else Icons.Default.StarBorder,
-                    contentDescription = "Favorito"
+            Icono(
+                descripcion = R.string.favorito,
+                icono = if (esFavorito) Icons.Default.Star else Icons.Default.StarBorder,
+                onClick = onFavoritoClick,
+                tint = colorScheme.onBackground
+            )
+            if (esSuyaOEsAdmin) {
+                Icono(
+                    descripcion = R.string.eliminar,
+                    icono = Icons.Default.Delete,
+                    onClick = onBorrarClick,
+                    tint = colorScheme.onBackground
                 )
             }
         },

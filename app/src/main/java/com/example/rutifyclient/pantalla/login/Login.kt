@@ -60,8 +60,10 @@ fun Login(navControlador: NavHostController) {
 
     val iniciarSesion: () -> Unit = {
         viewModel.iniciarSesion(correo, contrasena) { exito ->
-            if (exito) {
-                navControlador.navigate(Rutas.Menu)
+            if (!exito) {
+                navControlador.navigate(Rutas.Rutina) {
+                    popUpTo(Rutas.Login) { inclusive = true }
+                }
             }
         }
     }

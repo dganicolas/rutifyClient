@@ -1,5 +1,6 @@
 package com.example.rutifyclient.viewModel.rutinas
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasPatchDto
+import com.example.rutifyclient.domain.voto.VotodDto
 import com.example.rutifyclient.utils.ente
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Job
@@ -19,21 +21,34 @@ import kotlinx.coroutines.launch
 class EjercicioRutinasViewModel : ViewModel() {
 
     private val _ejerciciosCargados = MutableLiveData(false)
+
     private val _listaejercicios = MutableLiveData(listOf<EjercicioDto>())
+
     private val _ejercicio = MutableLiveData(EjercicioDto("","","","","","",0.0,0.0,0))
-    val ejercicio = _ejercicio
+    val ejercicio: LiveData<EjercicioDto> = _ejercicio
 
     private val _contadorEjercicios = MutableLiveData(0)
 
+    private val _voto = MutableLiveData<VotodDto>(VotodDto(null,FirebaseAuth.getInstance().currentUser!!.uid,ente.rutina.value!!,0.0f))
+    val voto: LiveData<VotodDto> = _voto
+
     private val _mensajeToast = MutableLiveData<Int>()
     val mensajeToast: LiveData<Int> = _mensajeToast
+
     private val _toastMostrado = MutableLiveData<Boolean>()
     val toastMostrado: LiveData<Boolean> = _toastMostrado
 
     private val _finalizado = MutableLiveData(false)
     val finalizado: LiveData<Boolean> = _finalizado
+
+    private val _VentanaPuntuarRutina = MutableLiveData(false)
+    val VentanaPuntuarRutina: LiveData<Boolean> = _VentanaPuntuarRutina
+
     private val _cancelado = MutableLiveData(false)
     val cancelado: LiveData<Boolean> = _cancelado
+
+    private val _estado = MutableLiveData(true)
+    val estado: LiveData<Boolean> = _estado
 
     private val _estadisticasDto = MutableLiveData(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0,0.0))
     val estadisticas: LiveData<EstadisticasDto> = _estadisticasDto
@@ -43,6 +58,7 @@ class EjercicioRutinasViewModel : ViewModel() {
 
     private val _tiempo = MutableLiveData(0) // Tiempo en segundos
     val tiempo: LiveData<Int> = _tiempo
+
     private var job: Job? = null
 
     private fun mostrarToast(mensaje: Int) {
@@ -66,13 +82,29 @@ class EjercicioRutinasViewModel : ViewModel() {
 
     fun cargarEjercicio() {
         if (_ejerciciosCargados.value == true) return
-        _listaejercicios.value = ente.listaEjercicio
+        _listaejercicios.value = ente.listaEjercicio.value!!
         _ejercicio.value = _listaejercicios.value!![_contadorEjercicios.value!!]
     }
 
+    fun obtenervoto(){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiVotos.obtenerVoto(
+                        idFirebase = FirebaseAuth.getInstance().currentUser!!.uid,
+                        idRutina =  ente.rutina.value!!,
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    _voto.value = response.body()
+                }
+            } catch (e: Exception) {
+                mostrarToast(R.string.error_conexion)
+            }
+        }
+    }
     fun siguienteEjercicio() {
-        _contadorEjercicios.value = _contadorEjercicios.value?.plus(1)
-        if(_contadorEjercicios.value!! <= _listaejercicios.value!!.size - 1){
+
+        if(_contadorEjercicios.value!!.plus(1) <= _listaejercicios.value!!.size - 1){
+            _contadorEjercicios.value = _contadorEjercicios.value?.plus(1)
             _ejercicio.value = _listaejercicios.value!![_contadorEjercicios.value!!]
         }else{
             _finalizado.value = true
@@ -82,8 +114,8 @@ class EjercicioRutinasViewModel : ViewModel() {
     }
     private fun calcularProgreso(){
         _listaejercicios.value!!.forEach{ejercicio ->
-            _estadisticasDtoCalculadas.value!!.ejerciciosRealizados += ejercicio.cantidad
-            _estadisticasDtoCalculadas.value!!.caloriasQuemadas += ejercicio.cantidad * ejercicio.caloriasQuemadasPorRepeticion
+            _estadisticasDtoCalculadas.value!!.ejerciciosRealizados += 1
+            _estadisticasDtoCalculadas.value!!.kcaloriasQuemadas += (ejercicio.cantidad * ejercicio.caloriasQuemadasPorRepeticion)/1000
             when ( ejercicio.grupoMuscular.lowercase()){
                 "pecho" -> { _estadisticasDtoCalculadas.value!!.lvlPecho += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion}
                 "abdominal" -> { _estadisticasDtoCalculadas.value!!.lvlAbdominal += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
@@ -100,6 +132,7 @@ class EjercicioRutinasViewModel : ViewModel() {
             try {
                 val response = RetrofitClient.apiEstadisticas.obtenerEstadisticas(FirebaseAuth.getInstance().currentUser!!.uid)
                 if (response.isSuccessful) {
+                    Log.i("prueba", response.body().toString())
                     _estadisticasDto.value = response.body()
                 }
             } catch (e: Exception) {
@@ -109,14 +142,16 @@ class EjercicioRutinasViewModel : ViewModel() {
     }
 
     fun guardarProgreso(guardado: (Boolean) -> Unit) {
+        _estado.value = false
         _estadisticasDto.value!!.lvlBrazo += _estadisticasDtoCalculadas.value!!.lvlBrazo
         _estadisticasDto.value!!.lvlPecho += _estadisticasDtoCalculadas.value!!.lvlPecho
         _estadisticasDto.value!!.lvlEspalda += _estadisticasDtoCalculadas.value!!.lvlEspalda
         _estadisticasDto.value!!.lvlAbdominal += _estadisticasDtoCalculadas.value!!.lvlAbdominal
         _estadisticasDto.value!!.lvlPiernas += _estadisticasDtoCalculadas.value!!.lvlPiernas
+        Log.i("prueba", _estadisticasDto.value!!.kcaloriasQuemadas.toString())
         _estadisticasDto.value!!.ejerciciosRealizados += _estadisticasDtoCalculadas.value!!.ejerciciosRealizados
-        _estadisticasDto.value!!.caloriasQuemadas += _estadisticasDtoCalculadas.value!!.caloriasQuemadas
-
+        _estadisticasDto.value!!.kcaloriasQuemadas += _estadisticasDtoCalculadas.value!!.kcaloriasQuemadas
+        Log.i("prueba", _estadisticasDto.value!!.kcaloriasQuemadas.toString())
         if(_estadisticasDto.value!!.idFirebase.isNotEmpty()){
             actualizarEstadisticas{
                 guardado(it)
@@ -138,7 +173,7 @@ class EjercicioRutinasViewModel : ViewModel() {
                     lvlAbdominal = _estadisticasDto.value!!.lvlAbdominal,
                     lvlPiernas = _estadisticasDto.value!!.lvlPiernas,
                     ejerciciosRealizados = _estadisticasDto.value!!.ejerciciosRealizados,
-                    caloriasQuemadas = _estadisticasDto.value!!.caloriasQuemadas
+                    kCaloriasQuemadas = _estadisticasDto.value!!.kcaloriasQuemadas
                 )
 
                 val response = RetrofitClient.apiEstadisticas.actualizarEstadisticas(
@@ -157,6 +192,8 @@ class EjercicioRutinasViewModel : ViewModel() {
             } catch (e: Exception) {
                 mostrarToast(R.string.error_conexion)
                 guardado(false)
+            }finally {
+                _estado.value = true
             }
         }
     }
@@ -178,12 +215,74 @@ class EjercicioRutinasViewModel : ViewModel() {
             } catch (e: Exception) {
                 mostrarToast(R.string.error_conexion)
                 guardado(false)
+            }finally {
+                _estado.value = true
             }
         }
     }
 
     fun cancelarRutina() {
         _cancelado.value = true
+    }
+
+    fun VentanaPuntuarRutina(estado:Boolean) {
+        _VentanaPuntuarRutina.value = estado
+    }
+
+    fun cambiarPuntuacion(puntuacion: Float) {
+        _voto.value = _voto.value?.copy(puntuacion = puntuacion)
+    }
+
+    fun guardarVoto() {
+        _estado.value = false
+        _VentanaPuntuarRutina.value = false
+        if(!_voto.value!!.id.isNullOrEmpty()){
+            actualizarVoto()
+        }else{
+            crearVoto()
+        }
+    }
+
+    private fun crearVoto() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiVotos.registrarVoto(
+                    _voto.value!!
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    _voto.value = response.body()
+                    Log.d("DEBUG", "Respuesta del servidor: ${response.body()}")
+                    mostrarToast(R.string.votoGuardado)
+                }else{
+                    mostrarToast(R.string.dato_defecto)
+                }
+            } catch (e: Exception) {
+                mostrarToast(R.string.error_conexion)
+            }finally {
+                _estado.value = true
+            }
+        }
+    }
+
+    private fun actualizarVoto() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiVotos.actualizarVoto(
+                    _voto.value!!
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    _voto.value = response.body()
+                    mostrarToast(R.string.votoGuardado)
+                }else{
+                    mostrarToast(R.string.dato_defecto)
+                }
+
+            } catch (e: Exception) {
+                mostrarToast(R.string.error_conexion)
+            }finally {
+                _estado.value = true
+            }
+        }
     }
 
 }

@@ -9,12 +9,14 @@ import com.example.rutifyclient.componentes.barras.TopBarConFavorito
 @Composable
 fun PantallaConBarraSuperiorRutinas(onVolverClick: () -> Unit,
                                     onFavoritoClick: () -> Unit,
+                                    onBorrarClick: () -> Unit,
                                     esFavorito: Boolean,
+                                    esSuyaOEsAdmin: Boolean,
                                     contenido: @Composable (PaddingValues) -> Unit) {
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
-            TopBarConFavorito(esFavorito =esFavorito,onVolverClick = onVolverClick,onFavoritoClick = onFavoritoClick)
+            TopBarConFavorito(esFavorito =esFavorito,onVolverClick = onVolverClick,onFavoritoClick = onFavoritoClick, onBorrarClick = onBorrarClick, esSuyaOEsAdmin = esSuyaOEsAdmin)
         }
     ) { innerPadding ->
         contenido(innerPadding)

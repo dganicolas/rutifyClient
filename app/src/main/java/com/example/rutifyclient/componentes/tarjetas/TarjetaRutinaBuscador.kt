@@ -2,6 +2,7 @@ package com.example.rutifyclient.componentes.tarjetas
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,13 +27,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.deslizables.RatingBarVisual
 import com.example.rutifyclient.componentes.espaciadores.SpacerVertical
 import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoInput
 import com.example.rutifyclient.domain.rutinas.RutinaBuscadorDto
 import com.example.rutifyclient.utils.obtenerIconoRutina
-
 
 
 @Composable
@@ -48,11 +49,38 @@ fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto, navController: NavControlle
         border = BorderStroke(4.dp, colorScheme.primary),
         colors = CardDefaults.cardColors(containerColor = colorScheme.surface)
     ) {
+        SpacerVertical(8.dp)
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)  // Ajustado para mejorar el espaciado
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
         ) {
-            // Mostrar la imagen representativa de la rutina
+            if (rutina.esPremium) {
+                Icon(
+                    modifier = Modifier.size(30.dp),
+                    imageVector = Icons.Filled.WorkspacePremium,
+                    tint = colorScheme.primary,
+                    contentDescription = "Icono Premium"
+                )
+            }
+            Box(modifier = Modifier.weight(1f)) {
+                TextoInput(
+                    texto = rutina.nombre,
+                    style = typography.titleLarge,
+                    color = colorScheme.onBackground,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            RatingBarVisual(rutina.votos / rutina.totalVotos)
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(
+                horizontal = 10.dp,
+            )
+        ) {
             Icono(
                 modifier = Modifier
                     .size(60.dp)  // Tamaño ajustado
@@ -69,40 +97,30 @@ fun TarjetaRutinaBuscador(rutina: RutinaBuscadorDto, navController: NavControlle
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                TextoInput(
-                    texto = rutina.nombre,
-                    style = typography.titleLarge,
-                    color = colorScheme.onBackground,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
                 SpacerVertical(5.dp)
-                TextoInformativo(
-                    R.string.descripcion, rutina.descripcion,
-                )
+
                 SpacerVertical(5.dp)
                 TextoInformativo(
                     R.string.equipo, rutina.equipo
                 )
-
-            }
-            SpacerVertical(5.dp)
-            // Icono Premium si aplica
-            Column {
                 TextoInformativo(
                     R.string.puntuacion, rutina.cuantosEjercicios
                 )
-                if (rutina.esPremium) {
-                    Icon(
-                        modifier = Modifier.size(30.dp),
-                        imageVector = Icons.Filled.WorkspacePremium,
-                        tint = colorScheme.primary,
-                        contentDescription = "Icono Premium"
-                    )
-                }else{
-                    SpacerVertical(30.dp)
-                }
+
             }
+            SpacerVertical(5.dp)
+
         }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        ) {
+            TextoInformativo(
+                R.string.descripcion, if (rutina.descripcion.length > 100) rutina.descripcion.take(100) + "..." else rutina.descripcion,
+            )
+        }
+        SpacerVertical(8.dp)
     }
 }

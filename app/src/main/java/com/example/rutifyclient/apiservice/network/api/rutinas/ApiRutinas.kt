@@ -5,6 +5,7 @@ import com.example.rutifyclient.domain.rutinas.RutinaBuscadorDto
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -27,4 +28,9 @@ interface ApiRutinas {
     suspend fun obtenerRutina(
         @Path("idRutina") idRutina: String
     ): Response<RutinaDTO>
+
+    @DELETE("${ApiRoutes.RUTINAS}/eliminar/{idRutina}")
+    suspend fun eliminarRutina(
+        @Path("idRutina") idRutina: String
+    ): Response<Void>
 }

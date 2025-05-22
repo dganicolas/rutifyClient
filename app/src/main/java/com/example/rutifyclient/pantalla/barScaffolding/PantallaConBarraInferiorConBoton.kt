@@ -36,6 +36,7 @@ fun PantallaConBarraInferiorConBoton(
         },
         floatingActionButtonPosition = FabPosition.End
     ) { innerPadding ->
+
         contenido(innerPadding)
     }
 }

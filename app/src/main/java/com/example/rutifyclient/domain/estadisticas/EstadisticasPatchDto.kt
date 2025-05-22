@@ -7,5 +7,5 @@ data class EstadisticasPatchDto(
     var lvlAbdominal: Double,
     val lvlPiernas: Double? = null,
     val ejerciciosRealizados: Int? = null,
-    val caloriasQuemadas: Double? = null
+    val kCaloriasQuemadas: Double? = null
 )

@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.Cargando
 import com.example.rutifyclient.componentes.SinConexionPantalla
 import com.example.rutifyclient.pantalla.foro.utils.PantallaBusquedaRutina
 import com.example.rutifyclient.viewModel.rutinas.BuscarRutinasViewModel
@@ -22,6 +23,7 @@ fun Rutinas(modifier: Modifier, navControlador: NavHostController) {
     val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
     val toastMostrado by viewModel.toastMostrado.observeAsState(true)
     val sinInternet by viewModel.sinInternet.observeAsState(false)
+    val estado by viewModel.estado.observeAsState(true)
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.obtenerRutinas()
@@ -32,15 +34,22 @@ fun Rutinas(modifier: Modifier, navControlador: NavHostController) {
             viewModel.toastMostrado()
         }
     }
-    if(sinInternet){
+    if (sinInternet) {
         SinConexionPantalla {
             viewModel.reiniciarPaginacion()
             viewModel.obtenerRutinas()
 
         }
-    }else{
+    } else {
         Column(modifier = modifier) {
-            PantallaBusquedaRutina(rutinas,navControlador) { viewModel.obtenerRutinas() }
+            PantallaBusquedaRutina(
+                rutinas,
+                estado,
+                navControlador,
+                { viewModel.obtenerRutinas() }) {
+                viewModel.reiniciarPaginacion()
+                viewModel.obtenerRutinas()
+            }
         }
     }
 

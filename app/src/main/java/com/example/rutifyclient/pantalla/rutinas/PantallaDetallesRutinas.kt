@@ -2,16 +2,13 @@ package com.example.rutifyclient.pantalla.rutinas
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -23,16 +20,15 @@ import com.example.rutifyclient.componentes.Cargando
 import com.example.rutifyclient.componentes.SinConexionPantalla
 import com.example.rutifyclient.componentes.acordeon.Acordeon
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
+import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
 import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.RutinasCard
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraSuperiorRutinas
-import com.example.rutifyclient.utils.ente
 import com.example.rutifyclient.utils.obtenerIconoRutina
-import com.example.rutifyclient.viewModel.detallesRutinas.DetallesRutinasViewModel
-import kotlin.math.sin
+import com.example.rutifyclient.viewModel.rutinas.detallesRutinas.DetallesRutinasViewModel
 
 @Composable
 fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
@@ -47,6 +43,8 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
             "",
             listOf(),
             "",
+            0.0f,
+            0,
             false
         )
     )
@@ -55,6 +53,8 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
     val estado by viewModel.estado.observeAsState(true)
     val sinInternet by viewModel.sinInternet.observeAsState(false)
     val favorito by viewModel.favorito.observeAsState(true)
+    val esSuyaOEsAdmin by viewModel.esSuyaOEsAdmin.observeAsState(true)
+    val ventanaEliminarRutina by viewModel.ventanaEliminarRutina.observeAsState(false)
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.obtenerRutina(idRutina)
@@ -67,10 +67,34 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
             viewModel.toastMostrado()
         }
     }
+    if(ventanaEliminarRutina){
+        AlertDialogConfirmar(
+            titulo = R.string.tituloEliminarRutinaPopUp,
+            mensaje = R.string.mensajeEliminarRutinaPopUp,
+            aceptar = {viewModel.borrarRutina() {
+                if (it) navControlador.navigate(Rutas.Rutina) {
+                    popUpTo(Rutas.Rutina) {
+                        inclusive = true
+                    }
+                }
+            }},
+            denegar = {
+                viewModel.popUpEliminarRutina(false)
+            }
+        )
+    }
     PantallaConBarraSuperiorRutinas(
-        { navControlador.popBackStack() },
+        {
+            navControlador.navigate(Rutas.Rutina) {
+                popUpTo(Rutas.Rutina) { inclusive = true }
+            }
+        },
         { viewModel.marcarComoFavorita() },
-        favorito
+        {
+            viewModel.popUpEliminarRutina(true)
+        },
+        favorito,
+        esSuyaOEsAdmin = esSuyaOEsAdmin
     ) { innerPading ->
         Box(
             modifier = Modifier.padding(
@@ -80,16 +104,15 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
                 bottom = innerPading.calculateBottomPadding() + 5.dp
             )
         ) {
-            if(sinInternet){
+            if (sinInternet) {
                 SinConexionPantalla {
                     viewModel.obtenerRutina(idRutina)
                     viewModel.inicializarBD(context)
                     viewModel.comprobarFavorito(context, idRutina)
                 }
-            }
-            else if (!estado) {
+            } else if (!estado) {
                 Cargando()
-            }else{
+            } else {
                 RutinasCard {
                     item {
                         TextoTitulo(R.string.titulo_rutina_detalle, rutina.nombre)
@@ -120,7 +143,7 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
                         ButtonPrincipal(R.string.empezar,
                             enabled = estado,
                             onClick = {
-                                ente.listaEjercicio = rutina.ejercicios
+                                viewModel.hacerRutina()
                                 navControlador.navigate(Rutas.HacerEjercicio)
                             })
                     }

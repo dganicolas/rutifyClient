@@ -1,4 +1,4 @@
-package com.example.rutifyclient.viewModel.detallesRutinas
+package com.example.rutifyclient.viewModel.rutinas.detallesRutinas
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -11,6 +11,8 @@ import com.example.rutifyclient.apiservice.local.room.database.RutinaDatabase
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import com.example.rutifyclient.utils.MapearDeRutinaDtoARutinaDtoRoom
+import com.example.rutifyclient.utils.ente
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class DetallesRutinasViewModel: ViewModel() {
@@ -18,11 +20,17 @@ class DetallesRutinasViewModel: ViewModel() {
     private val _favorito = MutableLiveData<Boolean>(false)
     val favorito: LiveData<Boolean> = _favorito
 
+    private val _esSuyaOEsAdmin = MutableLiveData<Boolean>(false)
+    val esSuyaOEsAdmin: LiveData<Boolean> = _esSuyaOEsAdmin
+
     private val _sinInternet = MutableLiveData<Boolean>(false)
     val sinInternet: LiveData<Boolean> = _sinInternet
 
     private val _estado = MutableLiveData<Boolean>(false)
     val estado: LiveData<Boolean> = _estado
+
+    private val _ventanaEliminarRutina = MutableLiveData<Boolean>(false)
+    val ventanaEliminarRutina: LiveData<Boolean> = _ventanaEliminarRutina
 
     private val _rutina = MutableLiveData<RutinaDTO>()
     val rutina: LiveData<RutinaDTO> = _rutina
@@ -79,6 +87,12 @@ class DetallesRutinasViewModel: ViewModel() {
                 val response = RetrofitClient.apiRutinas.obtenerRutina(idRutina)
                 if (response.isSuccessful) {
                     _rutina.value = response.body()
+
+                    if(_rutina.value!!.creadorId == FirebaseAuth.getInstance().currentUser!!.uid){
+                        _esSuyaOEsAdmin.value = true
+                    }else{
+                        comprobarAdmin()
+                    }
                     _estado.value = true
                 }
             } catch (e: Exception) {
@@ -88,7 +102,48 @@ class DetallesRutinasViewModel: ViewModel() {
         }
     }
 
+    fun comprobarAdmin(){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiUsuarios.esAdmin(FirebaseAuth.getInstance().currentUser!!.uid)
+                if (response.isSuccessful) {
+                    _esSuyaOEsAdmin.value = response.body()
+                }
+            } catch (e: Exception) {
+                _sinInternet.value = true
+                mostrarToast(R.string.error_conexion)
+            }
+        }
+    }
 
+    fun hacerRutina() {
+        ente.listaEjercicio.value = _rutina.value!!.ejercicios
+        ente.rutina.value = _rutina.value!!.id!!
+        _estado.value = false
+    }
+
+    fun borrarRutina(onResultado: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiRutinas.eliminarRutina(_rutina.value!!.id!!)
+                if (response.isSuccessful) {
+                    mostrarToast(R.string.RutinaEliminada)
+                    onResultado(true)
+                }else{
+                    mostrarToast(R.string.ErrorAlEliminarLaRutina)
+                    onResultado(false)
+                }
+            } catch (e: Exception) {
+                _sinInternet.value = true
+                onResultado(false)
+                mostrarToast(R.string.error_conexion)
+            }
+        }
+    }
+
+    fun popUpEliminarRutina(estado: Boolean) {
+        _ventanaEliminarRutina.value = estado
+    }
 
 
 }

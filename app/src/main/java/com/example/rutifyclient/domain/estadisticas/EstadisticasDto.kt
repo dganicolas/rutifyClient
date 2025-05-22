@@ -8,5 +8,5 @@ data class EstadisticasDto(
     var lvlAbdominal: Double,
     var lvlPiernas: Double,
     var ejerciciosRealizados: Int,
-    var caloriasQuemadas: Double
+    var kcaloriasQuemadas: Double
 )

@@ -1,0 +1,89 @@
+package com.example.rutifyclient.pantalla.rutinas.hacerRutina
+
+import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.Cargando
+import com.example.rutifyclient.componentes.dialogoDeAlerta.PuntuarRutinaDialog
+import com.example.rutifyclient.componentes.ventanas.ventanaModal
+import com.example.rutifyclient.domain.ejercicio.EjercicioDto
+import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
+import com.example.rutifyclient.domain.voto.VotodDto
+import com.example.rutifyclient.viewModel.rutinas.EjercicioRutinasViewModel
+import kotlinx.coroutines.delay
+
+
+
+@Composable
+fun HacerEjercicioRutina(navControlador: NavHostController) {
+    val viewModel: EjercicioRutinasViewModel = viewModel()
+    val tiempo by viewModel.tiempo.observeAsState(0)
+    val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
+    val toastMostrado by viewModel.toastMostrado.observeAsState(true)
+    val finalizado by viewModel.finalizado.observeAsState(true)
+    val voto by viewModel.voto.observeAsState(VotodDto("","","",0.0f))
+    val VentanaPuntuarRutina by viewModel.VentanaPuntuarRutina.observeAsState(false)
+    val estadisticasDtoCalculadas by viewModel.estadisticasDtoCalculadas.observeAsState(
+        EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0,0.0)
+    )
+    val estadisticas by viewModel.estadisticas.observeAsState(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0,0.0))
+    val context = LocalContext.current
+    val ejercicio by viewModel.ejercicio.observeAsState(EjercicioDto("","","","","","",0.0,0.0,0))
+    val cancelado by viewModel.cancelado.observeAsState(false)
+    val estado by viewModel.estado.observeAsState(false)
+    LaunchedEffect(mensajeToast) {
+        if (!toastMostrado) {
+            Toast.makeText(context, mensajeToast, Toast.LENGTH_LONG).show()
+            viewModel.toastMostrado()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.cargarEjercicio()
+        viewModel.obtenervoto()
+        viewModel.obtenerEstadisticas()
+        delay(3000)
+        viewModel.iniciarTemporizador()
+    }
+
+    ventanaModal{
+        val campos = listOf(
+            R.string.descripcionEjercicio to ejercicio.descripcion,
+            R.string.grupoMuscularRutinaEjercicio to ejercicio.grupoMuscular,
+            R.string.equipoRutinaEjercicio to ejercicio.equipo
+        )
+        if(!finalizado && !cancelado){
+            pantallaHacerejercicio(campos,ejercicio,tiempo, { viewModel.cancelarRutina() } ){viewModel.siguienteEjercicio()}
+        }
+        if(finalizado){
+            pantallaFinal(estado,estadisticas,estadisticasDtoCalculadas,{ viewModel.guardarProgreso(){ exito ->
+                if (exito) {
+                    navControlador.popBackStack()
+                }
+            } },{viewModel.VentanaPuntuarRutina(true)})
+        }
+        if(!estado){
+            Cargando()
+        }
+        if(cancelado){
+            navControlador.popBackStack()
+        }
+        if(VentanaPuntuarRutina){
+            PuntuarRutinaDialog(
+                rating = voto.puntuacion,
+                onRatingChanged = { viewModel.cambiarPuntuacion(it) },
+                onDismiss ={ viewModel.VentanaPuntuarRutina(false)},
+                onConfirm ={ viewModel.guardarVoto()}
+            )
+        }
+
+}}
+
+
+

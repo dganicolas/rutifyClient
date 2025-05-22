@@ -10,5 +10,7 @@ data class RutinaDTO(
     val creadorId: String,
     val ejercicios: List<EjercicioDto>,
     val equipo:String = "no especificado",
+    val votos:Float,
+    val totalVotos: Int,
     val esPremium: Boolean
 )

@@ -9,6 +9,7 @@ import com.example.rutifyclient.domain.usuario.UsuarioregistradoDto
 import com.example.rutifyclient.domain.usuario.ActualizarUsuarioDTO
 import com.example.rutifyclient.domain.usuario.EliminarUsuarioDTO
 import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -31,14 +32,14 @@ interface ApiUsuarios {
     @GET("${ApiRoutes.USUARIOS}/buscar/{nombre}")
     fun buscarUsuariosPorNombre(
         @Path("nombre") nombre: String,
-    ): Response<List<UsuarioBusquedaDto>>  // UsuarioBusquedaDto es la clase de respuesta
+    ): Response<List<UsuarioBusquedaDto>>
 
     // Obtener detalle del usuario por idFirebase
     @GET("${ApiRoutes.USUARIOS}/detalle/{idFirebase}")
     fun obtenerDetalleUsuario(
         @Path("idFirebase") idFirebase: String,
-        @Header("Authorization") token: String, // Suponiendo que la autenticación se pasa por un token
-    ): Response<UsuarioInformacionDto>  // UsuarioInformacionDto es la clase de respuesta
+        @Header("Authorization") token: String,
+    ): Response<UsuarioInformacionDto>
 
     // Actualizar cuenta de usuario
     @PUT("${ApiRoutes.USUARIOS}/actualizar")
@@ -46,4 +47,9 @@ interface ApiUsuarios {
         @Header("Authorization") token: String, // El token de autenticación
         @Body actualizarUsuarioDTO: ActualizarUsuarioDTO,
     ): Response<ActualizarUsuarioDTO> // ActualizarUsuarioDTO es la clase de datos a actualizar
+
+    @GET("${ApiRoutes.USUARIOS}/esAdmin/{idFirebase}")
+    suspend fun esAdmin(
+        @Path("idFirebase") idFirebase: String
+    ): Response<Boolean>
 }

@@ -21,23 +21,31 @@ class BuscarRutinasViewModel: ViewModel() {
     private val _mensajeToast = MutableLiveData<Int>()
     val mensajeToast: LiveData<Int> = _mensajeToast
 
+    private val _estado = MutableLiveData<Boolean>(false)
+    val estado: LiveData<Boolean> = _estado
+
     private val _toastMostrado = MutableLiveData<Boolean>()
     val toastMostrado: LiveData<Boolean> = _toastMostrado
 
+    private val _toastFinalDeRutinaMostrado = MutableLiveData<Boolean>(false)
     private val _sinInternet = MutableLiveData<Boolean>(false)
     val sinInternet: LiveData<Boolean> = _sinInternet
 
     fun obtenerRutinas(){
         _sinInternet.value = false
         if(_finalDeRutinas.value ==true){
-            mostrarToast(R.string.noHayMasResultados)
+            if(_toastFinalDeRutinaMostrado.value == false){
+                mostrarToast(R.string.noHayMasResultados)
+                _toastFinalDeRutinaMostrado.value = true
+            }
             return
         }
+        _estado.value = false
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.apiRutinas.verRutinas(_pagina.value!!,_elementos.value!!,_equipo.value)
                 if (response.isSuccessful) {
-                    Log.i("prueba", response.body().toString())
+                    _estado.value = true
                     _finalDeRutinas.value = response.body()!!.isEmpty()
                     if(!_finalDeRutinas.value!!){
                         mostrarToast(R.string.cargandoMas)
@@ -63,6 +71,7 @@ class BuscarRutinasViewModel: ViewModel() {
     }
 
     fun reiniciarPaginacion() {
+        _finalDeRutinas.value = false
         _pagina.value = 0
         ultimaPagina.value = false
         _listaRutinas.value = emptyList()

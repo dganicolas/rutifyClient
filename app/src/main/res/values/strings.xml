@@ -61,7 +61,7 @@
     <string name="ejercicios">ejercicios: %1$d</string>
     <string name="equipo">Equipo: %1$s</string>
     <string name="descripcion">Descripcion:\n %1$s</string>
-    <string name="puntuacion">%1$s/10</string>
+    <string name="puntuacion">Ejercicios: %1$s</string>
     <string name="rutinas">Rutinas</string>
     <!-- pantalla detalles rutina-->
     <string name="titulo_rutina_detalle">%1$s</string>
@@ -100,7 +100,7 @@
     <string name="listaEjerciciosVacia">debes de añadir como minimo 1 ejercicio</string>
     <string name="iconoCambiado">la iamgen ha sido cambiada</string>
     <string name="confirmar">Confirmacion</string>
-    <string name="cancelar">cancelar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="eliminarEjercicio">¿Seguro que quiere eliminar un ejercicio?</string>
     <string name="cargandoMas">cargando mas rutinas</string>
     <string name="rutinaGuardada">Rutina guardada en favoritos</string>
@@ -113,7 +113,7 @@
     <string name="BRutinaFinalizar">Guardar progreso</string>
     <string name="puntuacionPecho">Pecho: %1$.2f (+%2$.2f)</string>
     <string name="PuntuacionBrazo">Brazos: %1$.2f (+%2$.2f)</string>
-    <string name="puntuacionQuemadas">Cal quemadas: %1$.2f (+%2$.2f)</string>
+    <string name="puntuacionQuemadas">Kcal quemadas: %1$.2f (+%2$.2f)</string>
     <string name="puntuacionEjercicios">Ejercicios totales: %1$d (+%2$d)</string>
     <string name="puntuacionPiernas">Piernas: %1$.2f (+%2$.2f)</string>
     <string name="puntuacionAbdominal">Abdominales: %1$.2f (+%2$.2f)</string>
@@ -123,4 +123,14 @@
     <string name="estadisticasGuardada">Las estadisticas han sido guardada</string>
     <string name="sininternet">Sin conexión a internet</string>
     <string name="reintentar">Reintentar</string>
+    <string name="puntuarRutina">Puntuar Rutina</string>
+    <string name="mensajePuntuarRutina">¿Qué puntuación le das a esta rutina?</string>
+    <string name="votoGuardado">El voto ha sido guardado</string>
+    <string name="estrella">estrella</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="favorito">Favorito</string>
+    <string name="ErrorAlEliminarLaRutina">Error eliminando la rutina intentalo de nuevo</string>
+    <string name="RutinaEliminada">La rutina ha sido eliminada</string>
+    <string name="tituloEliminarRutinaPopUp">¿Estas seguro de eliminar la rutina?</string>
+    <string name="mensajeEliminarRutinaPopUp">Esta accion es permanente</string>
 </resources>

@@ -221,6 +221,8 @@ class CrearRutinasViewModel : ViewModel() {
                         creadorId = FirebaseAuth.getInstance().currentUser!!.uid,
                         ejercicios = _ejerciciosSeleccionadosParaNuevaRutina.value!!,
                         equipo = _listaEquipo.value?.joinToString(",") ?: "ninguno",
+                        votos = 0.0f,
+                        totalVotos = 0,
                         esPremium = false
                     )
                 )
