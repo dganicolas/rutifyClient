@@ -19,47 +19,58 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.componentes.textos.TextoInput
-import com.example.rutifyclient.viewModel.usuario.UsuarioViewModel
+import com.example.rutifyclient.navigation.Rutas
+import com.example.rutifyclient.pantalla.PantallaBase
+import com.example.rutifyclient.viewModel.usuario.MiZonaViewModel
 
-@Preview(showBackground = true)
 @Composable
-fun MiZona() {
-
-    val viewModel: UsuarioViewModel = viewModel()
+fun MiZona(navControlador: NavHostController) {
+    val viewModel: MiZonaViewModel = viewModel()
     LaunchedEffect(Unit) {
         viewModel.obtenerUsuario()
     }
-    Column(
-        modifier = Modifier.fillMaxSize()
+    PantallaBase(
+        cargando = false,
+        sinInternet = false,
+        onReintentar = {},
+        bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.MiZona) })
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.05f)
-                .padding(top = 5.dp)
+        Column(
+            modifier = Modifier.padding(it).fillMaxSize()
         ) {
-            TextoTitulo(R.string.usuario)
-            TextoInput("LoremIpsum")
-            Spacer(Modifier.weight(1f))
-            Icon(
+            Row(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                imageVector = Icons.Default.Settings,
-                contentDescription = ""
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.05f)
+                    .padding(top = 5.dp)
+            ) {
+                TextoTitulo(R.string.usuario)
+                TextoInput("LoremIpsum")
+                Spacer(Modifier.weight(1f))
+                Icon(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = ""
+                )
+            }
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = MaterialTheme.colorScheme.primary
             )
-        }
-        HorizontalDivider(
-            thickness = 2.dp,
-            color = MaterialTheme.colorScheme.primary
-        )
-        //cuerpo
-        Column() {
-            Text("Aqui el progreso del ususario")
-        }
+            //cuerpo
+            Column() {
+                Text("Aqui el progreso del ususario")
+            }
+    }
+
+
 //        Row {
 //            Card(
 //                modifier = Modifier

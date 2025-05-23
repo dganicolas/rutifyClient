@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.barras.TopBarCrearRutinas
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonSecundario
 import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
@@ -38,7 +39,8 @@ import com.example.rutifyclient.componentes.ventanas.mostrarDetalleEjercicio
 import com.example.rutifyclient.componentes.ventanas.mostrarEjercicios
 import com.example.rutifyclient.componentes.ventanas.mostrarVentanaCambiarIcono
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
-import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraSuperiorCrearRutinas
+import com.example.rutifyclient.navigation.Rutas
+import com.example.rutifyclient.pantalla.PantallaBase
 import com.example.rutifyclient.utils.obtenerIconoRutina
 import com.example.rutifyclient.viewModel.rutinas.CrearRutinasViewModel
 
@@ -51,6 +53,7 @@ fun CrearRutinas(navControlador: NavHostController) {
     val limiteDescripcion by viewModel.limiteDescripcion.observeAsState(0)
     val descripcion by viewModel.descripcion.observeAsState("")
     val ejerciciosPorGrupo by viewModel.ejerciciosAgrupados.observeAsState(mapOf())
+    val cargando by viewModel.cargando.observeAsState(false)
     val mostrarVentanaAnadirEjercicio by viewModel.mostrarVentanaAnadirEjercicio.observeAsState(
         false
     )
@@ -80,7 +83,10 @@ fun CrearRutinas(navControlador: NavHostController) {
     val listaEquipo by viewModel.listaEquipo.observeAsState(listOf())
     val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
     val toastMostrado by viewModel.toastMostrado.observeAsState(true)
-    val mostrarVentanaEliminarEjercicio by viewModel.mostrarVentanaEliminarEjercicio.observeAsState(false)
+    val mostrarVentanaEliminarEjercicio by viewModel.mostrarVentanaEliminarEjercicio.observeAsState(
+        false
+    )
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.obtenerEjerciciosDesdeApi()
@@ -92,121 +98,142 @@ fun CrearRutinas(navControlador: NavHostController) {
         }
     }
 
-    if(mostrarVentanaEliminarEjercicio){
-        AlertDialogConfirmar(R.string.confirmar,R.string.eliminarEjercicio,{ viewModel.eliminarEjercicio() },{ viewModel.cerrarVentanaEliminarEjercicio() })
+    if (mostrarVentanaEliminarEjercicio) {
+        AlertDialogConfirmar(
+            R.string.confirmar,
+            R.string.eliminarEjercicio,
+            { viewModel.eliminarEjercicio() },
+            { viewModel.cerrarVentanaEliminarEjercicio() })
     }
-    PantallaConBarraSuperiorCrearRutinas(
-        titulo = R.string.crearRutina,
-        onVolverClick = { navControlador.popBackStack() }) { innerPading ->
-        Box(
-            modifier = Modifier
-                .padding(
-                    top = innerPading.calculateTopPadding() + 5.dp,
-                    start = 5.dp,
-                    end = 5.dp,
-                    bottom = innerPading.calculateBottomPadding() + 5.dp
-                )
-                .fillMaxSize()
+    Box() {
+
+        PantallaBase(
+            cargando = cargando,
+            sinInternet = sinInternet,
+            onReintentar = { viewModel.obtenerEjerciciosDesdeApi() },
+            topBar = ({
+                TopBarCrearRutinas(
+                    titulo = R.string.crearRutina,
+                    onVolverClick = { navControlador.popBackStack() })
+            })
         ) {
-            RutinasCard(
+            Box(
+                modifier = Modifier
+                    .padding(it)
+                    .padding(5.dp)
+                    .fillMaxSize()
             ) {
-                item {
-                    TextoTitulo(R.string.icono)
-                    Icono(
-                        imagen = obtenerIconoRutina(iconoEscogido),
-                        descripcion = R.string.descripcionIconoRutina,
-                        onClick = { viewModel.abrirVentanaImagenes() },
-                        modifier = Modifier
-                            .size(80.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                    )
-                }
-                item {
-                    CampoTexto(
-                        value = nombre,
-                        onValueChange = { viewModel.cambiarNombre(it) },
-                        textoIdLabel = R.string.nombreRutina,
-                        mostrarContador = true,
-                        maxLength = limiteNombre
-                    )
-                }
-                item {
-                    CampoTexto(
-                        value = descripcion,
-                        onValueChange = { viewModel.cambiarDescripcion(it) },
-                        textoIdLabel = R.string.descripcionRutina,
-                        mostrarContador = true,
-                        maxLength = limiteDescripcion
-                    )
-                }
-                item {
-                    RutinasCard(
-                        modifier = Modifier.height(160.dp),
-                    ) {
-                        itemsIndexed(ejerciciosSeleccionadosParaNuevaRutina) { index, ejercicio ->
-                            ItemCantidad(
-                                nombre = ejercicio.nombreEjercicio,
-                                imagen = ejercicio.imagen,
-                                cantidad = ejercicio.cantidad,
-                                onClick = { viewModel.mostrarVentanaEliminarEjercicio(index) },
-                                onCantidadChange = { viewModel.cambiarCantidad(index, it) }
-                            )
-                        }
+                RutinasCard(
+                ) {
+                    item {
+                        TextoTitulo(R.string.icono)
+                        Icono(
+                            imagen = obtenerIconoRutina(iconoEscogido),
+                            descripcion = R.string.descripcionIconoRutina,
+                            onClick = { if (!cargando) viewModel.abrirVentanaImagenes() },
+                            modifier = Modifier
+                                .size(80.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                        )
                     }
-                }
-                item { TextoSubtitulo(R.string.equipo, "") }
-                item {
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(listaEquipo) { index ->
-                            TarjetaNormal {
-                                TextoInformativo(R.string.texto_input, index)
-                            }
-
-                        }
+                    item {
+                        CampoTexto(
+                            value = nombre,
+                            onValueChange = { nombre -> viewModel.cambiarNombre(nombre) },
+                            textoIdLabel = R.string.nombreRutina,
+                            mostrarContador = true,
+                            maxLength = limiteNombre
+                        )
                     }
-                }
-                item {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        TarjetaNormal(
-                            modifier = Modifier.padding(16.dp)
+                    item {
+                        CampoTexto(
+                            value = descripcion,
+                            onValueChange = { desc -> viewModel.cambiarDescripcion(desc) },
+                            textoIdLabel = R.string.descripcionRutina,
+                            mostrarContador = true,
+                            maxLength = limiteDescripcion
+                        )
+                    }
+                    item {
+                        RutinasCard(
+                            modifier = Modifier.height(160.dp),
                         ) {
-                            TextoInformativo(R.string.caloriasEstimadas, calorias)
-                        }
-                        TarjetaNormal {
-                            TextoInformativo(R.string.puntosGanados, puntosGanados)
+                            itemsIndexed(ejerciciosSeleccionadosParaNuevaRutina) { index, ejercicio ->
+                                ItemCantidad(
+                                    nombre = ejercicio.nombreEjercicio,
+                                    imagen = ejercicio.imagen,
+                                    cantidad = ejercicio.cantidad,
+                                    onClick = { viewModel.mostrarVentanaEliminarEjercicio(index) },
+                                    onCantidadChange = { viewModel.cambiarCantidad(index, it) }
+                                )
+                            }
                         }
                     }
-                }
+                    item { TextoSubtitulo(R.string.equipo, "") }
+                    item {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(listaEquipo) { index ->
+                                TarjetaNormal {
+                                    TextoInformativo(R.string.texto_input, index)
+                                }
 
-                item {
-                    ButtonSecundario(
-                        R.string.anadirEjercicio,
-                        { viewModel.ensenarVentanaAnadirEjercicio() })
-                }
-                item {
-                    ButtonPrincipal(R.string.crearRutina, { viewModel.crearRutina { if (it) navControlador.popBackStack() } })
-                }
+                            }
+                        }
+                    }
+                    item {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            TarjetaNormal(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                TextoInformativo(R.string.caloriasEstimadas, calorias)
+                            }
+                            TarjetaNormal {
+                                TextoInformativo(R.string.puntosGanados, puntosGanados)
+                            }
+                        }
+                    }
 
-            }
-            if (mostrarVentanaAnadirEjercicio) {
-                mostrarEjercicios(ejerciciosPorGrupo, {
-                    viewModel.mostrarDetallesEjercicio(
-                        it
-                    )
-                }, { viewModel.cerrarVentanaEjercicio() })
-            }
-            if (mostrarVentanaDetallesEjercicio) {
-                mostrarDetalleEjercicio(
-                    ejercicioSeleccionado,
-                    { viewModel.ensenarVentanaAnadirEjercicio() },
-                    { viewModel.anadirEjercicioALaLista() })
-            }
-            if (mostrarVentanacambiarIcono) {
-                mostrarVentanaCambiarIcono(imagenes) { viewModel.cambiarIcono(it) }
+                    item {
+                        ButtonSecundario(
+                            R.string.anadirEjercicio,
+                            { viewModel.ensenarVentanaAnadirEjercicio() }, enabled = !cargando
+                        )
+                    }
+                    item {
+                        ButtonPrincipal(R.string.crearRutina, {
+                            viewModel.crearRutina { estado ->
+                                if (estado) {
+                                    navControlador.navigate(Rutas.Rutina) {
+                                        popUpTo(Rutas.Rutina) {
+                                            inclusive = true
+                                        }
+                                    }
+                                }
+                            }
+                        }, enabled = !cargando)
+                    }
+
+                }
+                if (mostrarVentanaAnadirEjercicio) {
+                    mostrarEjercicios(ejerciciosPorGrupo, {
+                        viewModel.mostrarDetallesEjercicio(
+                            it
+                        )
+                    }, { viewModel.cerrarVentanaEjercicio() })
+                }
+                if (mostrarVentanaDetallesEjercicio) {
+                    mostrarDetalleEjercicio(
+                        ejercicioSeleccionado,
+                        { viewModel.ensenarVentanaAnadirEjercicio() },
+                        { viewModel.anadirEjercicioALaLista() })
+                }
+                if (mostrarVentanacambiarIcono) {
+                    mostrarVentanaCambiarIcono(imagenes) { viewModel.cambiarIcono(it) }
+                }
             }
         }
     }

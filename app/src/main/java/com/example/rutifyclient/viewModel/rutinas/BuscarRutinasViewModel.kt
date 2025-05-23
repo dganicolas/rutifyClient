@@ -54,6 +54,7 @@ class BuscarRutinasViewModel : ViewModelBase() {
                     _listaRutinas.value = _listaRutinas.value!! + response.body()!!
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }

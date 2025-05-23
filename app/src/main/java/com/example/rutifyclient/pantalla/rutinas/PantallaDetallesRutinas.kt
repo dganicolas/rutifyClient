@@ -16,9 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.rutifyclient.R
-import com.example.rutifyclient.componentes.Cargando
-import com.example.rutifyclient.componentes.SinConexionPantalla
 import com.example.rutifyclient.componentes.acordeon.Acordeon
+import com.example.rutifyclient.componentes.barras.TopBarConFavorito
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
 import com.example.rutifyclient.componentes.icono.Icono
@@ -26,9 +25,10 @@ import com.example.rutifyclient.componentes.tarjetas.RutinasCard
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import com.example.rutifyclient.navigation.Rutas
-import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraSuperiorRutinas
+import com.example.rutifyclient.pantalla.PantallaBase
 import com.example.rutifyclient.utils.obtenerIconoRutina
 import com.example.rutifyclient.viewModel.rutinas.detallesRutinas.DetallesRutinasViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
@@ -67,90 +67,96 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
             viewModel.toastMostrado()
         }
     }
-    if(ventanaEliminarRutina){
-        AlertDialogConfirmar(
-            titulo = R.string.tituloEliminarRutinaPopUp,
-            mensaje = R.string.mensajeEliminarRutinaPopUp,
-            aceptar = {viewModel.borrarRutina() {
-                if (it) navControlador.navigate(Rutas.Rutina) {
-                    popUpTo(Rutas.Rutina) {
-                        inclusive = true
+    PantallaBase(
+        cargando = !estado,
+        sinInternet = sinInternet,
+        onReintentar = {
+            viewModel.obtenerRutina(idRutina)
+            viewModel.inicializarBD(context)
+            viewModel.comprobarFavorito(context, idRutina)
+        },
+        topBar = ({
+            TopBarConFavorito(
+                R.string.rutinas,
+                favorito,
+                esSuyaOEsAdmin,
+                {
+                    navControlador.navigate(Rutas.Rutina) {
+                        popUpTo(Rutas.Rutina) { inclusive = true }
                     }
+                },
+                { viewModel.marcarComoFavorita() },
+                {
+                    viewModel.popUpEliminarRutina(true)
+                },
+            )
+        })
+    ) {
+        if (ventanaEliminarRutina) {
+            AlertDialogConfirmar(
+                titulo = R.string.tituloEliminarRutinaPopUp,
+                mensaje = R.string.mensajeEliminarRutinaPopUp,
+                aceptar = {
+                    viewModel.borrarRutina() {borrado ->
+                        if (borrado) navControlador.navigate(Rutas.Rutina) {
+                            popUpTo(Rutas.Rutina) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                },
+                denegar = {
+                    viewModel.popUpEliminarRutina(false)
                 }
-            }},
-            denegar = {
-                viewModel.popUpEliminarRutina(false)
-            }
-        )
-    }
-    PantallaConBarraSuperiorRutinas(
-        {
-            navControlador.navigate(Rutas.Rutina) {
-                popUpTo(Rutas.Rutina) { inclusive = true }
-            }
-        },
-        { viewModel.marcarComoFavorita() },
-        {
-            viewModel.popUpEliminarRutina(true)
-        },
-        favorito,
-        esSuyaOEsAdmin = esSuyaOEsAdmin
-    ) { innerPading ->
+            )
+        }
         Box(
             modifier = Modifier.padding(
-                top = innerPading.calculateTopPadding() + 5.dp,
+                top = it.calculateTopPadding() + 5.dp,
                 start = 5.dp,
                 end = 5.dp,
-                bottom = innerPading.calculateBottomPadding() + 5.dp
+                bottom = it.calculateBottomPadding() + 5.dp
             )
         ) {
-            if (sinInternet) {
-                SinConexionPantalla {
-                    viewModel.obtenerRutina(idRutina)
-                    viewModel.inicializarBD(context)
-                    viewModel.comprobarFavorito(context, idRutina)
+            RutinasCard {
+                item {
+                    TextoTitulo(R.string.titulo_rutina_detalle, rutina.nombre)
                 }
-            } else if (!estado) {
-                Cargando()
-            } else {
-                RutinasCard {
-                    item {
-                        TextoTitulo(R.string.titulo_rutina_detalle, rutina.nombre)
-                    }
-                    item {
-                        Icono(
-                            modifier = Modifier
-                                .size(240.dp)  // Tamaño ajustado
-                                .clip(RoundedCornerShape(8.dp)),  // Esquinas redondeadas
-                            imagen = obtenerIconoRutina(rutina.imagen),  // Usamos el método que asigna los iconos
-                            descripcion = R.string.descripcionIconoRutina,
-                            onClick = {}
-                        )
-                    }
-                    item {
-                        Acordeon(R.string.titulo_descripcion, rutina.descripcion)
-                    }
-                    item {
-                        Acordeon(
-                            R.string.titulo_ejercicios,
-                            rutina.ejercicios.map { it.nombreEjercicio }.joinToString(", ")
-                        )
-                    }
-                    item {
-                        Acordeon(R.string.titulo_equipo, rutina.equipo)
-                    }
-                    item {
-                        ButtonPrincipal(R.string.empezar,
-                            enabled = estado,
-                            onClick = {
-                                viewModel.hacerRutina()
-                                navControlador.navigate(Rutas.HacerEjercicio)
-                            })
-                    }
+                item {
+                    Icono(
+                        modifier = Modifier
+                            .size(240.dp)  // Tamaño ajustado
+                            .clip(RoundedCornerShape(8.dp)),  // Esquinas redondeadas
+                        imagen = obtenerIconoRutina(rutina.imagen),  // Usamos el método que asigna los iconos
+                        descripcion = R.string.descripcionIconoRutina,
+                        onClick = {}
+                    )
+                }
+                item {
+                    Acordeon(R.string.titulo_descripcion, rutina.descripcion)
+                }
+                item {
+                    Acordeon(
+                        R.string.titulo_ejercicios,
+                        rutina.ejercicios.map { it.nombreEjercicio }.joinToString(", ")
+                    )
+                }
+                item {
+                    Acordeon(R.string.titulo_equipo, rutina.equipo)
+                }
+                item {
+                    ButtonPrincipal(R.string.empezar,
+                        enabled = estado,
+                        onClick = {
+                            viewModel.hacerRutina()
+                            navControlador.navigate(Rutas.HacerEjercicio)
+                        })
                 }
             }
-
         }
     }
 }
+
+
+
 

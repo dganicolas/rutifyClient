@@ -3,7 +3,6 @@ package com.example.rutifyclient.viewModel.rutinas
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.network.RetrofitClient
@@ -11,6 +10,7 @@ import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CrearRutinasViewModel : ViewModelBase() {
@@ -47,11 +47,9 @@ class CrearRutinasViewModel : ViewModelBase() {
     val ejerciciosSeleccionadosParaNuevaRutina: LiveData<List<EjercicioDto>> =
         _ejerciciosSeleccionadosParaNuevaRutina
 
-    private val _cargando = MutableLiveData<Boolean>()
+    private val _cargando = MutableLiveData<Boolean>(false)
     val cargando: LiveData<Boolean> = _cargando
 
-    private val _error = MutableLiveData<String?>()
-    val error: LiveData<String?> = _error
 
     private val _iconosRutina = MutableLiveData<List<String>>(
         listOf(
@@ -95,6 +93,7 @@ class CrearRutinasViewModel : ViewModelBase() {
     }
 
     fun obtenerEjerciciosDesdeApi() {
+        _sinInternet.value = false
         viewModelScope.launch {
             try {
                 _cargando.value = true
@@ -103,12 +102,11 @@ class CrearRutinasViewModel : ViewModelBase() {
                     Log.i("prueba", response.body().toString())
                     val listaEjercicios = response.body() ?: emptyList()
                     _ejerciciosAgrupados.value = listaEjercicios.groupBy { it.grupoMuscular }
-                    _error.value = null
-                } else {
-                    _error.value = "Error al obtener ejercicios: ${response.code()}"
                 }
             } catch (e: Exception) {
-                _error.value = "Excepción: ${e.message}"
+                manejarErrorConexion(e)
+                mostrarToast(R.string.sininternet)
+                _sinInternet.value = true
             } finally {
                 _cargando.value = false
             }
@@ -223,17 +221,16 @@ class CrearRutinasViewModel : ViewModelBase() {
                     )
                 )
                 if (response.isSuccessful) {
+                    delay(1000)
                     onResultado(true)
                     mostrarToast(R.string.rutinaCreada)
-                    _error.value = null
                 } else {
                     onResultado(false)
                     Log.i("prueba", response.body().toString())
-                    _error.value = "Error al obtener ejercicios: ${response.code()}"
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 onResultado(false)
-                _error.value = "Excepción: ${e.message}"
             } finally {
                 _cargando.value = false
             }

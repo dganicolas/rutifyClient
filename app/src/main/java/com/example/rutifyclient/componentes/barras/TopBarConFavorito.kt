@@ -26,7 +26,7 @@ import com.example.rutifyclient.componentes.textos.TextoTitulo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarConFavorito(
-    titulo: Int = R.string.rutinas,
+    titulo: Int,
     esFavorito: Boolean,
     esSuyaOEsAdmin: Boolean,
     onVolverClick: () -> Unit,

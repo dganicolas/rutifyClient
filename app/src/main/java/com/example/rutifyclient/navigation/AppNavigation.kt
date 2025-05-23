@@ -3,26 +3,22 @@ package com.example.rutifyclient.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
-import com.example.rutifyclient.pantalla.login.Login
-import com.example.rutifyclient.pantalla.miZona.MiZona
-import com.example.rutifyclient.pantalla.register.Registro
 import com.example.rutifyclient.pantalla.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Foro
 import com.example.rutifyclient.pantalla.cursos.Cursos
+import com.example.rutifyclient.pantalla.login.Login
+import com.example.rutifyclient.pantalla.miZona.MiZona
+import com.example.rutifyclient.pantalla.register.Registro
+import com.example.rutifyclient.pantalla.rutinas.CrearRutinas
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
-import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
-import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferiorConBoton
-import com.example.rutifyclient.pantalla.rutinas.CrearRutinas
 import com.example.rutifyclient.pantalla.rutinas.hacerRutina.HacerEjercicioRutina
 
 @Composable
@@ -49,12 +45,7 @@ fun AppNavigation() {
             SplashScreen(navControlador)
         }
         composable(Rutas.Rutina) {
-            PantallaConBarraInferiorConBoton(
-                navControlador,
-                Rutas.Rutina,
-                { navControlador.navigate(Rutas.CrearRutinas) }) {
-                Rutinas(Modifier.padding(it), navControlador)
-            }
+            Rutinas(navControlador)
         }
         composable(
             route = Rutas.CrearRutinas
@@ -75,24 +66,16 @@ fun AppNavigation() {
             Registro(navControlador)
         }
         composable(Rutas.Cursos) {
-            PantallaConBarraInferior(navControlador, Rutas.Cursos) {
-                Cursos()
-            }
+            Cursos(navControlador)
         }
         composable(Rutas.MiZona) {
-            PantallaConBarraInferior(navControlador, Rutas.MiZona) {
-                MiZona()
-            }
+            MiZona(navControlador)
         }
         composable(Rutas.Comunidad) {
-            PantallaConBarraInferior(navControlador, Rutas.Comunidad) {
-                Foro(Modifier.padding(it), navControlador)
-            }
+            Foro(navControlador)
         }
         composable(Rutas.Ajustes) {
-            PantallaConBarraInferior(navControlador, Rutas.Ajustes) {
-                Ajustes(Modifier.padding(it))
-            }
+            Ajustes(navControlador)
         }
 
         composable(

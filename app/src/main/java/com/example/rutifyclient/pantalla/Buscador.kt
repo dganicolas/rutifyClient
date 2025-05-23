@@ -24,9 +24,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
+import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.utils.PantallaBusquedaUsuarios
-import com.example.rutifyclient.pantalla.barScaffolding.PantallaConBarraInferior
 
 @Preview
 @Composable
@@ -57,41 +58,46 @@ fun Buscador() {
 
     val buscarTexto = remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+    PantallaBase(
+        cargando = false,
+        sinInternet = false,
+        onReintentar = {},
+        bottomBar = ({ NavigationBarAbajoPrincipal(rememberNavController(), Rutas.MiZona) })
     ) {
-        // Barra de búsqueda fija en la parte superior
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize()
+                .padding(it)
         ) {
-            TextField(
-                value = buscarTexto.value,
-                onValueChange = { buscarTexto.value = it },
-                label = { Text("Buscar Usuario") },
-                leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Buscar") },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                ),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        // Aquí haces la llamada al endpoint
-                        focusManager.clearFocus()
-                    }
+            // Barra de búsqueda fija en la parte superior
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = buscarTexto.value,
+                    onValueChange = { buscarTexto.value = it },
+                    label = { Text("Buscar Usuario") },
+                    leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Buscar") },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            // Aquí haces la llamada al endpoint
+                            focusManager.clearFocus()
+                        }
+                    )
                 )
-            )
-        }
-        PantallaConBarraInferior(rememberNavController(),"miZona"){
+            }
             PantallaBusquedaUsuarios(usuarios, rememberNavController())
-        }
 
+        }
     }
 }
 

@@ -163,6 +163,7 @@ class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
                         onResultado(false)
                     }
                 } catch (e: Exception) {
+                    manejarErrorConexion(e)
                     onResultado(false)
                     mostrarToast(R.string.error_conexion)
                 }

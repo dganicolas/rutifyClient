@@ -13,9 +13,11 @@ import com.example.rutifyclient.componentes.textos.TextoBotones
 fun ButtonSecundario(
     @StringRes textoId: Int,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier.fillMaxWidth()
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    enabled: Boolean = true,
 ) {
     OutlinedButton(
+        enabled = enabled,
         onClick = onClick,
         modifier = modifier,
         colors = ButtonDefaults.outlinedButtonColors(

@@ -82,6 +82,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     _voto.value = response.body()
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 mostrarToast(R.string.error_conexion)
             }
         }
@@ -198,6 +199,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     guardado(false)
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 mostrarToast(R.string.error_conexion)
                 guardado(false)
             }finally {

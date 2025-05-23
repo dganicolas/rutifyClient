@@ -73,6 +73,7 @@ class LoginViewModel() : ViewModelBase() {
                             }
                         }
                 } catch (e: Exception) {
+                    manejarErrorConexion(e)
                     onResultado(false)
                     mostrarToast(R.string.error_conexion)
                 }

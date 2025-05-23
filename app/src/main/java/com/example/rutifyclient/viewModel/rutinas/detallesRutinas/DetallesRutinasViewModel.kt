@@ -14,6 +14,7 @@ import com.example.rutifyclient.utils.MapearDeRutinaDtoARutinaDtoRoom
 import com.example.rutifyclient.utils.ente
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DetallesRutinasViewModel: ViewModelBase() {
@@ -78,6 +79,7 @@ class DetallesRutinasViewModel: ViewModelBase() {
                     _estado.value = true
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }
@@ -92,6 +94,7 @@ class DetallesRutinasViewModel: ViewModelBase() {
                     _esSuyaOEsAdmin.value = response.body()
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }
@@ -110,12 +113,14 @@ class DetallesRutinasViewModel: ViewModelBase() {
                 val response = RetrofitClient.apiRutinas.eliminarRutina(_rutina.value!!.id!!)
                 if (response.isSuccessful) {
                     mostrarToast(R.string.RutinaEliminada)
+                    delay(1000)
                     onResultado(true)
                 }else{
                     mostrarToast(R.string.ErrorAlEliminarLaRutina)
                     onResultado(false)
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
                 _sinInternet.value = true
                 onResultado(false)
                 mostrarToast(R.string.error_conexion)
