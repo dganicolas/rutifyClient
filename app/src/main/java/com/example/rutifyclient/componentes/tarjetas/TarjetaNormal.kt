@@ -23,10 +23,12 @@ import androidx.compose.ui.unit.dp
 fun TarjetaNormal (
     modifier: Modifier = Modifier
         .padding(16.dp).fillMaxSize(),
+    modifierTarjeta: Modifier = Modifier,
     contenido: @Composable () -> Unit,
 
     ) {
     OutlinedCard(
+    modifier = modifierTarjeta,
     shape = shapes.medium,
     border = BorderStroke(4.dp, colorScheme.primary),
     colors = CardDefaults.cardColors(containerColor = colorScheme.surface)

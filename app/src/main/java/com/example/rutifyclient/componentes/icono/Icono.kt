@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Icono(imagen: Painter? = null, icono: ImageVector? = null, descripcion: Int, onClick: () -> Unit, modifier: Modifier = Modifier.size(45.dp), tint: Color = Color.Unspecified) {
+fun Icono(imagen: Painter? = null, icono: ImageVector? = null, descripcion: Int, onClick: () -> Unit, modifier: Modifier = Modifier.size(45.dp), tint: Color = colorScheme.onBackground) {
     if (icono != null) {
         Icon(
             imageVector = icono,

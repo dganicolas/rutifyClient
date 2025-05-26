@@ -1,4 +1,4 @@
-package com.example.rutifyclient.componentes
+package com.example.rutifyclient.pantalla.commons
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+
 @Composable
 fun Cargando() {
     Box(
     modifier = Modifier
-    .fillMaxSize(), // Ocupa toda la pantalla o contenedor disponible
+    .fillMaxSize().zIndex(1f), // Ocupa toda la pantalla o contenedor disponible
     contentAlignment = Alignment.Center // Centra el contenido en el medio
     ) {
         CircularProgressIndicator(

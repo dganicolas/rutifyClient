@@ -56,7 +56,7 @@
     <!-- Fin Pantalla Register -->
     <!-- pantalla menu -->
 
-    <string name="usuario">usuario:</string>
+    <string name="usuario">usuario: %1$s</string>
     <!-- pantalla Rutinas -->
     <string name="ejercicios">ejercicios: %1$d</string>
     <string name="equipo">Equipo: %1$s</string>
@@ -133,4 +133,18 @@
     <string name="RutinaEliminada">La rutina ha sido eliminada</string>
     <string name="tituloEliminarRutinaPopUp">¿Estas seguro de eliminar la rutina?</string>
     <string name="mensajeEliminarRutinaPopUp">Esta accion es permanente</string>
+    <string name="volver">volver</string>
+    <string name="otroSexo">Otro</string>
+    <string name="descKcal">Icono Kcal</string>
+    <string name="kcal">Kcal</string>
+    <string name="rutinasHechas">Rutinas</string>
+    <string name="pesoUsuario">Peso: %1$.2f Kg</string>
+    <string name="borrarTextoPRuebaKcal">1234/2345</string>
+    <string name="borrarTextoPRuebaRutinas">99/99</string>
+    <string name="minutosActivos">Min activo</string>
+    <string name="tiempoRestante">23:23:45</string>
+    <string name="borrarPerubaRetodiario">Reto diario</string>
+    <string name="misRutinas">Mis Rutinas:</string>
+    <string name="tienda">Icono tienda</string>
+    <string name="avatarInfo">avatar</string>
 </resources>

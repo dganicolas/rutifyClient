@@ -1,4 +1,4 @@
-package com.example.rutifyclient.pantalla
+package com.example.rutifyclient.pantalla.commons
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -19,7 +19,6 @@ import com.example.rutifyclient.domain.botones.BottonNavegacion
 fun NavigationBarAbajoPrincipal(navController: NavController, selectedRoute: String) {
     val items = listOf(
         BottonNavegacion.Rutina,
-        BottonNavegacion.Cursos,
         BottonNavegacion.MiZona,
         BottonNavegacion.Comunidad,
         BottonNavegacion.Ajustes

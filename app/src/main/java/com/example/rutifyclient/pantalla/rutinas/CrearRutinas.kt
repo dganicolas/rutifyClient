@@ -1,6 +1,5 @@
 package com.example.rutifyclient.pantalla.rutinas
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,18 +11,20 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
-import com.example.rutifyclient.componentes.barras.TopBarCrearRutinas
+import com.example.rutifyclient.componentes.barras.TopBarBase
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonSecundario
 import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
@@ -40,7 +41,7 @@ import com.example.rutifyclient.componentes.ventanas.mostrarEjercicios
 import com.example.rutifyclient.componentes.ventanas.mostrarVentanaCambiarIcono
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.navigation.Rutas
-import com.example.rutifyclient.pantalla.PantallaBase
+import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.utils.obtenerIconoRutina
 import com.example.rutifyclient.viewModel.rutinas.CrearRutinasViewModel
 
@@ -81,21 +82,12 @@ fun CrearRutinas(navControlador: NavHostController) {
     val puntosGanados by viewModel.puntosGanados.observeAsState(0)
     val calorias by viewModel.calorias.observeAsState(0)
     val listaEquipo by viewModel.listaEquipo.observeAsState(listOf())
-    val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
-    val toastMostrado by viewModel.toastMostrado.observeAsState(true)
     val mostrarVentanaEliminarEjercicio by viewModel.mostrarVentanaEliminarEjercicio.observeAsState(
         false
     )
     val sinInternet by viewModel.sinInternet.observeAsState(false)
-    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.obtenerEjerciciosDesdeApi()
-    }
-    LaunchedEffect(mensajeToast) {
-        if (!toastMostrado) {
-            Toast.makeText(context, mensajeToast, Toast.LENGTH_LONG).show()
-            viewModel.toastMostrado()
-        }
     }
 
     if (mostrarVentanaEliminarEjercicio) {
@@ -108,13 +100,19 @@ fun CrearRutinas(navControlador: NavHostController) {
     Box() {
 
         PantallaBase(
+            viewModel = viewModel,
             cargando = cargando,
             sinInternet = sinInternet,
             onReintentar = { viewModel.obtenerEjerciciosDesdeApi() },
             topBar = ({
-                TopBarCrearRutinas(
-                    titulo = R.string.crearRutina,
-                    onVolverClick = { navControlador.popBackStack() })
+                TopBarBase(R.string.crearRutina,({
+                    Icono(
+                        icono = Icons.AutoMirrored.Filled.ArrowBack,
+                        descripcion = R.string.volver,
+                        onClick = {navControlador.popBackStack()},
+                        tint = colorScheme.onBackground
+                    )
+                }))
             })
         ) {
             Box(

@@ -30,19 +30,19 @@ interface ApiUsuarios {
     suspend fun eliminarCuenta(@Body correo: EliminarUsuarioDTO): Response<Void>
 
     @GET("${ApiRoutes.USUARIOS}/buscar/{nombre}")
-    fun buscarUsuariosPorNombre(
+    suspend fun buscarUsuariosPorNombre(
         @Path("nombre") nombre: String,
     ): Response<List<UsuarioBusquedaDto>>
 
     // Obtener detalle del usuario por idFirebase
     @GET("${ApiRoutes.USUARIOS}/detalle/{idFirebase}")
-    fun obtenerDetalleUsuario(
+    suspend fun obtenerDetalleUsuario(
         @Path("idFirebase") idFirebase: String,
     ): Response<UsuarioInformacionDto>
 
     // Actualizar cuenta de usuario
     @PUT("${ApiRoutes.USUARIOS}/actualizar")
-    fun actualizarCuenta(
+    suspend fun actualizarCuenta(
         @Body actualizarUsuarioDTO: ActualizarUsuarioDTO,
     ): Response<ActualizarUsuarioDTO> // ActualizarUsuarioDTO es la clase de datos a actualizar
 

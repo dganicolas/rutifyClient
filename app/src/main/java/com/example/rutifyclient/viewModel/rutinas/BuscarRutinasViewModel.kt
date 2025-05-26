@@ -21,9 +21,6 @@ class BuscarRutinasViewModel : ViewModelBase() {
     private val _equipo: MutableLiveData<String?> = MutableLiveData(null)
     private val _finalDeRutinas = MutableLiveData(false)
 
-    private val _estado = MutableLiveData<Boolean>(false)
-    val estado: LiveData<Boolean> = _estado
-
     private val _toastFinalDeRutinaMostrado = MutableLiveData<Boolean>(false)
 
     fun obtenerRutinas() {

@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
-import com.example.rutifyclient.pantalla.SplashScreen
+import com.example.rutifyclient.pantalla.commons.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Foro
 import com.example.rutifyclient.pantalla.cursos.Cursos
 import com.example.rutifyclient.pantalla.login.Login
@@ -27,7 +27,7 @@ fun AppNavigation() {
     val duracion = 700
     NavHost(
         navController = navControlador,
-        startDestination = Rutas.Splash,
+        startDestination = Rutas.MiZona,
         enterTransition = {
             fadeIn(animationSpec = tween(durationMillis = duracion))
         },
@@ -64,9 +64,6 @@ fun AppNavigation() {
 
         composable(Rutas.Registro) {
             Registro(navControlador)
-        }
-        composable(Rutas.Cursos) {
-            Cursos(navControlador)
         }
         composable(Rutas.MiZona) {
             MiZona(navControlador)

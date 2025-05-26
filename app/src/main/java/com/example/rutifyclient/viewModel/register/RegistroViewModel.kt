@@ -10,13 +10,14 @@ import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.usuario.UsuarioRegistroDTO
 import com.example.rutifyclient.interfaces.IRegistroViewModel
 import com.example.rutifyclient.viewModel.ViewModelBase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
 
-    private val _opcionesSexo = MutableLiveData(listOf(R.string.hombre, R.string.mujer))
+    private val _opcionesSexo = MutableLiveData(listOf(R.string.hombre, R.string.mujer, R.string.otroSexo))
     val opcionesSexo = _opcionesSexo
 
     private val _opcionEscogida = MutableLiveData<Int>()
@@ -132,6 +133,9 @@ class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
     }
 
     private fun sexoEscogido(): String {
+        if(_opcionEscogida.value == R.string.otroSexo){
+            return "O"
+        }
         if (_opcionEscogida.value == R.string.hombre) {
             return "H"
         } else {
@@ -140,6 +144,7 @@ class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
     }
 
     override fun registrarUsuario(onResultado: (Boolean) -> Unit) {
+        _estado.value = false
         if (validarUsuario()) {
             val sexo = sexoEscogido()
             val usuario = UsuarioRegistroDTO(
@@ -162,12 +167,18 @@ class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
                         mostrarToast(R.string.error_en_respuesta)
                         onResultado(false)
                     }
+                    _estado.value = true
                 } catch (e: Exception) {
                     manejarErrorConexion(e)
+                    _sinInternet.value = true
                     onResultado(false)
                     mostrarToast(R.string.error_conexion)
+                }finally {
+                    _estado.value = true
                 }
             }
+        }else{
+            _estado.value = true
         }
     }
 

@@ -9,6 +9,7 @@ import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel() : ViewModelBase() {
@@ -46,7 +47,7 @@ class LoginViewModel() : ViewModelBase() {
     }
 
     fun iniciarSesion(correo: String, contrasena: String, onResultado: (Boolean) -> Unit) {
-        _iniciandoSesion.value = false
+        _estado.value = false
         if (!comprobarInicioSesion(correo, contrasena)) {
             viewModelScope.launch {
                 try {
@@ -72,18 +73,21 @@ class LoginViewModel() : ViewModelBase() {
                                 }
                             }
                         }
+                    throw Exception()
                 } catch (e: Exception) {
                     manejarErrorConexion(e)
                     onResultado(false)
                     mostrarToast(R.string.error_conexion)
+                }finally {
+                    _estado.value = true
                 }
             }
         } else {
             _mensajeVentanaModal.value = R.string.datos_no_rellenados
             _tituloVentanaModal.value = R.string.error_inicio_sesion
             _mostrarVentanaModal.value = true
+            _estado.value = true
         }
-        _iniciandoSesion.value = true
     }
 
     fun mostrarContrasena(estado: Boolean) {
@@ -135,4 +139,6 @@ class LoginViewModel() : ViewModelBase() {
     fun cerrarVentanaContrasenaPerdida() {
         _mostrarVentanaContrasenaPerdida.value = false
     }
+
+
 }

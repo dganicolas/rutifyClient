@@ -25,9 +25,6 @@ class DetallesRutinasViewModel: ViewModelBase() {
     private val _esSuyaOEsAdmin = MutableLiveData<Boolean>(false)
     val esSuyaOEsAdmin: LiveData<Boolean> = _esSuyaOEsAdmin
 
-    private val _estado = MutableLiveData<Boolean>(false)
-    val estado: LiveData<Boolean> = _estado
-
     private val _ventanaEliminarRutina = MutableLiveData<Boolean>(false)
     val ventanaEliminarRutina: LiveData<Boolean> = _ventanaEliminarRutina
 
@@ -108,6 +105,7 @@ class DetallesRutinasViewModel: ViewModelBase() {
     }
 
     fun borrarRutina(onResultado: (Boolean) -> Unit) {
+        popUpEliminarRutina(false)
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.apiRutinas.eliminarRutina(_rutina.value!!.id!!)

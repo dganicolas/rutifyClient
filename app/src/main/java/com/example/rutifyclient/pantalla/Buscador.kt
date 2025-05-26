@@ -23,10 +23,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
 import com.example.rutifyclient.navigation.Rutas
+import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.utils.PantallaBusquedaUsuarios
 
 @Preview
@@ -59,6 +61,7 @@ fun Buscador() {
     val buscarTexto = remember { mutableStateOf("") }
 
     PantallaBase(
+        viewModel = viewModel(),
         cargando = false,
         sinInternet = false,
         onReintentar = {},

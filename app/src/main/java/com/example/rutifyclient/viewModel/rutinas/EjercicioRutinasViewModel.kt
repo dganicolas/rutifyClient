@@ -42,9 +42,6 @@ class EjercicioRutinasViewModel : ViewModelBase() {
     private val _cancelado = MutableLiveData(false)
     val cancelado: LiveData<Boolean> = _cancelado
 
-    private val _estado = MutableLiveData(true)
-    val estado: LiveData<Boolean> = _estado
-
     private val _estadisticasDto = MutableLiveData(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0,0.0))
     val estadisticas: LiveData<EstadisticasDto> = _estadisticasDto
 
@@ -57,6 +54,8 @@ class EjercicioRutinasViewModel : ViewModelBase() {
     private var job: Job? = null
 
     fun iniciarTemporizador() {
+        job?.cancel()
+        _tiempo.value = 0
         job = viewModelScope.launch {
             while (isActive) {
                 delay(1000)
@@ -66,6 +65,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
     }
 
     fun cargarEjercicio() {
+        _sinInternet.value = false
         if (_ejerciciosCargados.value == true) return
         _listaejercicios.value = ente.listaEjercicio.value!!
         _ejercicio.value = _listaejercicios.value!![_contadorEjercicios.value!!]
@@ -82,6 +82,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     _voto.value = response.body()
                 }
             } catch (e: Exception) {
+                _sinInternet.value = true
                 manejarErrorConexion(e)
                 mostrarToast(R.string.error_conexion)
             }
@@ -122,6 +123,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     _estadisticasDto.value = response.body()
                 }
             } catch (e: Exception) {
+                _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }
         }
@@ -176,6 +178,8 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     guardado(false)
                 }
             } catch (e: Exception) {
+                _sinInternet.value = true
+                manejarErrorConexion(e)
                 mostrarToast(R.string.error_conexion)
                 guardado(false)
             }finally {
@@ -199,6 +203,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     guardado(false)
                 }
             } catch (e: Exception) {
+                _sinInternet.value = true
                 manejarErrorConexion(e)
                 mostrarToast(R.string.error_conexion)
                 guardado(false)
@@ -244,6 +249,8 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                     mostrarToast(R.string.dato_defecto)
                 }
             } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }finally {
                 _estado.value = true
@@ -265,6 +272,8 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                 }
 
             } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
                 mostrarToast(R.string.error_conexion)
             }finally {
                 _estado.value = true
