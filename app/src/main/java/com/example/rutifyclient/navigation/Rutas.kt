@@ -13,7 +13,7 @@ object Rutas {
     const val DetallesUsuario = "usuario/{idFirebase}"
     const val DetallesRutinas = "rutinas/{idRutina}"
     const val Splash = "splash"
-    const val Menu = "menu"
+    const val rutinasFavoritas = "rutinasFavoritas"
     const val Login = "login"
     const val Registro = "registro"
 }

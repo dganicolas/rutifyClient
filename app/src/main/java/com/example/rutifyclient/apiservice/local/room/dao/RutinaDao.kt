@@ -15,6 +15,10 @@ interface RutinaDao {
     @Query("SELECT * FROM rutinas_favoritas WHERE id = :id")
     suspend fun obtenerPorId(id: String): RutinaDtoRoom?
 
+    @Query("SELECT COUNT(*) FROM rutinas_favoritas")
+    suspend fun contarRutinasFavoritas(): Int
+
+
     @Delete
     suspend fun eliminar(rutina: RutinaDtoRoom)
 

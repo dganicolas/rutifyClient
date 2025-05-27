@@ -1,29 +1,34 @@
 package com.example.rutifyclient.apiservice.network
 
 import com.example.rutifyclient.apiservice.network.api.ejercicios.ApiEjercicios
-import com.example.rutifyclient.apiservice.network.api.estadisticas.ApiEstadisticas
+import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticas.ApiEstadisticas
+import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticasDiarias.ApiEstadisticasDiarias
 import com.example.rutifyclient.apiservice.network.api.rutinas.ApiRutinas
 import com.example.rutifyclient.apiservice.network.api.usuarios.ApiUsuarios
 import com.example.rutifyclient.apiservice.network.api.votos.ApiVotos
-import com.google.android.gms.common.api.Api
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
     private val gson = GsonBuilder()
+        .registerTypeAdapter(LocalDate::class.java, JsonDeserializer { json, _, _ ->
+            LocalDate.parse(json.asString)
+        })
         .serializeNulls()
         .setLenient()
         .setPrettyPrinting()
         .create()
     //private const val BASE_URL = "https://app-adat-9a4d.onrender.com/"
-    private const val BASE_URL = "http://192.168.1.131:8080/"
+    private const val BASE_URL = "http://192.168.1.43:8080/"
     private val authInterceptor = Interceptor { chain ->
         val original = chain.request()
         val token = FirebaseAuth.getInstance().currentUser?.let {
@@ -75,5 +80,9 @@ object RetrofitClient {
 
     val apiVotos: ApiVotos by lazy {
         retrofit.create(ApiVotos::class.java)
+    }
+
+    val apiEstadisticasDiarias: ApiEstadisticasDiarias by lazy {
+        retrofit.create(ApiEstadisticasDiarias::class.java)
     }
 }

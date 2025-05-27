@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PesoGraph(pesos: List<Float>) {
-    val maxPeso = pesos.maxOrNull() ?: 0f
-    val minPeso = pesos.minOrNull() ?: 0f
-    val range = (maxPeso - minPeso).takeIf { it != 0f } ?: 1f
+fun PesoGraph(pesos: List<Double>) {
+    val maxPeso = pesos.maxOrNull() ?: 0.0
+    val minPeso = pesos.minOrNull() ?: 0.0
+    val range = (maxPeso - minPeso).takeIf { it != 0.0 } ?: 1.0
     val colorLinea = colorScheme.primary
     val colorPuntos = colorScheme.secondary
     val limite = colorScheme.onSurface
@@ -57,8 +57,8 @@ fun PesoGraph(pesos: List<Float>) {
                 val prevY = size.height - (pesos[index - 1] - minPeso) * heightFactor
                 drawLine(
                     color = colorLinea,
-                    start = Offset(prevX, prevY),
-                    end = Offset(x, y),
+                    start = Offset(prevX, prevY.toFloat()),
+                    end = Offset(x, y.toFloat()),
                     strokeWidth = 4f
                 )
             }
@@ -66,7 +66,7 @@ fun PesoGraph(pesos: List<Float>) {
             drawCircle(
                 color = colorPuntos,
                 radius = 6f,
-                center = Offset(x, y)
+                center = Offset(x, y.toFloat())
             )
         }
     }

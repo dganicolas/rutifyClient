@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -31,24 +33,46 @@ import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
+import com.example.rutifyclient.componentes.textos.TextoTitulo
+import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.viewModel.usuario.MiZonaViewModel
+import java.time.LocalDate
 
 @Composable
 fun MiZona(navControlador: NavHostController) {
     val viewModel: MiZonaViewModel = viewModel()
     val usuario by viewModel.usuario.observeAsState(
         UsuarioInformacionDto(
-            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0), 0
+            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0,0.0), 0
         )
     )
     val sinInternet by viewModel.toastMostrado.observeAsState(false)
     val estado by viewModel.estado.observeAsState(true)
+    val metaKcal  by viewModel.metaKcal.observeAsState(0)
+    val metaRutinas  by viewModel.metaRutinas.observeAsState(0)
+    val countRutinasFavoritas  by viewModel.countRutinasFavoritas.observeAsState(0)
+    val metasMinActivos  by viewModel.metasMinActivos.observeAsState(0.0f)
+    val tiempoRestante  by viewModel.tiempoRestante.observeAsState(0)
+    val estadisticasDiarias  by viewModel.estadisticasDiarias.observeAsState(EstadisticasDiariasDto(null,"",
+        LocalDate.now(),0.0,0.0,0,0.0))
+    val ultimosPesos by viewModel.ultimosPesos.observeAsState(listOf(0.0, 0.0, 0.0, 0.0, 0.0))
+    val context = LocalContext.current
+
+    val verEstadisticas: () -> Unit = {
+        navControlador.navigate(Rutas.Estadisticas)
+    }
+
     LaunchedEffect(Unit) {
+        viewModel.obtenerCountRutinasFavoritas(context)
+        viewModel.iniciarContadorTiempoRestante()
+        viewModel.obtenerUltimos5Pesos()
         viewModel.obtenerUsuario()
+        viewModel.obtenerEstadisticasDiaria()
+        viewModel.obtenerObjetivosLocal(context)
     }
     PantallaBase(
         viewModel = viewModel,
@@ -82,7 +106,7 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable { },
+                        .clickable { verEstadisticas() },
                     modifierTarjeta = Modifier
                         .weight(1f)
                 ) {
@@ -93,8 +117,8 @@ fun MiZona(navControlador: NavHostController) {
                             descripcion = R.string.descKcal,
                             icono = Icons.Filled.LocalFireDepartment,
                             modifier = Modifier.size(85.dp),
-                            onClick = {})
-                        TextoInformativo(R.string.borrarTextoPRuebaKcal)
+                            onClick = {verEstadisticas()})
+                        TextoInformativo(R.string.metaKcal, estadisticasDiarias.kCaloriasQuemadas, metaKcal)
                         TextoSubtitulo(R.string.kcal)
                     }
                 }
@@ -102,7 +126,7 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable { },
+                        .clickable {verEstadisticas() },
                     modifierTarjeta = Modifier
                         .weight(1f)
                 ) {
@@ -112,16 +136,16 @@ fun MiZona(navControlador: NavHostController) {
                         Icono(
                             descripcion = R.string.descKcal,
                             icono = Icons.Filled.EditNote, modifier = Modifier.size(85.dp),
-                            onClick = {})
-                        TextoInformativo(R.string.borrarTextoPRuebaRutinas)
-                        TextoSubtitulo(R.string.rutinasHechas)
+                            onClick = {verEstadisticas()})
+                        TextoInformativo(R.string.metaInt, estadisticasDiarias.ejerciciosRealizados, metaRutinas)
+                        TextoSubtitulo(R.string.ejerciciosHechos)
                     }
                 }
                 TarjetaNormal(
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable { },
+                        .clickable {verEstadisticas() },
                     modifierTarjeta = Modifier
                         .weight(1f)
                 ) {
@@ -131,11 +155,11 @@ fun MiZona(navControlador: NavHostController) {
                         Icono(
                             descripcion = R.string.descKcal,
                             icono = Icons.Filled.AccessTime,
-                            onClick = {},
+                            onClick = {verEstadisticas()},
                             modifier = Modifier.size(85.dp)
                         )
-                        TextoInformativo(R.string.borrarTextoPRuebaRutinas)
-                        TextoSubtitulo(R.string.minutosActivos)
+                        TextoInformativo(R.string.metaDouble, estadisticasDiarias.horasActivo, metasMinActivos)
+                        TextoSubtitulo(R.string.horasActivo)
                     }
                 }
             }
@@ -154,41 +178,15 @@ fun MiZona(navControlador: NavHostController) {
                     TarjetaNormal(
                         modifier = Modifier
                             .padding(5.dp)
-                            .fillMaxWidth()
-                            .clickable { },
-                        modifierTarjeta = Modifier
-                            .weight(1f)
+                            .fillMaxWidth(),
+                        modifierTarjeta = Modifier.clickable { verEstadisticas() }
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(5.dp)
+                            modifier = Modifier.padding(5.dp).clickable { verEstadisticas() },
                         ) {
-                            TextoSubtitulo(R.string.pesoUsuario, 124.43f)
-                            PesoGraph(pesos = listOf(72f, 71.5f, 71f, 70.8f, 70.3f))
-                        }
-                    }
-                    TarjetaNormal(
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .fillMaxWidth()
-                            .clickable { }
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icono(
-                                descripcion = R.string.descKcal,
-                                icono = Icons.Filled.EmojiEvents,
-                                onClick = {},
-                                modifier = Modifier.size(85.dp)
-                            )
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                TextoInformativo(R.string.tiempoRestante)
-                                TextoSubtitulo(R.string.borrarPerubaRetodiario)
-                            }
+                            TextoSubtitulo(R.string.pesoUsuario, ultimosPesos[4])
+                            PesoGraph(pesos = ultimosPesos)
                         }
                     }
                 }
@@ -196,16 +194,47 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .weight(1f)
-                        .clickable { },
+                        .clickable { navControlador.navigate(Rutas.rutinasFavoritas)},
                     modifierTarjeta = Modifier
-                        .weight(1f)
+                        .fillMaxHeight(0.53f).clickable { navControlador.navigate(Rutas.rutinasFavoritas) }
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextoSubtitulo(R.string.misRutinas)
+                        TextoTitulo(R.string.misRutinas)
+                        TextoTitulo(R.string.texto_input, countRutinasFavoritas.toString())
                     }
+                }
+            }
+            TarjetaNormal(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth()
+                    .clickable { }
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icono(
+                        descripcion = R.string.descKcal,
+                        icono = Icons.Filled.EmojiEvents,
+                        onClick = {},
+                        modifier = Modifier.size(85.dp).weight(1f)
+                    )
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        TextoInformativo(R.string.texto_input,String.format("%02d:%02d:%02d", tiempoRestante / 3600, (tiempoRestante % 3600) / 60, tiempoRestante % 60))
+                        TextoSubtitulo(R.string.retoDiario)
+                    }
+                    Icono(
+                        descripcion = R.string.descKcal,
+                        icono = Icons.Filled.EmojiEvents,
+                        onClick = {},
+                        modifier = Modifier.size(85.dp).weight(1f)
+                    )
                 }
             }
         }

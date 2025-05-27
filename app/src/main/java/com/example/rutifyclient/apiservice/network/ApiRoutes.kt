@@ -6,4 +6,5 @@ object ApiRoutes {
     const val RUTINAS = "v1/rutinas"
     const val ESTADISTICAS = "v1/estadisticas"
     const val VOTOS = "v1/votos"
+    const val ESTADISTICASDIARIAS = "v1/estadisticasDiarias"
 }

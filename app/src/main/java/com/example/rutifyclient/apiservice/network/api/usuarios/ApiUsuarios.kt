@@ -29,9 +29,11 @@ interface ApiUsuarios {
     @DELETE("${ApiRoutes.USUARIOS}/eliminar")
     suspend fun eliminarCuenta(@Body correo: EliminarUsuarioDTO): Response<Void>
 
-    @GET("${ApiRoutes.USUARIOS}/buscar/{nombre}")
+    @GET("${ApiRoutes.USUARIOS}/buscar/{nombre}/{pagina}/{tamano}")
     suspend fun buscarUsuariosPorNombre(
         @Path("nombre") nombre: String,
+        @Path("pagina") pagina: Int,
+        @Path("tamano") tamano: Int
     ): Response<List<UsuarioBusquedaDto>>
 
     // Obtener detalle del usuario por idFirebase
@@ -49,5 +51,10 @@ interface ApiUsuarios {
     @GET("${ApiRoutes.USUARIOS}/esAdmin/{idFirebase}")
     suspend fun esAdmin(
         @Path("idFirebase") idFirebase: String
+    ): Response<Boolean>
+
+    @POST("${ApiRoutes.USUARIOS}/reto-diario")
+    suspend fun marcarRetoDiario(
+        @Header("Authorization") authToken: String
     ): Response<Boolean>
 }

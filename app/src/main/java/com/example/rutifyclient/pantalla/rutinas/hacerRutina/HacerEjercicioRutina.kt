@@ -33,19 +33,10 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
     val voto by viewModel.voto.observeAsState(VotodDto("", "", "", 0.0f))
     val VentanaPuntuarRutina by viewModel.VentanaPuntuarRutina.observeAsState(false)
     val estadisticasDtoCalculadas by viewModel.estadisticasDtoCalculadas.observeAsState(
-        EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0)
+        EstadisticasDto("", 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0,0.0)
     )
     val estadisticas by viewModel.estadisticas.observeAsState(
-        EstadisticasDto(
-            "",
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0,
-            0.0
-        )
+        EstadisticasDto("", 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0,0.0)
     )
     val context = LocalContext.current
     val ejercicio by viewModel.ejercicio.observeAsState(
@@ -70,17 +61,19 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
             viewModel.toastMostrado()
         }
     }
+    LaunchedEffect(finalizado) {
+        viewModel.detenerTemporizador()
+    }
 
     LaunchedEffect(Unit) {
         viewModel.cargarEjercicio()
         viewModel.obtenervoto()
         viewModel.obtenerEstadisticas()
-        delay(3000)
         viewModel.iniciarTemporizador()
     }
     PantallaBase(
         viewModel = viewModel,
-        cargando = estado,
+        cargando = !estado,
         sinInternet = sinInternet,
         onReintentar = {
             viewModel.cargarEjercicio()
@@ -105,6 +98,7 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
                 }
                 if (finalizado) {
                     pantallaFinal(estado, estadisticas, estadisticasDtoCalculadas, {
+                        viewModel.guardarEstadisticaDiaria()
                         viewModel.guardarProgreso() { exito ->
                             if (exito) {
                                 navControlador.popBackStack()

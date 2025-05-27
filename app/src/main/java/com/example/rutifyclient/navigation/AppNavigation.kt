@@ -13,12 +13,14 @@ import com.example.rutifyclient.pantalla.Ajustes.Ajustes
 import com.example.rutifyclient.pantalla.commons.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Foro
 import com.example.rutifyclient.pantalla.cursos.Cursos
+import com.example.rutifyclient.pantalla.estadisticas.Estadisticas
 import com.example.rutifyclient.pantalla.login.Login
 import com.example.rutifyclient.pantalla.miZona.MiZona
 import com.example.rutifyclient.pantalla.register.Registro
 import com.example.rutifyclient.pantalla.rutinas.CrearRutinas
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
+import com.example.rutifyclient.pantalla.rutinas.RutinasFavoritas
 import com.example.rutifyclient.pantalla.rutinas.hacerRutina.HacerEjercicioRutina
 
 @Composable
@@ -75,6 +77,14 @@ fun AppNavigation() {
             Ajustes(navControlador)
         }
 
+        composable(Rutas.Estadisticas) {
+            Estadisticas(navControlador)
+        }
+
+        composable(Rutas.rutinasFavoritas) {
+            RutinasFavoritas(navControlador)
+        }
+
         composable(
             route = Rutas.HacerEjercicio,
         ) {
@@ -93,6 +103,8 @@ fun AppNavigation() {
 
     }
 }
+
+
 
 
 

@@ -3,11 +3,11 @@ package com.example.rutifyclient.viewModel.rutinas
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
+import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasPatchDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasPatchDto
 import com.example.rutifyclient.domain.voto.VotodDto
@@ -42,10 +42,10 @@ class EjercicioRutinasViewModel : ViewModelBase() {
     private val _cancelado = MutableLiveData(false)
     val cancelado: LiveData<Boolean> = _cancelado
 
-    private val _estadisticasDto = MutableLiveData(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0,0.0))
+    private val _estadisticasDto = MutableLiveData(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0))
     val estadisticas: LiveData<EstadisticasDto> = _estadisticasDto
 
-    private val _estadisticasDtoCalculadas = MutableLiveData(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0,0.0))
+    private val _estadisticasDtoCalculadas = MutableLiveData(EstadisticasDto("",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0))
     val estadisticasDtoCalculadas: LiveData<EstadisticasDto> = _estadisticasDtoCalculadas
 
     private val _tiempo = MutableLiveData(0) // Tiempo en segundos
@@ -63,12 +63,16 @@ class EjercicioRutinasViewModel : ViewModelBase() {
             }
         }
     }
+    fun detenerTemporizador() {
+        job?.cancel()
+    }
 
     fun cargarEjercicio() {
         _sinInternet.value = false
         if (_ejerciciosCargados.value == true) return
         _listaejercicios.value = ente.listaEjercicio.value!!
         _ejercicio.value = _listaejercicios.value!![_contadorEjercicios.value!!]
+        _estado.value = true
     }
 
     fun obtenervoto(){
@@ -88,6 +92,8 @@ class EjercicioRutinasViewModel : ViewModelBase() {
             }
         }
     }
+
+
     fun siguienteEjercicio() {
 
         if(_contadorEjercicios.value!!.plus(1) <= _listaejercicios.value!!.size - 1){
@@ -102,7 +108,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
     private fun calcularProgreso(){
         _listaejercicios.value!!.forEach{ejercicio ->
             _estadisticasDtoCalculadas.value!!.ejerciciosRealizados += 1
-            _estadisticasDtoCalculadas.value!!.kcaloriasQuemadas += (ejercicio.cantidad * ejercicio.caloriasQuemadasPorRepeticion)/1000
+            _estadisticasDtoCalculadas.value!!.kCaloriasQuemadas += (ejercicio.cantidad * ejercicio.caloriasQuemadasPorRepeticion)/1000
             when ( ejercicio.grupoMuscular.lowercase()){
                 "pecho" -> { _estadisticasDtoCalculadas.value!!.lvlPecho += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion}
                 "abdominal" -> { _estadisticasDtoCalculadas.value!!.lvlAbdominal += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
@@ -136,10 +142,11 @@ class EjercicioRutinasViewModel : ViewModelBase() {
         _estadisticasDto.value!!.lvlEspalda += _estadisticasDtoCalculadas.value!!.lvlEspalda
         _estadisticasDto.value!!.lvlAbdominal += _estadisticasDtoCalculadas.value!!.lvlAbdominal
         _estadisticasDto.value!!.lvlPiernas += _estadisticasDtoCalculadas.value!!.lvlPiernas
-        Log.i("prueba", _estadisticasDto.value!!.kcaloriasQuemadas.toString())
+        Log.i("prueba", _estadisticasDto.value!!.kCaloriasQuemadas.toString())
         _estadisticasDto.value!!.ejerciciosRealizados += _estadisticasDtoCalculadas.value!!.ejerciciosRealizados
-        _estadisticasDto.value!!.kcaloriasQuemadas += _estadisticasDtoCalculadas.value!!.kcaloriasQuemadas
-        Log.i("prueba", _estadisticasDto.value!!.kcaloriasQuemadas.toString())
+        _estadisticasDto.value!!.kCaloriasQuemadas += _estadisticasDtoCalculadas.value!!.kCaloriasQuemadas
+        _estadisticasDto.value!!.horasActivo += _tiempo.value!!.toDouble() / 3600.0
+        Log.i("prueba", _estadisticasDto.value!!.kCaloriasQuemadas.toString())
         if(_estadisticasDto.value!!.idFirebase.isNotEmpty()){
             actualizarEstadisticas{
                 guardado(it)
@@ -157,11 +164,12 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                 val patch = EstadisticasPatchDto(
                     lvlBrazo = _estadisticasDto.value!!.lvlBrazo,
                     lvlPecho = _estadisticasDto.value!!.lvlPecho,
+                    horasActivo = _estadisticasDto.value!!.horasActivo,
                     lvlEspalda = _estadisticasDto.value!!.lvlEspalda,
                     lvlAbdominal = _estadisticasDto.value!!.lvlAbdominal,
                     lvlPiernas = _estadisticasDto.value!!.lvlPiernas,
                     ejerciciosRealizados = _estadisticasDto.value!!.ejerciciosRealizados,
-                    kCaloriasQuemadas = _estadisticasDto.value!!.kcaloriasQuemadas
+                    kCaloriasQuemadas = _estadisticasDto.value!!.kCaloriasQuemadas
                 )
 
                 val response = RetrofitClient.apiEstadisticas.actualizarEstadisticas(
@@ -277,6 +285,38 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                 mostrarToast(R.string.error_conexion)
             }finally {
                 _estado.value = true
+            }
+        }
+    }
+
+    fun guardarEstadisticaDiaria() {
+        viewModelScope.launch {
+            try {
+                val patch = EstadisticasDiariasPatchDto(
+                    ejerciciosRealizados = _estadisticasDtoCalculadas.value!!.ejerciciosRealizados,
+                    kCaloriasQuemadas = _estadisticasDtoCalculadas.value!!.kCaloriasQuemadas,
+                    horasActivo = _tiempo.value!!.toDouble() / 3600.0
+                )
+
+                val idFirebase = FirebaseAuth.getInstance().currentUser!!.uid
+                val fecha = java.time.LocalDate.now().toString() // Formato: yyyy-MM-dd
+
+                val response = RetrofitClient.apiEstadisticasDiarias.actualizarEstadisticasDiarias(
+                    idFirebase = idFirebase,
+                    fecha = fecha,
+                    patch = patch
+                )
+
+                if (response.isSuccessful && response.body() != null) {
+                    mostrarToast(R.string.estadisticas_diarias_guardadas)
+                } else {
+                    mostrarToast(R.string.error_guardar)
+                }
+
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+                mostrarToast(R.string.error_conexion)
             }
         }
     }

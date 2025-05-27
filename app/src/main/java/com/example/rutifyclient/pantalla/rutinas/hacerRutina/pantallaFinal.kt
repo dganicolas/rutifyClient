@@ -55,8 +55,8 @@ fun pantallaFinal(
         ),
         Triple(
             R.string.puntuacionQuemadas,
-            estadisticas.kcaloriasQuemadas,
-            estadisticasDtoCalculadas.kcaloriasQuemadas
+            estadisticas.kCaloriasQuemadas,
+            estadisticasDtoCalculadas.kCaloriasQuemadas
         )
     )
     Box(

@@ -5,8 +5,10 @@ data class EstadisticasDto(
     var lvlBrazo: Double,
     var lvlPecho: Double,
     var lvlEspalda: Double,
+    var pesoCorporal: Double,
     var lvlAbdominal: Double,
     var lvlPiernas: Double,
+    var horasActivo: Double,
     var ejerciciosRealizados: Int,
-    var kcaloriasQuemadas: Double
+    var kCaloriasQuemadas: Double
 )

@@ -22,6 +22,8 @@ import androidx.compose.ui.zIndex
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
+import com.example.rutifyclient.componentes.textos.TextoInformativo
+import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.utils.obtenerAvatarResource
@@ -45,7 +47,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                     descripcion = R.string.avatarInfo,
                     onClick = {},
                     modifier = Modifier
-                        .align(Alignment.Center).offset(y = (-55).dp).zIndex(1f).size(65.dp)
+                        .align(Alignment.Center).offset(y = (-95).dp).zIndex(1f).size(65.dp)
                 )
 
                 // Cuerpo justo debajo de la cara
@@ -55,7 +57,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                     onClick = {},
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .offset(y = (-5).dp).size(95.dp).zIndex(0.6f)
+                        .offset(y = (-40).dp).size(95.dp).zIndex(0.6f)
                 )
 
                 Icono(
@@ -64,7 +66,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                     onClick = {},
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .offset(y = 5.dp, x= (-30).dp).size(70.dp).graphicsLayer {
+                        .offset(y = (-30).dp, x= (-30).dp).size(70.dp).graphicsLayer {
                             scaleX = -1f
                         }
                 )
@@ -74,7 +76,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                     onClick = {},
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .offset(y = 5.dp, x= 30.dp).size(70.dp)
+                        .offset(y = (-30).dp, x= 30.dp).size(70.dp)
                 )
                 Icono(
                     imagen = painterResource(id = R.drawable.pantalonavatar),
@@ -82,7 +84,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                     onClick = {},
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .offset(y = 70.dp, x= 0.dp).size(120.dp).zIndex(0.4f) // Ajusta este valor según el tamaño de tus íconos
+                        .offset(y = 50.dp, x= 0.dp).size(120.dp).zIndex(0.4f) // Ajusta este valor según el tamaño de tus íconos
                 )
                 Icono(
                     imagen = painterResource(id = R.drawable.zapatoavatar),
@@ -90,8 +92,19 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                     onClick = {},
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .offset(y = 140.dp, x= 0.dp).size(68.dp).zIndex(0.3f) // Ajusta este valor según el tamaño de tus íconos
+                        .offset(y = 117.dp, x= (-0.8).dp).size(67.dp).zIndex(0.3f) // Ajusta este valor según el tamaño de tus íconos
                 )
+                TarjetaNormal(modifier = Modifier
+                    .align(Alignment.Center)) {
+                    Column(modifier = Modifier.zIndex(1f).padding(5.dp)) {
+                        TextoInformativo(R.string.lvlbrazo, usuario.estadisticas.lvlBrazo)
+                        TextoInformativo(R.string.lvlPecho, usuario.estadisticas.lvlPecho)
+                        TextoInformativo(R.string.lvlAbdominal, usuario.estadisticas.lvlAbdominal)
+                        TextoInformativo(R.string.lvlEspalda, usuario.estadisticas.lvlEspalda)
+                        TextoInformativo(R.string.lvlPiernas, usuario.estadisticas.lvlPiernas)
+                        TextoInformativo(R.string.ejerciciosRealizados, usuario.estadisticas.ejerciciosRealizados)
+                    }
+                }
             }
         }
     }
@@ -102,7 +115,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
 fun prev(){
     Box(modifier = Modifier.fillMaxSize()){
         cuadroAvatar(UsuarioInformacionDto(
-            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0), 0
+            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,0, 0.0), 0
         ))
     }
 }

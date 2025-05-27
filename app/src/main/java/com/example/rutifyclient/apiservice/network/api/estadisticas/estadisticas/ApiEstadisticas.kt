@@ -1,4 +1,4 @@
-package com.example.rutifyclient.apiservice.network.api.estadisticas
+package com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticas
 
 import com.example.rutifyclient.apiservice.network.ApiRoutes
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
