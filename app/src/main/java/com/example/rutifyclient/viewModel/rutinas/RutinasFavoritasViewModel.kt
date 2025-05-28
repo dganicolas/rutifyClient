@@ -43,7 +43,7 @@ class RutinasFavoritasViewModel: ViewModelBase() {
                 _rutinas.value = rutinasValidas
                 _estado.value = true
             } catch (e: Exception) {
-                // Manejar error general
+                manejarErrorConexion(e)
                 _rutinas.value = emptyList()
             }finally {
                 _estado.value = true
