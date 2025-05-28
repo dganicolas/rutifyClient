@@ -14,4 +14,7 @@ interface ApiEjercicios {
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 100
     ): Response<List<EjercicioDto>>
+
+    @GET("${ApiRoutes.EJERCICIOS}/retodiario")
+    suspend fun retoDiario(): Response<EjercicioDto>
 }

@@ -1,6 +1,7 @@
 package com.example.rutifyclient.domain.usuario
 
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
+import java.time.LocalDate
 
 data class UsuarioInformacionDto(
     val idFirebase: String,
@@ -10,5 +11,6 @@ data class UsuarioInformacionDto(
     val esPremium: Boolean,
     val avatarUrl: String,
     var estadisticas: EstadisticasDto,
-    val countRutinas: Long
+    val countRutinas: Long,
+    val fechaUltimoReto: LocalDate
 )

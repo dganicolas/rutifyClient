@@ -40,6 +40,7 @@ fun pantallaHacerejercicio(
     tiempo: Int,
     function: () -> Unit,
     siguienteEjercicios: () -> Unit,
+    texto: Int = R.string.siguienteEjercicio
 ) {
     Box {
         RutinasCard(
@@ -88,7 +89,7 @@ fun pantallaHacerejercicio(
                 Acordeon(titulo,valor)
             }
             item{
-                ButtonPrincipal(R.string.siguienteEjercicio,{siguienteEjercicios()})
+                ButtonPrincipal(texto,{siguienteEjercicios()})
             }
         }
     }

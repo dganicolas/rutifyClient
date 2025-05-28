@@ -19,7 +19,7 @@ fun PantallaComentarios(listaComentarios:List<ComentarioDto>, navController: Nav
             .fillMaxSize()
             .padding(horizontal = 8.dp, vertical = 16.dp)
     ) {
-        items(listaComentarios, key = { comentario -> comentario.idFirebase }) { comentario ->
+        items(listaComentarios, key = { comentario -> comentario._id!! }) { comentario ->
             TarjetaComentario(comentario, navController)
             SpacerVertical(10.dp)
         }

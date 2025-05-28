@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasPatchDto
+import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
+import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -56,33 +58,33 @@ class EstadisticasViewModel : ViewModelBase() {
 
     fun guardarPeso() {
         val peso = _pesoInput.value?.toDoubleOrNull() ?: 0.0
-            viewModelScope.launch {
-                try {
-                    val response = RetrofitClient.apiEstadisticasDiarias
-                        .actualizarEstadisticasDiarias(
-                            FirebaseAuth.getInstance().currentUser?.uid!!,
-                            _fechaSeleccionada.value!!.toString(),
-                            patch = EstadisticasDiariasPatchDto(
-                                horasActivo =0.0,
-                                ejerciciosRealizados =0,
-                                kCaloriasQuemadas =0.0,
-                                pesoCorporal = peso
-                            )
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiEstadisticasDiarias
+                    .actualizarEstadisticasDiarias(
+                        FirebaseAuth.getInstance().currentUser?.uid!!,
+                        _fechaSeleccionada.value!!.toString(),
+                        patch = EstadisticasDiariasPatchDto(
+                            horasActivo = 0.0,
+                            ejerciciosRealizados = 0,
+                            kCaloriasQuemadas = 0.0,
+                            pesoCorporal = peso
                         )
+                    )
 
-                    if (response.isSuccessful) {
-                        _estadisticasDia.value = response.body()
-                    } else {
-                        _estadisticasDia.value =
-                            EstadisticasDiariasDto(null, "", LocalDate.now(), 0.0, 0.0, 0, 0.0)
-                    }
-                    obtenerEstadisticas()
-                } catch (e: Exception) {
-                    manejarErrorConexion(e)
-                    _sinInternet.value = true
-                } finally {
-                    _cargando.value = false
+                if (response.isSuccessful) {
+                    _estadisticasDia.value = response.body()
+                } else {
+                    _estadisticasDia.value =
+                        EstadisticasDiariasDto(null, "", LocalDate.now(), 0.0, 0.0, 0, 0.0)
                 }
+                obtenerEstadisticas()
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+            } finally {
+                _cargando.value = false
+            }
             cerrarDialogoPeso()
         }
     }
@@ -94,7 +96,7 @@ class EstadisticasViewModel : ViewModelBase() {
 
     fun obtenerEstadisticas() {
         val fecha = _fechaSeleccionada.value
-        _cargando.value = true
+        _estado.value = false
         _sinInternet.value = false
 
         viewModelScope.launch {
@@ -115,7 +117,7 @@ class EstadisticasViewModel : ViewModelBase() {
                 manejarErrorConexion(e)
                 _sinInternet.value = true
             } finally {
-                _cargando.value = false
+                _estado.value = true
             }
         }
     }

@@ -27,6 +27,7 @@ import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.utils.obtenerAvatarResource
+import java.time.LocalDate
 
 @Composable
 fun cuadroAvatar(usuario: UsuarioInformacionDto) {
@@ -44,6 +45,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                 // Cara centrada
                 Icono(
                     imagen = painterResource(id = obtenerAvatarResource(usuario.avatarUrl)),
+                    estado = false,
                     descripcion = R.string.avatarInfo,
                     onClick = {},
                     modifier = Modifier
@@ -53,6 +55,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                 // Cuerpo justo debajo de la cara
                 Icono(
                     imagen = painterResource(id = R.drawable.camisetaavatar),
+                    estado = false,
                     descripcion = R.string.avatarInfo,
                     onClick = {},
                     modifier = Modifier
@@ -62,6 +65,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
 
                 Icono(
                     imagen = painterResource(id = R.drawable.brazopng),
+                    estado = false,
                     descripcion = R.string.avatarInfo,
                     onClick = {},
                     modifier = Modifier
@@ -72,6 +76,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                 )
                 Icono(
                     imagen = painterResource(id = R.drawable.brazopng),
+                    estado = false,
                     descripcion = R.string.avatarInfo,
                     onClick = {},
                     modifier = Modifier
@@ -80,6 +85,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                 )
                 Icono(
                     imagen = painterResource(id = R.drawable.pantalonavatar),
+                    estado = false,
                     descripcion = R.string.avatarInfo,
                     onClick = {},
                     modifier = Modifier
@@ -89,6 +95,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
                 Icono(
                     imagen = painterResource(id = R.drawable.zapatoavatar),
                     descripcion = R.string.avatarInfo,
+                    estado = false,
                     onClick = {},
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -115,7 +122,8 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto) {
 fun prev(){
     Box(modifier = Modifier.fillMaxSize()){
         cuadroAvatar(UsuarioInformacionDto(
-            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,0, 0.0), 0
+            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,0, 0.0), 0,
+            LocalDate.now()
         ))
     }
 }

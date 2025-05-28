@@ -55,6 +55,5 @@ interface ApiUsuarios {
 
     @POST("${ApiRoutes.USUARIOS}/reto-diario")
     suspend fun marcarRetoDiario(
-        @Header("Authorization") authToken: String
     ): Response<Boolean>
 }

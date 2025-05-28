@@ -1,5 +1,6 @@
 package com.example.rutifyclient.apiservice.network
 
+import com.example.rutifyclient.apiservice.network.api.comunidad.ApiComunidad
 import com.example.rutifyclient.apiservice.network.api.ejercicios.ApiEjercicios
 import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticas.ApiEstadisticas
 import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticasDiarias.ApiEstadisticasDiarias
@@ -10,6 +11,8 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -22,6 +25,9 @@ object RetrofitClient {
     private val gson = GsonBuilder()
         .registerTypeAdapter(LocalDate::class.java, JsonDeserializer { json, _, _ ->
             LocalDate.parse(json.asString)
+        })
+        .registerTypeAdapter(LocalDate::class.java, JsonSerializer<LocalDate> { src, _, _ ->
+            JsonPrimitive(src.toString())
         })
         .serializeNulls()
         .setLenient()
@@ -84,5 +90,9 @@ object RetrofitClient {
 
     val apiEstadisticasDiarias: ApiEstadisticasDiarias by lazy {
         retrofit.create(ApiEstadisticasDiarias::class.java)
+    }
+
+    val apiComunidad: ApiComunidad by lazy {
+        retrofit.create(ApiComunidad::class.java)
     }
 }

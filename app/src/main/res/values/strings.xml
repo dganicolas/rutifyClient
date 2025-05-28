@@ -152,7 +152,7 @@
     <string name="lvlAbdominal">Abs: %1$.2f</string>
     <string name="lvlEspalda">Espalda: %1$.2f</string>
     <string name="lvlPiernas">Piernas: %1$.2f</string>
-    <string name="ejerciciosRealizados">Ejercicio totales: %1$d</string>
+    <string name="ejerciciosRealizados">Ejer total: %1$d</string>
     <string name="metaInt">%1$d/%2$d</string>
     <string name="metaDouble">%1$.2f/%2$.2f</string>
     <string name="metaKcal">%1$.2f/%2$d</string>
@@ -161,4 +161,11 @@
     <string name="estadisticas">Estadisticas</string>
     <string name="noExistenMediciones">NO Existen estadisticas</string>
     <string name="horasActivoEst">Horas activos: %1$.2f</string>
+    <string name="completadoRetoHoy">ya has completado el reto de hoy</string>
+    <string name="buscarRutinas">Buscar Rutinas</string>
+    <string name="completarRetoDiario">Completar reto</string>
+    <string name="escribeNuevoComentario">Escribe un nuevo comentario</string>
+    <string name="publicar">Publicar</string>
+    <string name="subirImagen">Subir imagen</string>
+    <string name="hacerFoto">Hacer Foto</string>
 </resources>
