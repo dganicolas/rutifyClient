@@ -4,13 +4,10 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.local.room.database.RutinaDatabase
 import com.example.rutifyclient.apiservice.network.RetrofitClient
-import com.example.rutifyclient.domain.room.RutinaDtoRoom
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import com.example.rutifyclient.viewModel.ViewModelBase
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class RutinasFavoritasViewModel: ViewModelBase() {

@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -58,12 +59,20 @@ fun Estadisticas(navControlador: NavHostController) {
         EstadisticasDiariasDto(null, "", LocalDate.now(), 0.0, 0.0, 0, 0.0)
     )
     val mostrarDialogoPeso by viewModel.mostrarDialogoPeso.observeAsState(false)
+    val estado by viewModel.estado.observeAsState(false)
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
     val pesoInput by viewModel.pesoInput.observeAsState("")
+    LaunchedEffect(Unit) {
+        viewModel.cambiarFecha(fecha)
+    }
     PantallaBase(
         viewModel = viewModel,
-        cargando = false,
-        sinInternet = false,
-        onReintentar = {},
+        cargando = !estado,
+        sinInternet = sinInternet,
+        onReintentar = {
+            viewModel.reiniciarInternet()
+            viewModel.cambiarFecha(fecha)
+        },
         topBar = ({
             TopBarBase(R.string.estadisticas, ({
                 Icono(
@@ -75,82 +84,117 @@ fun Estadisticas(navControlador: NavHostController) {
             }))
         }),
         iconoFloatingButton = Icons.Default.MonitorWeight,
-        onClickFloatingButton = {viewModel.abrirDialogoPeso()} //abrir ventana para agregar peso }
+        onClickFloatingButton = { viewModel.abrirDialogoPeso() }
     ) {
         Box(modifier = Modifier.padding(it)) {
             TarjetaNormal {
-               Column {
-                   Row(
-                       modifier = Modifier.fillMaxWidth(),
-                       horizontalArrangement = Arrangement.Center,
-                       verticalAlignment = Alignment.CenterVertically
-                   ) {
-                       Icono(
-                           icono = Icons.AutoMirrored.Filled.ArrowBack,
-                           descripcion = R.string.icono,
-                           onClick = { viewModel.cambiarFecha(fecha.minusDays(1)) })
-                       Spacer(modifier = Modifier.width(16.dp))
-                       TextoSubtitulo(R.string.texto_input, fecha.minusDays(1).toString())
-                       Spacer(modifier = Modifier.width(16.dp))
-                       Icono(
-                           icono = Icons.AutoMirrored.Filled.ArrowForward,
-                           descripcion = R.string.icono,
-                           onClick = { viewModel.cambiarFecha(fecha.plusDays(1)) })
-                   }
-                   Column {
-                       if(estadisticaDia._id == null){
-                           TextoTitulo(R.string.noExistenMediciones)
-                       }else{
-                           // Tarjeta para ejercicios realizados
-                           TarjetaNormal(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                               Column(
-                                   modifier = Modifier.padding(16.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally
-                               ) {
-                                   Icono(descripcion =R.string.icono, icono =Icons.Default.FitnessCenter, onClick = {} )
-                                   Spacer(modifier = Modifier.height(8.dp))
-                                   TextoTitulo(R.string.ejerciciosRealizados, estadisticaDia.ejerciciosRealizados)
-                               }
-                           }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icono(
+                            icono = Icons.AutoMirrored.Filled.ArrowBack,
+                            descripcion = R.string.icono,
+                            onClick = { viewModel.cambiarFecha(fecha.minusDays(1)) })
+                        Spacer(modifier = Modifier.width(16.dp))
+                        TextoSubtitulo(R.string.texto_input, fecha.toString())
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Icono(
+                            icono = Icons.AutoMirrored.Filled.ArrowForward,
+                            descripcion = R.string.icono,
+                            onClick = { viewModel.cambiarFecha(fecha.plusDays(1)) })
+                    }
+                    Column {
+                        if(!estado) return@Column
+                        if (estadisticaDia._id == null) {
+                            TextoTitulo(R.string.noExistenMediciones)
+                        } else {
+                            // Tarjeta para ejercicios realizados
+                            TarjetaNormal(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icono(
+                                        descripcion = R.string.icono,
+                                        icono = Icons.Default.FitnessCenter,
+                                        onClick = {})
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    TextoTitulo(
+                                        R.string.ejerciciosRealizados,
+                                        estadisticaDia.ejerciciosRealizados
+                                    )
+                                }
+                            }
 
-                           // Tarjeta para calorías estimadas
-                           TarjetaNormal(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                               Column(
-                                   modifier = Modifier.padding(16.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally
-                               ) {
-                               Icono(descripcion =R.string.icono, icono =Icons.Default.LocalFireDepartment, onClick = {} )
-                                   Spacer(modifier = Modifier.height(8.dp))
-                                   TextoTitulo(R.string.caloriasEstimadas, estadisticaDia.kCaloriasQuemadas)
-                               }
-                           }
+                            // Tarjeta para calorías estimadas
+                            TarjetaNormal(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icono(
+                                        descripcion = R.string.icono,
+                                        icono = Icons.Default.LocalFireDepartment,
+                                        onClick = {})
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    TextoTitulo(
+                                        R.string.caloriasEstimadas,
+                                        estadisticaDia.kCaloriasQuemadas
+                                    )
+                                }
+                            }
 
-                           // Tarjeta para horas activo
-                           TarjetaNormal(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                               Column(
-                                   modifier = Modifier.padding(16.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally
-                               ) {
-                                   Icono(descripcion =R.string.icono, icono =Icons.Default.AccessTime, onClick = {} )
-                                   Spacer(modifier = Modifier.height(8.dp))
-                                   TextoTitulo(R.string.horasActivoEst, estadisticaDia.horasActivo)
-                               }
-                           }
+                            // Tarjeta para horas activo
+                            TarjetaNormal(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icono(
+                                        descripcion = R.string.icono,
+                                        icono = Icons.Default.AccessTime,
+                                        onClick = {})
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    TextoTitulo(R.string.horasActivoEst, estadisticaDia.horasActivo)
+                                }
+                            }
 
-                           // Tarjeta para peso corporal
-                           TarjetaNormal(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                               Column(
-                                   modifier = Modifier.padding(16.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally
-                               ) {
-                                   Icono(descripcion =R.string.icono, icono =Icons.Default.MonitorWeight, onClick = {} )
-                                   Spacer(modifier = Modifier.height(8.dp))
-                                   TextoTitulo(R.string.pesoUsuario,estadisticaDia.pesoCorporal)
-                               }
-                           }
-                       }
-                   }
-               }
+                            // Tarjeta para peso corporal
+                            TarjetaNormal(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icono(
+                                        descripcion = R.string.icono,
+                                        icono = Icons.Default.MonitorWeight,
+                                        onClick = {})
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    TextoTitulo(R.string.pesoUsuario, estadisticaDia.pesoCorporal)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         if (mostrarDialogoPeso) {

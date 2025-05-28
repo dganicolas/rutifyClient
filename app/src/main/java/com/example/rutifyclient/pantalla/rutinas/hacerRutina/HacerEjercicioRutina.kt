@@ -94,7 +94,7 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
                         campos,
                         ejercicio,
                         tiempo,
-                        { viewModel.cancelarRutina() }) { viewModel.siguienteEjercicio() }
+                        { viewModel.cancelarRutina() }, { viewModel.siguienteEjercicio() })
                 }
                 if (finalizado) {
                     pantallaFinal(estado, estadisticas, estadisticasDtoCalculadas, {

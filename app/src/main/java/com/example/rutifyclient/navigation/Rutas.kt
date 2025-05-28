@@ -1,7 +1,10 @@
 package com.example.rutifyclient.navigation
 
 object Rutas {
+    const val verPerfil = "verperfil/{idUsuario}"
+    const val buscarRutinas = "buscarRutinas"
     const val CrearRutinas = "rutinas/crear"
+    const val DetallesComentario = "detallesComentario/{idComentario}"
     const val HacerEjercicio = "ejercicio"
     const val Cursos = "Cursos"
     const val Estadisticas = "estadisticas"

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.local.room.database.RutinaDatabase
 import com.example.rutifyclient.apiservice.network.RetrofitClient
+import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
@@ -29,15 +30,14 @@ class MiZonaViewModel : ViewModelBase() {
     private val _ultimosPesos = MutableLiveData<List<Double>>(listOf(0.0, 0.0, 0.0, 0.0, 0.0))
     val ultimosPesos: LiveData<List<Double>> = _ultimosPesos
 
-    private val _usuario = MutableLiveData(
-        UsuarioInformacionDto(
-            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0,0.0), 0
-        )
-    )
-    val usuario: LiveData<UsuarioInformacionDto> = _usuario
-
     val _fecha = MutableLiveData(LocalDate.now())
     val fecha: LiveData<LocalDate> = _fecha
+
+    val _ventanaReto = MutableLiveData(false)
+    val ventanaReto: LiveData<Boolean> = _ventanaReto
+
+    val _ejerciciosReto = MutableLiveData(EjercicioDto("","","","","","",0.0,0.0,0))
+    val ejerciciosReto: LiveData<EjercicioDto> = _ejerciciosReto
 
     private val _tiempoRestante = MutableLiveData(0)
     val tiempoRestante: LiveData<Int> = _tiempoRestante
@@ -64,27 +64,6 @@ class MiZonaViewModel : ViewModelBase() {
             } catch (e: Exception) {
                 // Manejar error si quieres
                 _countRutinasFavoritas.value = 0
-            }
-        }
-    }
-
-    fun obtenerUsuario() {
-        _sinInternet.value = false
-        _estado.value = false
-        viewModelScope.launch {
-            try {
-                val response =
-                    RetrofitClient.apiUsuarios.obtenerDetalleUsuario(FirebaseAuth.getInstance().currentUser!!.uid)
-
-                if (response.isSuccessful) {
-                    _usuario.value = response.body()
-                }
-            } catch (e: Exception) {
-                manejarErrorConexion(e)
-                _sinInternet.value=true
-                mostrarToast(R.string.error_conexion)
-            }finally {
-                _estado.value = true
             }
         }
     }
@@ -159,6 +138,42 @@ class MiZonaViewModel : ViewModelBase() {
                 }
             } catch (e: Exception) {
                 manejarErrorConexion(e)
+            }
+        }
+    }
+
+    fun mostrarVentanaRetoDiario() {
+        _estado.value = false
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiEjercicios.retoDiario()
+                if (response.isSuccessful) {
+                    _estado.value = true
+                    _ventanaReto.value = true
+                    _ejerciciosReto.value = response.body()
+                }
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+            }
+        }
+    }
+
+    fun cerrarVentanaReto() {
+        _ventanaReto.value = false
+    }
+
+    fun puntuarReto() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiUsuarios.marcarRetoDiario()
+                if (response.isSuccessful) {
+                    _ventanaReto.value = false
+
+                }
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+            }finally {
+                obtenerUsuario()
             }
         }
     }

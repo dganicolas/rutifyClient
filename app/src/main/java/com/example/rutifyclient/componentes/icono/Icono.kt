@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Icono(imagen: Painter? = null, icono: ImageVector? = null, descripcion: Int, onClick: () -> Unit, modifier: Modifier = Modifier.size(45.dp), tint: Color = colorScheme.onBackground) {
+fun Icono(imagen: Painter? = null, icono: ImageVector? = null, descripcion: Int, onClick: () -> Unit, modifier: Modifier = Modifier.size(45.dp), tint: Color = colorScheme.onBackground,estado:Boolean = true) {
     if (icono != null) {
         Icon(
             imageVector = icono,
@@ -29,7 +29,7 @@ fun Icono(imagen: Painter? = null, icono: ImageVector? = null, descripcion: Int,
             painter = imagen,
             contentDescription = stringResource(descripcion),
             modifier = modifier.clickable { onClick() },
-            colorFilter = if (isSystemInDarkTheme()) ColorFilter.tint(Color.White.copy(alpha = 0.3f)) else null
+            colorFilter = if (isSystemInDarkTheme()&& estado) ColorFilter.tint(Color.White.copy(alpha = 0.3f)) else null
         )
     }
 }

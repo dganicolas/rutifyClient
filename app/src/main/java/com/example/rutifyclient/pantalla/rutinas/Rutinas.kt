@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -11,7 +12,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
+import com.example.rutifyclient.componentes.barras.TopBarBase
+import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.utils.PantallaBusquedaRutina
@@ -29,6 +33,16 @@ fun Rutinas(navControlador: NavHostController) {
 
     PantallaBase(
         viewModel,
+        topBar = ({
+            TopBarBase(
+                R.string.rutinas,
+                acciones = {
+                    Icono(
+                        descripcion = R.string.icono,
+                        icono = Icons.Default.Search,
+                        onClick = {navControlador.navigate(Rutas.buscarRutinas)})
+                })
+        }),
         bottomBar = ({
             NavigationBarAbajoPrincipal(
                 navControlador,

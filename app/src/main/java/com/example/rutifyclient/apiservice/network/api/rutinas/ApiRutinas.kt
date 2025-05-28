@@ -33,4 +33,9 @@ interface ApiRutinas {
     suspend fun eliminarRutina(
         @Path("idRutina") idRutina: String
     ): Response<Void>
+
+    @GET("${ApiRoutes.RUTINAS}/buscarRutinas")
+    suspend fun buscarRutinas(
+        @Query("nombre") nombre: String? = null
+    ): Response<List<RutinaBuscadorDto>>
 }
