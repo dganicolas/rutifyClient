@@ -217,15 +217,16 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable { navControlador.navigate(Rutas.rutinasFavoritas)},
+                        .clickable { navControlador.navigate("rutinasFavoritas/${""}")},
                     modifierTarjeta = Modifier
-                        .fillMaxHeight(0.53f).clickable { navControlador.navigate(Rutas.rutinasFavoritas) }
+                        .fillMaxHeight(0.53f).clickable { navControlador.navigate("rutinasFavoritas/${""}") }
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextoTitulo(R.string.misRutinas)
-                        TextoTitulo(R.string.texto_input, countRutinasFavoritas.toString())
+                        TextoTitulo(R.string.Rutinas)
+                        TextoSubtitulo(R.string.misRutinas, countRutinasFavoritas)
+                        TextoSubtitulo(R.string.rutinasCreadasCount, usuario.countRutinas)
                     }
                 }
             }
@@ -277,3 +278,4 @@ fun MiZona(navControlador: NavHostController) {
         }
     }
 }
+

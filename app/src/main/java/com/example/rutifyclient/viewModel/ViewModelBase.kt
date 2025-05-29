@@ -29,6 +29,22 @@ open class ViewModelBase(): ViewModel() {
     )
     val usuario: LiveData<UsuarioInformacionDto> = _usuario
 
+
+    protected val _listaEstados = MutableLiveData<Map<String,String>>(
+        mapOf(
+            "F" to "Feliz",
+            "M" to "Motivado",
+            "D" to "Duda",
+            "C" to "Cansado",
+            "L" to "Flojo",
+            "R" to "Relajado",
+            "E" to "Entrenando"
+        ))
+    val listaEstado: LiveData<Map<String,String>> = _listaEstados
+
+    protected val _esSuyaOEsAdmin = MutableLiveData<Boolean>(false)
+    val esSuyaOEsAdmin: LiveData<Boolean> = _esSuyaOEsAdmin
+
     protected val _estado = MutableLiveData(true)
     val estado: LiveData<Boolean> = _estado
 
@@ -37,7 +53,22 @@ open class ViewModelBase(): ViewModel() {
         _mensajeToast.value = mensaje
     }
 
-    fun obtenerUsuario() {
+    fun comprobarAdmin(){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiUsuarios.esAdmin(FirebaseAuth.getInstance().currentUser!!.uid)
+                if (response.isSuccessful) {
+                    _esSuyaOEsAdmin.value = response.body()
+                }
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+                mostrarToast(R.string.error_conexion)
+            }
+        }
+    }
+
+    open fun obtenerUsuario() {
         _sinInternet.value = false
         _estado.value = false
         viewModelScope.launch {

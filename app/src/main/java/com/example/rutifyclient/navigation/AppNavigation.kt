@@ -9,10 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.rutifyclient.navigation.Rutas.DetallesComentario
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
 import com.example.rutifyclient.pantalla.commons.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Foro
-import com.example.rutifyclient.pantalla.comunidad.VerPerfil
+import com.example.rutifyclient.pantalla.comunidad.comentarios.DetallesComentario
+import com.example.rutifyclient.pantalla.comunidad.perfil
 import com.example.rutifyclient.pantalla.estadisticas.Estadisticas
 import com.example.rutifyclient.pantalla.login.Login
 import com.example.rutifyclient.pantalla.miZona.MiZona
@@ -68,11 +70,16 @@ fun AppNavigation() {
         composable(Rutas.Registro) {
             Registro(navControlador)
         }
-        composable(Rutas.verPerfil) {
-            VerPerfil(navControlador)
-        }
-        composable(Rutas.MiZona) {
+        composable(Rutas.MiZona,
+            arguments = listOf(navArgument("idFirebase") { type = NavType.StringType })) {
             MiZona(navControlador)
+        }
+        composable(Rutas.perfil,
+            arguments = listOf(navArgument("idFirebase") { type = NavType.StringType })) {
+
+                backStackEntry ->
+            val idFirebase: String = backStackEntry.arguments?.getString("idFirebase") ?: ""
+            perfil(navControlador,idFirebase)
         }
         composable(Rutas.Comunidad) {
             Foro(navControlador)
@@ -88,8 +95,11 @@ fun AppNavigation() {
             Estadisticas(navControlador)
         }
 
-        composable(Rutas.rutinasFavoritas) {
-            RutinasFavoritas(navControlador)
+        composable(Rutas.rutinasFavoritas,
+            arguments = listOf(navArgument("idFirebase") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val idRutina: String = backStackEntry.arguments?.getString("idFirebase") ?: ""
+            RutinasFavoritas(navControlador,idRutina)
         }
 
         composable(
@@ -101,15 +111,17 @@ fun AppNavigation() {
         composable(Rutas.Login) {
             Login(navControlador)
         }
-        composable(Rutas.Buscar) {
-            //Buscar(navControlador)
-        }
-        composable(Rutas.DetallesUsuario) {
-            //DetallesUsuario(navControlador)
+        composable(Rutas.DetallesComentario,
+            arguments = listOf(navArgument("idComentario") { type = NavType.StringType })) {
+                backStackEntry ->
+            val urlComentario: String = backStackEntry.arguments?.getString("idComentario") ?: ""
+            DetallesComentario(navControlador,urlComentario)
         }
 
     }
 }
+
+
 
 
 
