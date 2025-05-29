@@ -22,8 +22,7 @@ class DetallesRutinasViewModel: ViewModelBase() {
     private val _favorito = MutableLiveData<Boolean>(false)
     val favorito: LiveData<Boolean> = _favorito
 
-    private val _esSuyaOEsAdmin = MutableLiveData<Boolean>(false)
-    val esSuyaOEsAdmin: LiveData<Boolean> = _esSuyaOEsAdmin
+
 
     private val _ventanaEliminarRutina = MutableLiveData<Boolean>(false)
     val ventanaEliminarRutina: LiveData<Boolean> = _ventanaEliminarRutina
@@ -83,20 +82,7 @@ class DetallesRutinasViewModel: ViewModelBase() {
         }
     }
 
-    fun comprobarAdmin(){
-        viewModelScope.launch {
-            try {
-                val response = RetrofitClient.apiUsuarios.esAdmin(FirebaseAuth.getInstance().currentUser!!.uid)
-                if (response.isSuccessful) {
-                    _esSuyaOEsAdmin.value = response.body()
-                }
-            } catch (e: Exception) {
-                manejarErrorConexion(e)
-                _sinInternet.value = true
-                mostrarToast(R.string.error_conexion)
-            }
-        }
-    }
+
 
     fun hacerRutina() {
         ente.listaEjercicio.value = _rutina.value!!.ejercicios

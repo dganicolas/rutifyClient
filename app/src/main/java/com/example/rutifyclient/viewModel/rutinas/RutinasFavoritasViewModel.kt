@@ -6,13 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.apiservice.local.room.database.RutinaDatabase
 import com.example.rutifyclient.apiservice.network.RetrofitClient
+import com.example.rutifyclient.domain.rutinas.RutinaBuscadorDto
 import com.example.rutifyclient.domain.rutinas.RutinaDTO
 import com.example.rutifyclient.viewModel.ViewModelBase
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 class RutinasFavoritasViewModel: ViewModelBase() {
-    private val _rutinas = MutableLiveData<List<RutinaDTO>>(emptyList())
-    val rutinas: LiveData<List<RutinaDTO>> = _rutinas
+    private val _idFirebase  = MutableLiveData<String?>(null)
+    private val _rutinasFavoritas = MutableLiveData<List<RutinaDTO>>(emptyList())
+    val rutinasFavoritas: LiveData<List<RutinaDTO>> = _rutinasFavoritas
+
+    private val _pestanaActiva = MutableLiveData<Int>(0)
+    val pestanaActiva: LiveData<Int> = _pestanaActiva
+
+    private val _rutinasCreadas = MutableLiveData<List<RutinaBuscadorDto>>(emptyList())
+    val rutinasCreadas: LiveData<List<RutinaBuscadorDto>> = _rutinasCreadas
 
     fun obtenerRutinasFavoritas(context: Context) {
         val db = RutinaDatabase.obtenerInstancia(context)
@@ -40,14 +50,36 @@ class RutinasFavoritasViewModel: ViewModelBase() {
                         _sinInternet.value = true
                     }
                 }
-                _rutinas.value = rutinasValidas
+                _rutinasFavoritas.value = rutinasValidas
                 _estado.value = true
             } catch (e: Exception) {
                 manejarErrorConexion(e)
-                _rutinas.value = emptyList()
+                _rutinasFavoritas.value = emptyList()
             }finally {
                 _estado.value = true
             }
         }
+    }
+    fun obtenerRutinasCreadas() {
+
+        viewModelScope.launch {
+            _estado.value = false
+            try {
+                val creadas = RetrofitClient.apiRutinas.obtenerRutinasPorAutor(_idFirebase.value ?: Firebase.auth.currentUser?.uid!!)
+                _rutinasCreadas.value = creadas.body()
+            } catch (e: Exception) {
+                _rutinasCreadas.value = emptyList()
+            } finally {
+                _estado.value = true
+            }
+        }
+    }
+
+    fun guardarIdFirebase(idFirebase: String?) {
+        _idFirebase.value = idFirebase
+    }
+
+    fun setPestanaActiva(ventana: Int) {
+        _pestanaActiva.value = ventana
     }
 }

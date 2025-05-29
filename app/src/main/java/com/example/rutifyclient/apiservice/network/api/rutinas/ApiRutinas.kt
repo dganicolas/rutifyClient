@@ -38,4 +38,10 @@ interface ApiRutinas {
     suspend fun buscarRutinas(
         @Query("nombre") nombre: String? = null
     ): Response<List<RutinaBuscadorDto>>
+
+    @GET("${ApiRoutes.RUTINAS}/autor/{creadorId}")
+    suspend fun obtenerRutinasPorAutor(
+        @Path("creadorId") creadorId: String
+    ): Response<List<RutinaBuscadorDto>>
+
 }

@@ -31,7 +31,7 @@ fun ImagenAmpliable(imagenUri: Uri?) {
             model = uri,
             contentDescription = null,
             modifier = Modifier
-                .height(150.dp)
+                //.height(150.dp)
                 .fillMaxWidth()
                 .clickable { mostrarDialogo = true } // Al hacer clic, mostrar el diálogo
         )

@@ -144,7 +144,7 @@
     <string name="horasActivo">Hr activo</string>
     <string name="tiempoRestante">23:23:45</string>
     <string name="retoDiario">Reto diario</string>
-    <string name="misRutinas">Rutinas Fav:</string>
+    <string name="misRutinas">Favoritas: %1$d</string>
     <string name="tienda">Icono tienda</string>
     <string name="avatarInfo">avatar</string>
     <string name="lvlbrazo">"brazo: %1$.2f"</string>
@@ -168,4 +168,10 @@
     <string name="publicar">Publicar</string>
     <string name="subirImagen">Subir imagen</string>
     <string name="hacerFoto">Hacer Foto</string>
+    <string name="rutinasCreadas">Rutinas creadas</string>
+    <string name="Rutinas">Rutinas:</string>
+    <string name="rutinasCreadasCount">Creadas: %1$d</string>
+    <string name="perfilPrivado">Este usuario tiene el perfil en privado</string>
+    <string name="estadoAnimo">Estado de ánimo</string>
+    <string name="escribeOpinion">deja tu opinion</string>
 </resources>

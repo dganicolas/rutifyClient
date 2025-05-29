@@ -29,9 +29,8 @@ interface ApiComunidad {
         @Path("id") idComentario: String
     ): Response<List<ComentarioDto>>
 
-    @POST("${ApiRoutes.COMUNIDAD}/comentarios/{id}/respuestas")
+    @POST("${ApiRoutes.COMUNIDAD}/comentarios/respuestas")
     suspend fun responderComentario(
-        @Path("id") idComentario: String,
         @Body respuestaDto: ComentarioDto
     ): Response<ComentarioDto>
 }

@@ -60,6 +60,17 @@ class ForoViewModel: ViewModelBase() {
         _cameraUri.value = uri
     }
 
+    private val _expanded = MutableLiveData<Boolean>(false)
+    val expanded: LiveData<Boolean> = _expanded
+
+
+    private val _estadoAnimoSeleccionado = MutableLiveData<String>("F")
+    val estadoAnimoSeleccionado: LiveData<String> = _estadoAnimoSeleccionado
+
+    fun setEstadoAnimo(codigo: String) {
+        _estadoAnimoSeleccionado.value = codigo
+    }
+
     fun abrirDialogoComentario() {
         _mostrarDialogoComentario.value = true
         _textoComentario.value = ""
@@ -87,20 +98,8 @@ class ForoViewModel: ViewModelBase() {
         }
     }
 
-    fun uriToFile(context: Context, uri: Uri): File {
-        val inputStream = context.contentResolver.openInputStream(uri)!!
-        val tempFile = File.createTempFile("temp_image", ".jpg", context.cacheDir)
-        tempFile.outputStream().use { outputStream ->
-            inputStream.copyTo(outputStream)
-        }
-        return tempFile
-    }
-
     fun comprimirImagenA100KB(context: Context, uri: Uri): File {
-        // Paso 1: Abrir un InputStream desde la URI
         val inputStream = context.contentResolver.openInputStream(uri) ?: throw Exception("No se pudo abrir imagen")
-
-        // Paso 2: Decodificar el InputStream a Bitmap
         var bitmap = BitmapFactory.decodeStream(inputStream)
         inputStream.close()
 
@@ -108,7 +107,6 @@ class ForoViewModel: ViewModelBase() {
         var streamLength: Int
         var baos = ByteArrayOutputStream()
 
-        // Paso 3: Comprimir el bitmap en JPEG, reducir calidad hasta 100 KB o menos
         do {
             baos.reset()
             bitmap.compress(Bitmap.CompressFormat.JPEG, calidad, baos)
@@ -117,7 +115,6 @@ class ForoViewModel: ViewModelBase() {
             calidad -= 5
         } while (streamLength > 100 * 1024 && calidad > 5) // Máximo 100KB y calidad > 5 para no degradar mucho
 
-        // Paso 4: Crear archivo temporal para guardar la imagen comprimida
         val archivoTemporal = File.createTempFile("img_comprimida", ".jpg", context.cacheDir)
         val fos = FileOutputStream(archivoTemporal)
         fos.write(baos.toByteArray())
@@ -136,7 +133,7 @@ class ForoViewModel: ViewModelBase() {
             nombreUsuario = usuario.value!!.nombre,
             avatarUrl = usuario.value!!.avatarUrl,
             fechaPublicacion = LocalDate.now(),
-            estadoAnimo = "feliz", // o lo que tengas seleccionado por el usuario
+            estadoAnimo = _estadoAnimoSeleccionado.value!!,
             texto = _textoComentario.value ?: "",
             idComentarioPadre = null
         )
@@ -171,4 +168,9 @@ class ForoViewModel: ViewModelBase() {
             }
         }
     }
-}}
+}
+
+    fun setExpanded(estado: Boolean) {
+        _expanded.value = estado
+    }
+}
