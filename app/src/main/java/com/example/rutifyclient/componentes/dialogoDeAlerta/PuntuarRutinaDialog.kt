@@ -11,9 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.botones.ButtonAlerta
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
-import com.example.rutifyclient.componentes.botones.ButtonSecundario
 import com.example.rutifyclient.componentes.deslizables.RatingBar
-import com.example.rutifyclient.componentes.textos.TextoBotones
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 

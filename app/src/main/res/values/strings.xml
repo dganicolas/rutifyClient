@@ -173,5 +173,19 @@
     <string name="rutinasCreadasCount">Creadas: %1$d</string>
     <string name="perfilPrivado">Este usuario tiene el perfil en privado</string>
     <string name="estadoAnimo">Estado de ánimo</string>
-    <string name="escribeOpinion">deja tu opinion</string>
+    <string name="escribeComentario">Comparte tu experiencia</string>
+    <string name="eliminarComentario">¿Estas seguro de eliminar el comentario?</string>
+    <string name="accionIrreversible">Esta accion es irrevesible</string>
+    <string name="zonaAdmin">zona administrador</string>
+    <string name="verificar_moderacion">Verificar Moderación de comentarios</string>
+    <string name="comentarioEliminado">El comentario se elimino</string>
+    <string name="comentarioAprobado">El comentario ha sido aprobado</string>
+    <string name="hilo">"Hilo de %1$s"</string>
+    <string name="crearComentarioNuevo">Publicar comentario</string>
+    <string name="verComentarios">Opiniones</string>
+    <string name="Buscar">Buscar</string>
+    <string name="comentarioCreados">Comentarios publicados</string>
+    <string name="ComentariosPublicados">Publicados: %1$d</string>
+    <string name="VotosRealizados">"Votos: %1$d"</string>
+    <string name="votosCreados">votosCreados</string>
 </resources>

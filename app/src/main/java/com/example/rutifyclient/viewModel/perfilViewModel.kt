@@ -27,8 +27,6 @@ class perfilViewModel:ViewModelBase() {
     private val _perfilprivado = MutableLiveData(false)
     val perfilprivado: LiveData<Boolean> = _perfilprivado
 
-    private val _idFirebase = MutableLiveData("")
-    val idFirebase: LiveData<String> = _idFirebase
     private val _ultimosPesos = MutableLiveData<List<Double>>(listOf(0.0, 0.0, 0.0, 0.0, 0.0))
     val ultimosPesos: LiveData<List<Double>> = _ultimosPesos
 

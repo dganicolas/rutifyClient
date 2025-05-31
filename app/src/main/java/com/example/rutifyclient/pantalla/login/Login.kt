@@ -46,7 +46,6 @@ fun Login(navControlador: NavHostController) {
     val mensajeVentana by viewModel.mensajeVentanaModal.observeAsState(R.string.dato_defecto)
     val mostrarVentana by viewModel.mostrarVentanaModal.observeAsState(false)
     val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
-    val toastMostrado by viewModel.toastMostrado.observeAsState(true)
     val estado by viewModel.estado.observeAsState(true)
     val sinInternet by viewModel.sinInternet.observeAsState(true)
     val mostrarVentanaContrasenaPerdida by viewModel.mostrarVentanaContrasenaPerdida.observeAsState(

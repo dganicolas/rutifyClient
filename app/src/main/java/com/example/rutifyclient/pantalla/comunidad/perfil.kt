@@ -177,6 +177,8 @@ fun perfil(navControlador: NavHostController, idFirebaseParam: String) {
                     ) {
                         TextoTitulo(R.string.Rutinas)
                         TextoSubtitulo(R.string.rutinasCreadasCount, usuario.countRutinas)
+                        TextoSubtitulo(R.string.ComentariosPublicados, usuario.countRutinas)
+                        TextoSubtitulo(R.string.VotosRealizados, usuario.countRutinas)
                     }
                 }
             }

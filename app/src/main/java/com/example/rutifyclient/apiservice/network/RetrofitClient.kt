@@ -4,6 +4,7 @@ import com.example.rutifyclient.apiservice.network.api.comunidad.ApiComunidad
 import com.example.rutifyclient.apiservice.network.api.ejercicios.ApiEjercicios
 import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticas.ApiEstadisticas
 import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticasDiarias.ApiEstadisticasDiarias
+import com.example.rutifyclient.apiservice.network.api.moderacion.ApiModeracion
 import com.example.rutifyclient.apiservice.network.api.rutinas.ApiRutinas
 import com.example.rutifyclient.apiservice.network.api.usuarios.ApiUsuarios
 import com.example.rutifyclient.apiservice.network.api.votos.ApiVotos
@@ -94,5 +95,9 @@ object RetrofitClient {
 
     val apiComunidad: ApiComunidad by lazy {
         retrofit.create(ApiComunidad::class.java)
+    }
+
+    val apiModeracion: ApiModeracion by lazy {
+        retrofit.create(ApiModeracion::class.java)
     }
 }

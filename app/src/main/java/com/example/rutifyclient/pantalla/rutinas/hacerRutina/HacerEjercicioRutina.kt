@@ -27,8 +27,6 @@ import kotlinx.coroutines.delay
 fun HacerEjercicioRutina(navControlador: NavHostController) {
     val viewModel: EjercicioRutinasViewModel = viewModel()
     val tiempo by viewModel.tiempo.observeAsState(0)
-    val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
-    val toastMostrado by viewModel.toastMostrado.observeAsState(true)
     val finalizado by viewModel.finalizado.observeAsState(true)
     val voto by viewModel.voto.observeAsState(VotodDto("", "", "", 0.0f))
     val VentanaPuntuarRutina by viewModel.VentanaPuntuarRutina.observeAsState(false)
@@ -55,12 +53,6 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
     val cancelado by viewModel.cancelado.observeAsState(false)
     val estado by viewModel.estado.observeAsState(false)
     val sinInternet by viewModel.sinInternet.observeAsState(false)
-    LaunchedEffect(mensajeToast) {
-        if (!toastMostrado) {
-            Toast.makeText(context, mensajeToast, Toast.LENGTH_LONG).show()
-            viewModel.toastMostrado()
-        }
-    }
     LaunchedEffect(finalizado) {
         viewModel.detenerTemporizador()
     }

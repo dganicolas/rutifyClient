@@ -14,7 +14,6 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 class RutinasFavoritasViewModel: ViewModelBase() {
-    private val _idFirebase  = MutableLiveData<String?>(null)
     private val _rutinasFavoritas = MutableLiveData<List<RutinaDTO>>(emptyList())
     val rutinasFavoritas: LiveData<List<RutinaDTO>> = _rutinasFavoritas
 

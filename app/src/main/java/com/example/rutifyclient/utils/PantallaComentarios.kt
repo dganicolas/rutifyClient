@@ -17,7 +17,7 @@ import com.example.rutifyclient.domain.comentario.ComentarioDto
 fun PantallaComentarios(
     idFirebase: String,
     puedeEliminarlo: Boolean,
-    OnEliminar : () -> Unit,
+    OnEliminar : (ComentarioDto) -> Unit,
     listaComentarios: List<ComentarioDto>,
     navController: NavController,
     listaEstados: Map<String, String>,
@@ -32,7 +32,7 @@ fun PantallaComentarios(
     ) {
         items(listaComentarios, key = { comentario -> comentario._id!! }) { comentario ->
             TarjetaComentario(idFirebase,puedeEliminarlo,comentario, navController,listaEstados,estado, maxImagen,
-                { OnEliminar() })
+                { OnEliminar(it) })
             SpacerVertical(10.dp)
         }
     }

@@ -35,7 +35,6 @@ import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
-import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.componentes.ventanas.ventanaModal
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
@@ -224,9 +223,10 @@ fun MiZona(navControlador: NavHostController) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextoTitulo(R.string.Rutinas)
                         TextoSubtitulo(R.string.misRutinas, countRutinasFavoritas)
                         TextoSubtitulo(R.string.rutinasCreadasCount, usuario.countRutinas)
+                        TextoSubtitulo(R.string.ComentariosPublicados, usuario.countComentarios)
+                        TextoSubtitulo(R.string.VotosRealizados, usuario.countVotos)
                     }
                 }
             }

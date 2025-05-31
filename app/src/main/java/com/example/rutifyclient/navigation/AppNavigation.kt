@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.rutifyclient.navigation.Rutas.DetallesComentario
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
 import com.example.rutifyclient.pantalla.commons.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Foro
@@ -25,6 +24,7 @@ import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
 import com.example.rutifyclient.pantalla.rutinas.RutinasFavoritas
 import com.example.rutifyclient.pantalla.rutinas.hacerRutina.HacerEjercicioRutina
+import com.example.rutifyclient.pantalla.zonaAdmin.zonaAdmin
 
 @Composable
 fun AppNavigation() {
@@ -32,7 +32,7 @@ fun AppNavigation() {
     val duracion = 700
     NavHost(
         navController = navControlador,
-        startDestination = Rutas.Comunidad,
+        startDestination = Rutas.Splash,
         enterTransition = {
             fadeIn(animationSpec = tween(durationMillis = duracion))
         },
@@ -84,6 +84,11 @@ fun AppNavigation() {
         composable(Rutas.Comunidad) {
             Foro(navControlador)
         }
+
+        composable(Rutas.zonaAdmin) {
+            zonaAdmin(navControlador)
+        }
+
         composable(Rutas.buscarRutinas) {
             PantallaBusquedaRutinasOnline(navControlador)
         }

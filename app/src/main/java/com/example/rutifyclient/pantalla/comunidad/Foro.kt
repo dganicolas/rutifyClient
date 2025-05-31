@@ -6,7 +6,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddComment
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,14 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
+import com.example.rutifyclient.componentes.barras.TopBarBase
+import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
+import com.example.rutifyclient.componentes.icono.Icono
+import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.componentes.ventanas.dialogoCrearComentario
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.utils.PantallaComentarios
-import com.example.rutifyclient.viewModel.ForoViewModel
+import com.example.rutifyclient.viewModel.foro.comentarios.ForoViewModel
 import java.time.LocalDate
 
 @Composable
@@ -30,21 +38,37 @@ fun Foro(navControlador: NavHostController) {
     val viewModel: ForoViewModel = viewModel()
     val comentarios by viewModel.comentarios.observeAsState(emptyList())
     val mostrarDialogo by viewModel.mostrarDialogoComentario.observeAsState(false)
+    val mostrarVentanaEliminarComentario by viewModel.mostrarVentanaEliminarComentario.observeAsState(
+        false
+    )
     val textoComentario by viewModel.textoComentario.observeAsState("")
     val imagenUri by viewModel.imagenUri.observeAsState()
     val expanded by viewModel.expanded.observeAsState(false)
-    val estadoAnimoSeleccionado  by viewModel.estadoAnimoSeleccionado.observeAsState("F")
-    val esAdmin  by viewModel.esSuyaOEsAdmin.observeAsState(false)
-    val listaEstados  by viewModel.listaEstado.observeAsState(emptyMap())
-    val usuario  by viewModel.usuario.observeAsState(UsuarioInformacionDto(
-        "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0,0.0), 0, LocalDate.now()
-    ))
+    val estadoAnimoSeleccionado by viewModel.estadoAnimoSeleccionado.observeAsState("F")
+    val esAdmin by viewModel.esSuyaOEsAdmin.observeAsState(false)
+    val estado by viewModel.estado.observeAsState(false)
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
+    val listaEstados by viewModel.listaEstado.observeAsState(emptyMap())
+    val usuario by viewModel.usuario.observeAsState(
+        UsuarioInformacionDto(
+            "",
+            "",
+            "",
+            "",
+            false,
+            "",
+            EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0),
+            0,
+            LocalDate.now()
+        )
+    )
 
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
+            viewModel.comprobarAdmin()
             viewModel.setImagenUri(it)
         }
     }
@@ -64,38 +88,87 @@ fun Foro(navControlador: NavHostController) {
 
     LaunchedEffect(Unit) {
         viewModel.obtenerUsuario()
+        viewModel.comprobarAdmin()
         viewModel.obtenerComentarios()
     }
 
+
+
     PantallaBase(
         viewModel = viewModel(),
-        cargando = false,
-        sinInternet = false,
-        onReintentar = {},
-        bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.Comunidad) }),
-        iconoFloatingButton = Icons.Default.AddComment,
+        cargando = !estado,
+        sinInternet = sinInternet,
+        onReintentar = {viewModel.obtenerUsuario()
+            viewModel.comprobarAdmin()
+            viewModel.obtenerComentarios()},
+        topBar = {
+            if (mostrarDialogo) {
+                TopBarBase(
+                    R.string.crearComentarioNuevo,
+                    navigationIcon = {
+                        Icono(
+                            descripcion = R.string.icono,
+                            icono = Icons.Default.Close,
+                            onClick = { viewModel.cerrarDialogoComentario() }
+                        )
+                    }
+                )
+            } else {
+                TopBarBase(
+                    R.string.verComentarios
+                )
+            }
+        },
+        bottomBar = ({
+            NavigationBarAbajoPrincipal(
+                navControlador,
+                Rutas.Comunidad
+            )
+        }),
+        iconoFloatingButton = if (!mostrarDialogo) Icons.Default.AddComment else null,
         onClickFloatingButton = { viewModel.abrirDialogoComentario() }
     ) {
-        if (mostrarDialogo) {
-            dialogoCrearComentario(
-                it,
-                textoComentario,
-                { viewModel.cerrarDialogoComentario() },
-                { viewModel.setTextoComentario(it) },
-                launcher,
-                imagenUri,
-                { viewModel.crearComentario(context) },context,
-                { viewModel.crearUriParaFoto(context) },
-                expanded,
-                {viewModel.setExpanded(it)},
-                estadoAnimoSeleccionado,
-                listaEstados,
-                {viewModel.setEstadoAnimo(it)}
+        if (mostrarVentanaEliminarComentario) {
+            AlertDialogConfirmar(
+                titulo = R.string.eliminarComentario,
+                mensaje = R.string.accionIrreversible,
+                aceptar = {
+                    viewModel.borrarComentario()
+                    viewModel.mostrarventanaEliminar()
+                },
+                denegar = { viewModel.mostrarventanaEliminar() }
             )
-        } else
-            Column(modifier = Modifier.padding(it)) {
-                PantallaComentarios(usuario.idFirebase,esAdmin,{},comentarios, navControlador,listaEstados)
-            }
+        }
+        Column(modifier = Modifier.padding(it)) {
+            if (mostrarDialogo) {
+                dialogoCrearComentario(
+                    textoComentario,
+                    { viewModel.cerrarDialogoComentario() },
+                    { viewModel.setTextoComentario(it) },
+                    launcher,
+                    imagenUri,
+                    { viewModel.crearComentario(context) }, context,
+                    { viewModel.crearUriParaFoto(context) },
+                    expanded,
+                    { viewModel.setExpanded(it) },
+                    estadoAnimoSeleccionado,
+                    listaEstados,
+                    { viewModel.setEstadoAnimo(it) },
+                    estado
+                )
+            } else
+                PantallaComentarios(
+                    usuario.idFirebase,
+                    esAdmin,
+                    { comentario ->
+                        viewModel.guardarComentarioAEliminar(comentario)
+                        viewModel.mostrarventanaEliminar()
+                    },
+                    comentarios,
+                    navControlador,
+                    listaEstados
+                )
+        }
 
     }
 }

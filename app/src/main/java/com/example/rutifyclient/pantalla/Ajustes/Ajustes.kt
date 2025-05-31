@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonAlerta
+import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 
@@ -26,16 +27,31 @@ fun Ajustes(navControlador: NavHostController) {
         onReintentar = {},
         bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.Ajustes) })
     ) {
-    Column(
-        modifier = Modifier.padding(it).fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        ButtonAlerta(
-            textoId = R.string.eliminar_cuenta,
-            onClick = {
+            ButtonPrincipal(
+                R.string.zonaAdmin,
+                onClick = {
+                    navControlador.navigate(Rutas.zonaAdmin)
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .size(60.dp)
+            )
+            ButtonAlerta(
+                textoId = R.string.eliminar_cuenta,
+                onClick = {
 
-            },
-            modifier = Modifier.fillMaxWidth(0.5f).size(60.dp))
-    }}
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .size(60.dp)
+            )
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.rutifyclient.pantalla
+package com.example.rutifyclient.pantalla.comunidad.buscador
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

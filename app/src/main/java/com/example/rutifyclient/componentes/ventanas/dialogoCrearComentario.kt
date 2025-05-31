@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,7 +42,6 @@ import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun dialogoCrearComentario(
-    paddingValues: PaddingValues,
     textoComentario: String,
     cerrarDialogoComentario: () -> Unit,
     setTextoComentario: (String) -> Unit,
@@ -56,26 +54,22 @@ fun dialogoCrearComentario(
     expandir: (Boolean) -> Unit,
     estadoActual: String,
     listaEstados: Map<String,String>,
-    setEstadoAnimo: (String) -> Unit
+    setEstadoAnimo: (String) -> Unit,
+    estado:Boolean
 
 ) {
     TarjetaNormal(modifier = Modifier
-        .padding(paddingValues)
         .zIndex(1f)) {
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(5.dp)) {
-            Icono(
-                descripcion = R.string.icono,
-                icono = Icons.Default.Close,
-                onClick = { cerrarDialogoComentario() })
             CampoTexto(
                 modifier = Modifier
                     .fillMaxWidth().heightIn(min = 120.dp, max = 150.dp) // Ajusta el alto como prefieras
                     .verticalScroll(rememberScrollState()),
                 value = textoComentario,
                 onValueChange = { setTextoComentario(it) },
-                textoIdLabel = R.string.escribeOpinion, // crea en strings.xml
+                textoIdLabel = R.string.escribeComentario, // crea en strings.xml
                 singleLine = false,
                 maxLines = 4
             )
@@ -134,7 +128,8 @@ fun dialogoCrearComentario(
                                 0
                             )
                         }
-                    })
+                    },
+                    enabled = estado)
                 ButtonPrincipal(
                     modifier = Modifier.weight(1f),
                     textoId = R.string.hacerFoto,
@@ -154,7 +149,8 @@ fun dialogoCrearComentario(
                                 0
                             )
                         }
-                    })
+                    },
+                    enabled = estado)
             }
             Column(
                 modifier = Modifier
@@ -163,10 +159,12 @@ fun dialogoCrearComentario(
             ) {
                 ImagenAmpliable(imagenUri)
             }
-            ButtonPrincipal(R.string.publicar, onClick = { crearComentario() })
+            ButtonPrincipal(R.string.publicar, onClick = { crearComentario() },
+                enabled = estado)
             ButtonSecundario(
                 R.string.cancelar,
-                onClick = { cerrarDialogoComentario() })
+                onClick = { cerrarDialogoComentario() },
+                enabled = estado)
         }
     }
 }

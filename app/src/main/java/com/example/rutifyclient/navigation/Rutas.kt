@@ -1,6 +1,7 @@
 package com.example.rutifyclient.navigation
 
 object Rutas {
+    const val zonaAdmin = "zonaAdmin"
     const val buscarRutinas = "buscarRutinas"
     const val CrearRutinas = "rutinas/crear"
     const val DetallesComentario = "detallesComentario/{idComentario}"

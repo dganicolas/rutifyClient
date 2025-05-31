@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -45,7 +46,8 @@ fun TarjetaComentario(
     listaEstados: Map<String, String>,
     estado: Boolean = true,
     maxImagen : Dp = 100.dp,
-    onClick: () -> Unit
+    onClick: (ComentarioDto) -> Unit,
+    onAprobar: ((ComentarioDto) -> Unit)? = null
 ) {
     Card(
         modifier = Modifier
@@ -80,7 +82,10 @@ fun TarjetaComentario(
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     if(puedeEliminarlo || idFirebase == comentario.idFirebase){
-                        Icono(icono = Icons.Default.Delete,descripcion =R.string.icono,onClick = {onClick()})
+                        Icono(icono = Icons.Default.Delete,descripcion =R.string.icono,onClick = {onClick(comentario)})
+                        if(onAprobar != null){
+                            Icono(icono = Icons.Default.Check,descripcion =R.string.icono,onClick = {onAprobar(comentario)})
+                        }
                     }
                 }
                 TextoInformativo(R.string.texto_input, listaEstados[comentario.estadoAnimo] ?: comentario.estadoAnimo)

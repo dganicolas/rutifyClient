@@ -16,8 +16,8 @@ import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 
 @Composable
 fun AlertDialogConfirmar(
-    @StringRes titulo: Int,
-    @StringRes mensaje: Int,
+    titulo: Int,
+    mensaje: Int,
     aceptar: () -> Unit,
     denegar: () -> Unit
     ) {

@@ -26,10 +26,12 @@ fun PantallaBase(
     topBar: @Composable (() -> Unit)? = null,
     bottomBar: @Composable (() -> Unit)? = null,
     iconoFloatingButton: ImageVector? = null,
-    contenido: @Composable (PaddingValues) -> Unit
+    contenido: @Composable (PaddingValues) -> Unit,
 ) {
     val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
     val toastMostrado by viewModel.toastMostrado.observeAsState(true)
+    val toastMostradoApi by viewModel.mensajeToastApiMostrado.observeAsState(true)
+    val mensajeToastApi by viewModel.mensajeToastApi.observeAsState("")
     val context = LocalContext.current
     Scaffold(
         containerColor = Color.Transparent,
@@ -40,7 +42,7 @@ fun PantallaBase(
             bottomBar?.invoke()
         },
         floatingActionButton = {
-            if(iconoFloatingButton != null){
+            if (iconoFloatingButton != null) {
                 FloatingActionButton(
                     onClick = onClickFloatingButton,
                     containerColor = colorScheme.primary,
@@ -57,11 +59,17 @@ fun PantallaBase(
                 viewModel.toastMostrado()
             }
         }
+        LaunchedEffect(mensajeToastApi) {
+            if (!toastMostradoApi) {
+                Toast.makeText(context, mensajeToastApi, Toast.LENGTH_LONG).show()
+                viewModel.toastMostrado()
+            }
+        }
         if (sinInternet) {
             SinConexionPantalla(onReintentar)
             return@Scaffold;
         }
-        if(cargando){
+        if (cargando) {
             Cargando()
         }
         contenido(innerPadding)

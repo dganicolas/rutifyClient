@@ -78,9 +78,7 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
                     descripcion = R.string.volver,
                     icono = Icons.AutoMirrored.Filled.ArrowBack,
                     onClick = {
-                        navControlador.navigate(Rutas.Rutina) {
-                            popUpTo(Rutas.Rutina) { inclusive = true }
-                        }
+                        navControlador.popBackStack()
                     },
                     tint = colorScheme.onBackground
 

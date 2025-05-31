@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,7 +31,7 @@ import com.example.rutifyclient.viewModel.rutinas.RutinasFavoritasViewModel
 fun RutinasFavoritas(navControlador: NavHostController, idFirebase: String?) {
 
     val viewModel: RutinasFavoritasViewModel = viewModel()
-    val sinInternet by viewModel.toastMostrado.observeAsState(false)
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
     val rutinasFavoritas by viewModel.rutinasFavoritas.observeAsState(emptyList())
     val estado by viewModel.estado.observeAsState(true)
     val rutinasCreadas by viewModel.rutinasCreadas.observeAsState(emptyList())
@@ -59,41 +63,72 @@ fun RutinasFavoritas(navControlador: NavHostController, idFirebase: String?) {
     ) {
         LaunchedEffect(pestanaActiva) {
             if (idFirebase == "" && pestanaActiva == 0) {
-                viewModel.obtenerRutinasFavoritas(context)
-            } else {
                 viewModel.obtenerRutinasCreadas()
+            } else {
+                viewModel.obtenerRutinasFavoritas(context)
+
             }
         }
 
         Column(Modifier.padding(it)) {
-            if (idFirebase == "") {
-                TabRow(selectedTabIndex = pestanaActiva) {
-                    Tab(
-                        selected = pestanaActiva == 0,
-                        onClick = { viewModel.setPestanaActiva(0) },
-                        text = { TextoSubtitulo(textoId = R.string.rutinasFavoritas) }
+            ScrollableTabRow(selectedTabIndex = pestanaActiva,
+                containerColor = colorScheme.background,
+                contentColor = colorScheme.onBackground,
+                indicator = { tabPositions ->
+                    SecondaryIndicator(
+                        Modifier.tabIndicatorOffset(tabPositions[pestanaActiva]),
+                        color = colorScheme.primary
                     )
+                }) {
+
+                Tab(
+                    selected = pestanaActiva == 0,
+                    onClick = { viewModel.setPestanaActiva(0) },
+                    selectedContentColor = colorScheme.primary,
+                    unselectedContentColor = colorScheme.onSurface.copy(alpha = 0.6f),
+                    text = { TextoSubtitulo(textoId = R.string.rutinasCreadas) }
+                )
+                if (idFirebase == "") {
                     Tab(
                         selected = pestanaActiva == 1,
                         onClick = { viewModel.setPestanaActiva(1) },
-                        text = { TextoSubtitulo(textoId = R.string.rutinasCreadas) }
+                        selectedContentColor = colorScheme.primary,
+                        unselectedContentColor = colorScheme.onSurface.copy(alpha = 0.6f),
+                        text = { TextoSubtitulo(textoId = R.string.rutinasFavoritas) }
                     )
                 }
-
+                Tab(
+                    selected = pestanaActiva == 2,
+                    onClick = { viewModel.setPestanaActiva(2) },
+                    selectedContentColor = colorScheme.primary,
+                    unselectedContentColor = colorScheme.onSurface.copy(alpha = 0.6f),
+                    text = { TextoSubtitulo(textoId = R.string.comentarioCreados) }
+                )
+                Tab(
+                    selected = pestanaActiva == 3,
+                    onClick = { viewModel.setPestanaActiva(3) },
+                    selectedContentColor = colorScheme.primary,
+                    unselectedContentColor = colorScheme.onSurface.copy(alpha = 0.6f),
+                    text = { TextoSubtitulo(textoId = R.string.votosCreados) }
+                )
+            }
+            if (idFirebase == "") {
                 when (pestanaActiva) {
-                    0 -> PantallaBusquedaRutinaLocal(
+                    0 -> PantallaBusquedaRutina(rutinasCreadas, estado, navControlador, {}, {})
+
+                    1 -> PantallaBusquedaRutinaLocal(
                         rutinasFavoritas,
                         estado,
                         navControlador,
                         {},
                         {})
-
-                    1 -> PantallaBusquedaRutina(rutinasCreadas, estado, navControlador, {}, {})
                 }
             } else {
-                // Solo mostrar rutinas creadas públicas del otro usuario
-                PantallaBusquedaRutinaLocal(rutinasFavoritas, estado, navControlador, {}, {})
+                when (pestanaActiva) {
+                    0 -> PantallaBusquedaRutina(rutinasCreadas, estado, navControlador, {}, {})
+                }
             }
+
         }
     }
 }
