@@ -2,14 +2,12 @@ package com.example.rutifyclient.viewModel.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel() : ViewModelBase() {
@@ -73,7 +71,6 @@ class LoginViewModel() : ViewModelBase() {
                                 }
                             }
                         }
-                    throw Exception()
                 } catch (e: Exception) {
                     manejarErrorConexion(e)
                     onResultado(false)
@@ -106,7 +103,7 @@ class LoginViewModel() : ViewModelBase() {
                 if (task.isSuccessful) {
                     mostrarToast(R.string.contrasena_enviada)
                 }
-            }.addOnFailureListener { exception ->
+            }.addOnFailureListener {
                 mostrarToast(R.string.error_general)
             }
     }

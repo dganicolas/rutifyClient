@@ -40,7 +40,12 @@ fun DetallesComentario(navControlador: NavHostController, urlComentario: String)
     val comentarios by viewModel.comentarios.observeAsState(emptyList())
     val esAdmin by viewModel.esSuyaOEsAdmin.observeAsState(false)
     val textoComentario by viewModel.textoComentario.observeAsState("")
+    val estado by viewModel.estado.observeAsState(false)
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
     val mostrarVentanaEliminarComentario by viewModel.mostrarVentanaEliminarComentario.observeAsState(
+        false
+    )
+    val mostrarVentanaReportarUsuario by viewModel.mostrarVentanaReportarUsuario.observeAsState(
         false
     )
     val comentarioPadre by viewModel.comentarioPadre.observeAsState(
@@ -72,10 +77,14 @@ fun DetallesComentario(navControlador: NavHostController, urlComentario: String)
     }
 
     PantallaBase(
-        viewModel = viewModel(),
-        cargando = false,
-        sinInternet = false,
-        onReintentar = {},
+        viewModel = viewModel,
+        cargando = !estado,
+        sinInternet = sinInternet,
+        onReintentar = {
+            viewModel.obtenerUsuario()
+            viewModel.comprobarAdmin()
+            viewModel.obtenerComentarioPadre(urlComentario)
+            viewModel.obtenerComentarios()},
         topBar = ({
             TopBarBase(
                 R.string.hilo,
@@ -93,9 +102,9 @@ fun DetallesComentario(navControlador: NavHostController, urlComentario: String)
                 })
             ) {
                 Icono(
-                    descripcion = R.string.favorito,
+                    descripcion = R.string.icono,
                     icono = Icons.Default.Report,
-                    onClick = { },
+                    onClick = { viewModel.mostrarVentanaReportarUsuario() },
                     tint = colorScheme.onBackground
                 )
             }
@@ -110,6 +119,17 @@ fun DetallesComentario(navControlador: NavHostController, urlComentario: String)
                     viewModel.borrarComentario { estado -> if(estado) navControlador.popBackStack() }
                 },
                 denegar = { viewModel.mostrarventanaEliminar() }
+            )
+        }
+        if (mostrarVentanaReportarUsuario) {
+            AlertDialogConfirmar(
+                titulo = R.string.reportarUsuario,
+                mensaje = R.string.accionIrreversible,
+                aceptar = {
+                    viewModel.mostrarVentanaReportarUsuario()
+                    viewModel.reportarusuario()
+                },
+                denegar = { viewModel.mostrarVentanaReportarUsuario() }
             )
         }
         TarjetaNormal(modifierTarjeta = Modifier.padding(it)) {

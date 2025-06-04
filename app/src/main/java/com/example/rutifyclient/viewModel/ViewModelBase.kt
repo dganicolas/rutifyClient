@@ -1,6 +1,5 @@
 package com.example.rutifyclient.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +8,9 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
-import com.example.rutifyclient.pantalla.login.Login
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.time.LocalDate
 
 open class ViewModelBase(): ViewModel() {
@@ -30,8 +29,8 @@ open class ViewModelBase(): ViewModel() {
     protected val _sinInternet = MutableLiveData<Boolean>(false)
     val sinInternet: LiveData<Boolean> = _sinInternet
 
-    protected val _idFirebase = MutableLiveData<String>(FirebaseAuth.getInstance().currentUser!!.uid)
-    val idFirebase: LiveData<String> = _idFirebase
+    protected val _idFirebase = MutableLiveData<String?>(FirebaseAuth.getInstance().currentUser?.uid)
+    val idFirebase: LiveData<String?> = _idFirebase
 
     protected val _usuario = MutableLiveData(
         UsuarioInformacionDto(
@@ -76,7 +75,6 @@ open class ViewModelBase(): ViewModel() {
                 if (response.isSuccessful) {
                     _esSuyaOEsAdmin.value = response.body()
                 }
-                mostrarToastApi(response.body().toString())
             } catch (e: Exception) {
                 manejarErrorConexion(e)
                 _sinInternet.value = true

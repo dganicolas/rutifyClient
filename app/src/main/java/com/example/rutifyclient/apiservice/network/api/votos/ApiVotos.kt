@@ -8,6 +8,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiVotos {
@@ -28,8 +29,13 @@ interface ApiVotos {
         @Query("idRutina") idRutina: String
     ): Response<VotodDto>
 
-    @DELETE("${ApiRoutes.VOTOS}/eliminarVoto")
+    @DELETE("${ApiRoutes.VOTOS}/eliminarVoto/{idVoto}")
     suspend fun eliminarVoto(
-        @Body voto: VotodDto
+        @Path("idVoto") idVoto: String
     ): Response<Void>
+
+    @GET("${ApiRoutes.VOTOS}/autor/{creadorId}")
+    suspend fun obtenerRutinasPorAutor(
+        @Path("creadorId") creadorId: String
+    ): Response<List<VotodDto>>
 }

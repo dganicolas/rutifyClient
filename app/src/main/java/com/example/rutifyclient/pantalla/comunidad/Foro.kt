@@ -6,10 +6,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,7 +22,6 @@ import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.barras.TopBarBase
 import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
 import com.example.rutifyclient.componentes.icono.Icono
-import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.componentes.ventanas.dialogoCrearComentario
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
@@ -115,7 +113,14 @@ fun Foro(navControlador: NavHostController) {
                 )
             } else {
                 TopBarBase(
-                    R.string.verComentarios
+                    R.string.verComentarios,
+                    acciones = ({
+                        Icono(
+                            descripcion = R.string.icono,
+                            icono = Icons.Default.Search,
+                            onClick = { navControlador.navigate(Rutas.BuscarComentarios) }
+                        )
+                    })
                 )
             }
         },

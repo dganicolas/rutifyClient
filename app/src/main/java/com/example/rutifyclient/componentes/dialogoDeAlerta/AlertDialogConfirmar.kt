@@ -1,6 +1,5 @@
 package com.example.rutifyclient.componentes.dialogoDeAlerta
 
-import androidx.annotation.StringRes
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
@@ -19,18 +18,16 @@ fun AlertDialogConfirmar(
     titulo: Int,
     mensaje: Int,
     aceptar: () -> Unit,
-    denegar: () -> Unit
+    denegar: () -> Unit,
+    aceptarTexto: Int = R.string.aceptar
     ) {
-    var showDialog by remember { mutableStateOf(true) }
-    if (showDialog) {
         AlertDialog(
             onDismissRequest = denegar,
             confirmButton = {
-                ButtonAlerta(R.string.aceptar, onClick = aceptar)
+                ButtonAlerta(aceptarTexto, onClick = aceptar)
             },
             dismissButton = {
                 ButtonPrincipal(R.string.cancelar, onClick = {
-                    showDialog = false
                     denegar()
                 })
             },
@@ -39,5 +36,4 @@ fun AlertDialogConfirmar(
             containerColor = colorScheme.surface,
             textContentColor = colorScheme.onSurface
         )
-    }
 }

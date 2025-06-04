@@ -86,7 +86,7 @@ fun ItemCantidad(
                     onValueChange = {
                         when {
                             it.isEmpty() -> {
-                            onCantidadChange(0) // Si el usuario borra todo, poner 0
+                            onCantidadChange(0)
                         }
                             it.length <= 2 -> {
                             val nuevoValor = it.toIntOrNull()
@@ -96,7 +96,7 @@ fun ItemCantidad(
                         }
                         }
                     },
-                    modifier = Modifier.width(50.dp).height(50.dp),
+                    modifier = Modifier.width(55.dp).height(50.dp),
                     textStyle = MaterialTheme.typography.bodyMedium,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)

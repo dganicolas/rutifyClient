@@ -99,7 +99,6 @@ class CrearRutinasViewModel : ViewModelBase() {
                 _cargando.value = true
                 val response = RetrofitClient.apiEjercicios.obtenerEjercicios()
                 if (response.isSuccessful) {
-                    Log.i("prueba", response.body().toString())
                     val listaEjercicios = response.body() ?: emptyList()
                     _ejerciciosAgrupados.value = listaEjercicios.groupBy { it.grupoMuscular }
                 }

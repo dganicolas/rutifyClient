@@ -57,7 +57,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -71,6 +70,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.androidx.storage)
     testImplementation(libs.junit)
+    implementation(libs.play.services.ads)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -92,5 +92,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
     implementation(libs.androidx.material3)
-
+// Stripe Android SDK
+    implementation(libs.stripe.android)
+    // Include the financial connections SDK to support US bank account as a payment method
+    implementation(libs.financial.connections)
 }

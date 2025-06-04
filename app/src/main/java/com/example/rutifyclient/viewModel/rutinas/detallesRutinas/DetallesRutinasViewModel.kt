@@ -3,7 +3,6 @@ package com.example.rutifyclient.viewModel.rutinas.detallesRutinas
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.local.room.dao.RutinaDao

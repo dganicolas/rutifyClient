@@ -88,7 +88,7 @@ fun TarjetaComentario(
                         }
                     }
                 }
-                TextoInformativo(R.string.texto_input, listaEstados[comentario.estadoAnimo] ?: comentario.estadoAnimo)
+                CuadroEstadoAnimo(listaEstados,comentario.estadoAnimo)
                 TextoSubtitulo(textoId = R.string.texto_input, comentario.texto)
             }
 
@@ -97,11 +97,11 @@ fun TarjetaComentario(
                     .weight(1f)
                     .widthIn(max = maxImagen)
                     .clip(RoundedCornerShape(8.dp)).border(2.dp, colorScheme.primary, RoundedCornerShape(8.dp))) {
-                    comentario.imagenUrl?.let { url ->
-                        ImagenAmpliable(url.toUri())
-                    }
+                    ImagenAmpliable(comentario.imagenUrl.toUri())
                 }
             }
         }
     }
 }
+
+

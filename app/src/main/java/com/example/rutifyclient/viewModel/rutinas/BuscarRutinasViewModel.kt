@@ -1,9 +1,6 @@
 package com.example.rutifyclient.viewModel.rutinas
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.network.RetrofitClient

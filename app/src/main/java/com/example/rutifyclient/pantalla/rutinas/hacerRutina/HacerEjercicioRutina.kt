@@ -1,6 +1,5 @@
 package com.example.rutifyclient.pantalla.rutinas.hacerRutina
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,19 +7,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.rutifyclient.R
-import com.example.rutifyclient.pantalla.commons.Cargando
 import com.example.rutifyclient.componentes.dialogoDeAlerta.PuntuarRutinaDialog
 import com.example.rutifyclient.componentes.ventanas.ventanaModal
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.voto.VotodDto
+import com.example.rutifyclient.pantalla.commons.Cargando
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.viewModel.rutinas.EjercicioRutinasViewModel
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -28,15 +25,14 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
     val viewModel: EjercicioRutinasViewModel = viewModel()
     val tiempo by viewModel.tiempo.observeAsState(0)
     val finalizado by viewModel.finalizado.observeAsState(true)
-    val voto by viewModel.voto.observeAsState(VotodDto("", "", "", 0.0f))
-    val VentanaPuntuarRutina by viewModel.VentanaPuntuarRutina.observeAsState(false)
+    val voto by viewModel.voto.observeAsState(VotodDto("", "", "", "",0.0f))
+    val ventanaPuntuarRutina by viewModel.VentanaPuntuarRutina.observeAsState(false)
     val estadisticasDtoCalculadas by viewModel.estadisticasDtoCalculadas.observeAsState(
         EstadisticasDto("", 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0,0.0)
     )
     val estadisticas by viewModel.estadisticas.observeAsState(
         EstadisticasDto("", 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0,0.0)
     )
-    val context = LocalContext.current
     val ejercicio by viewModel.ejercicio.observeAsState(
         EjercicioDto(
             "",
@@ -104,7 +100,7 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
                 if (cancelado) {
                     navControlador.popBackStack()
                 }
-                if (VentanaPuntuarRutina) {
+                if (ventanaPuntuarRutina) {
                     PuntuarRutinaDialog(
                         rating = voto.puntuacion,
                         onRatingChanged = { viewModel.cambiarPuntuacion(it) },

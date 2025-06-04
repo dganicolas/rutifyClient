@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -33,7 +31,6 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonSecundario
 import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
-import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo

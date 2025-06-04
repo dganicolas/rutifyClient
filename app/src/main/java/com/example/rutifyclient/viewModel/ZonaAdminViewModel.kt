@@ -52,7 +52,7 @@ class ZonaAdminViewModel : ViewModelBase() {
     fun aprobarComentario(comentario: ComentarioDto) {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.apiComunidad.aprobarComentario(comentario)
+                val response = RetrofitClient.apiComentarios.aprobarComentario(comentario)
                 if (response.isSuccessful) {
                     mostrarToast(R.string.comentarioAprobado)
                     val listaActual = comentarios.value?.toMutableList() ?: mutableListOf()

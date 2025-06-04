@@ -20,8 +20,6 @@ fun AlertDialogNormal(
     accion: () -> Unit,
 
 ) {
-    var showDialog by remember { mutableStateOf(true) }
-    if (showDialog) {
         AlertDialog(
             onDismissRequest = accion,
             confirmButton = {
@@ -32,6 +30,5 @@ fun AlertDialogNormal(
             containerColor = colorScheme.surface,
             textContentColor = colorScheme.onSurface
         )
-    }
 }
 

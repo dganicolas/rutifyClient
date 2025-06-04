@@ -1,12 +1,9 @@
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasPatchDto
-import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
-import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch

@@ -21,6 +21,7 @@ open class ViewModelForoBase:ViewModelBase() {
     protected val _mostrarVentanaEliminarComentario = MutableLiveData(false)
     val mostrarVentanaEliminarComentario: LiveData<Boolean> = _mostrarVentanaEliminarComentario
 
+
     fun setTextoComentario(texto: String) {
         _textoComentario.value = texto
     }
@@ -36,7 +37,7 @@ open class ViewModelForoBase:ViewModelBase() {
     suspend fun comentarioAEliminar() {
         try {
             val response =
-                RetrofitClient.apiComunidad.eliminarComentario(_comentarioAEliminar.value!!)
+                RetrofitClient.apiComentarios.eliminarComentario(_comentarioAEliminar.value!!._id!!)
             if (response.isSuccessful) {
                 val listaActual = comentarios.value?.toMutableList() ?: mutableListOf()
                 listaActual.removeAll { it._id == _comentarioAEliminar.value!!._id }

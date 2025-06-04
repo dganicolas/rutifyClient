@@ -11,7 +11,7 @@ import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
-import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
+import com.example.rutifyclient.domain.usuario.ActualizarUsuarioDTO
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -29,6 +29,12 @@ class MiZonaViewModel : ViewModelBase() {
     val metasMinActivos: LiveData<Float> = _metasMinActivos
     private val _ultimosPesos = MutableLiveData<List<Double>>(listOf(0.0, 0.0, 0.0, 0.0, 0.0))
     val ultimosPesos: LiveData<List<Double>> = _ultimosPesos
+    private val _imagenes = MutableLiveData<List<String>>(listOf(
+        "a1", "a2", "a3", "a4", "a5", "a6", "a7",
+        "a8", "a9", "a10", "a11", "a12", "a13", "a14",
+        "a15", "a16", "a17", "a18", "a19", "a20", "a21"
+    ))
+    val imagenes: LiveData<List<String>> = _imagenes
 
     val _fecha = MutableLiveData(LocalDate.now())
     val fecha: LiveData<LocalDate> = _fecha
@@ -38,6 +44,9 @@ class MiZonaViewModel : ViewModelBase() {
 
     val _ejerciciosReto = MutableLiveData(EjercicioDto("","","","","","",0.0,0.0,0))
     val ejerciciosReto: LiveData<EjercicioDto> = _ejerciciosReto
+
+    private val _mostrarVentanacambiarIcono = MutableLiveData(false)
+    val mostrarVentanacambiarIcono: LiveData<Boolean> = _mostrarVentanacambiarIcono
 
     private val _tiempoRestante = MutableLiveData(0)
     val tiempoRestante: LiveData<Int> = _tiempoRestante
@@ -94,8 +103,8 @@ class MiZonaViewModel : ViewModelBase() {
                 val response = RetrofitClient.apiEstadisticasDiarias.obtenerEstadisticasDiariasDia(FirebaseAuth.getInstance().currentUser!!.uid,
                     _fecha.value!!
                 )
-                if (response.isSuccessful) {
-                    if(response.body() != null) _estadisticasDiarias.value = response.body()
+                if (response.isSuccessful && response.body() != null) {
+                   _estadisticasDiarias.value = response.body()
                 }
             } catch (e: Exception) {
                 manejarErrorConexion(e)
@@ -177,5 +186,29 @@ class MiZonaViewModel : ViewModelBase() {
             }
         }
     }
+
+    fun mostrarVentanacambiarIcono(){
+        _mostrarVentanacambiarIcono.value = !_mostrarVentanacambiarIcono.value!!
+    }
+
+    fun cambiarIcono(nuevoIcono: String) {
+        viewModelScope.launch {
+
+            val dto = ActualizarUsuarioDTO(
+                correo = _usuario.value!!.correo,
+                avatar = nuevoIcono
+            )
+                try {
+                    val response = RetrofitClient.apiUsuarios.actualizarCuenta(dto)
+                    if (response.isSuccessful) {
+                        mostrarToast(R.string.avatarCambiado)
+                        obtenerUsuario()
+                    }
+                } catch (e: Exception) {
+                    mostrarToastApi(e.toString())
+                }
+            }
+        }
+
 
 }

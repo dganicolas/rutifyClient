@@ -6,15 +6,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -31,7 +38,6 @@ import com.example.rutifyclient.componentes.selectores.SelectorFechaNacimiento
 import com.example.rutifyclient.componentes.selectores.SelectorSexo
 import com.example.rutifyclient.componentes.textos.TextoEnlace
 import com.example.rutifyclient.componentes.textos.TextoInformativo
-import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.viewModel.register.RegistroViewModel
@@ -49,9 +55,11 @@ fun Registro(navControlador: NavHostController) {
     val checboxTerminos by viewModel.checboxTerminos.observeAsState(false)
     val contrasena by viewModel.contrasena.observeAsState("")
     val mostrarContrasena by viewModel.mostrarContrasena.observeAsState(false)
+    val mostrarContrasenaConfirmacion by viewModel.mostrarContrasenaConfirmacion.observeAsState(false)
     val contrasenaConfirmacion by viewModel.contrasenaConfirmacion.observeAsState("")
     val context = LocalContext.current
     val activity = context as Activity
+    val focusManager = LocalFocusManager.current
     PantallaBase(
         viewModel = viewModel,
         cargando = !estado,
@@ -65,17 +73,19 @@ fun Registro(navControlador: NavHostController) {
             contentAlignment = Alignment.Center
         ) {
             FormularioCard(R.string.nueva_cuenta) {
-                TextoSubtitulo(textoId = R.string.registro_info)
+                TextoInformativo(textoId = R.string.registro_info)
                 CampoTexto(
                     value = nombre,
                     onValueChange = { viewModel.cambiarNombre(it) },
                     textoIdLabel = R.string.nombre,
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next)
                 )
 
                 CampoTexto(
                     value = correo,
                     onValueChange = { viewModel.cambiarCorreo(it) },
                     textoIdLabel = R.string.correo,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email,imeAction = ImeAction.Next),
                 )
 
                 CampoTexto(
@@ -86,16 +96,18 @@ fun Registro(navControlador: NavHostController) {
                     icono = if (mostrarContrasena) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                     modifierIcon = Modifier
                         .clickable { viewModel.mostrarContrasena(!mostrarContrasena) },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password,imeAction = ImeAction.Next),
                 )
 
                 CampoTexto(
                     value = contrasenaConfirmacion,
                     onValueChange = { viewModel.cambiarContrasenaConfirmacion(it) },
                     textoIdLabel = R.string.contrasena_confirmacion,
-                    visualTransformation = if (mostrarContrasena) PasswordVisualTransformation() else VisualTransformation.None,
-                    icono = if (mostrarContrasena) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                    visualTransformation = if (mostrarContrasenaConfirmacion) PasswordVisualTransformation() else VisualTransformation.None,
+                    icono = if (mostrarContrasenaConfirmacion) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                     modifierIcon = Modifier
-                        .clickable { viewModel.mostrarContrasena(!mostrarContrasena) },
+                        .clickable { viewModel.mostrarContrasenaConfirmacion(!mostrarContrasenaConfirmacion) },
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 )
 
                 SelectorFechaNacimiento(
@@ -103,7 +115,11 @@ fun Registro(navControlador: NavHostController) {
                     onFechaSeleccionada = { viewModel.cambiarFechaNacimiento(it) },
                     onFechaInvalida = {
                         viewModel.mostrarToast(R.string.fecha_invalida)
-                    }
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number,imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions( onDone = {
+                        focusManager.clearFocus()
+                    })
                 )
                 SelectorSexo(
                     opciones = opcionesSexo,
@@ -132,7 +148,7 @@ fun Registro(navControlador: NavHostController) {
                     TextoInformativo(textoId = R.string.cuenta_existe)
                     SpacerHorizontal(tamano = 4.dp)
                     TextoEnlace(
-                        textoId = R.string.registrarse,
+                        textoId = R.string.iniciar_sesion,
                         onClick = {
                             navControlador.popBackStack(Rutas.Registro, true)
                             navControlador.navigate(Rutas.Login)

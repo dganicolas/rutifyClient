@@ -17,24 +17,24 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.example.rutifyclient.R
+import com.example.rutifyclient.domain.room.SettingsDtoRoom
+import com.example.rutifyclient.viewModel.ajustes.SettingsViewModel
 
 private val DarkColorScheme = darkColorScheme(
     primary = RutifyPrimaryDark,
@@ -60,17 +60,22 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun RutifyClientTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false,
+    settingsViewModel: SettingsViewModel,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val settings by settingsViewModel.settings.observeAsState(SettingsDtoRoom(0,0,0f,0))
 
+    val darkTheme = when (settings.themeOption) {
+        1 -> {
+            false
+        }
+        2 -> {
+            true
+        }
+        else -> isSystemInDarkTheme()
+    }
+
+    val colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -84,49 +89,22 @@ fun RutifyClientTheme(
         }
     }
 
-    val backgroundResource = if (darkTheme) {
-        R.drawable.imagen_fondo_oscuro
-    } else {
-        R.drawable.imagen_fondo
+    val backgroundResource = when (settings.backgroundOption) {
+        1 -> R.drawable.imagen_fondo_oscuro
+        2 -> R.drawable.imagen_fondo
+        else -> if (darkTheme) R.drawable.imagen_fondo_oscuro else R.drawable.imagen_fondo
     }
+    val fontScale = settings.fontSizeScale.coerceIn(0.8f, 1.4f)
+
     val appTypography = Typography(
-        displayLarge = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Bold,
-            fontSize = 34.sp,
-            lineHeight = 40.sp
-        ),
-        headlineLarge = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 28.sp,
-            lineHeight = 36.sp
-        ),
-        titleLarge = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Medium,
-            fontSize = 22.sp,
-            lineHeight = 28.sp
-        ),
-        bodyLarge = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Normal,
-            fontSize = 18.sp,
-            lineHeight = 24.sp
-        ),
-        bodyMedium = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
-            lineHeight = 22.sp
-        ),
-        labelLarge = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-            lineHeight = 18.sp
-        )
+        displayLarge = TextStyle(fontSize = (34.sp * fontScale), fontWeight = FontWeight.Bold),
+        headlineLarge = TextStyle(fontSize = (28.sp * fontScale), fontWeight = FontWeight.SemiBold),
+        titleLarge = TextStyle(fontSize = (22.sp * fontScale), fontWeight = FontWeight.Medium),
+        bodyLarge = TextStyle(fontSize = (18.sp * fontScale)),
+        bodyMedium = TextStyle(fontSize = (16.sp * fontScale)),
+        labelLarge = TextStyle(fontSize = (14.sp * fontScale), fontWeight = FontWeight.Medium)
     )
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = appTypography ,
@@ -136,28 +114,41 @@ fun RutifyClientTheme(
                     .fillMaxSize()
             ) {
                 // Fondo con la imagen
-                Image(
-                    painter = painterResource(id = backgroundResource),
-                    contentDescription = "",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                    // Imagen por defecto u oscura según tema
+                    Image(
+                        painter = painterResource(id = backgroundResource),
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .height(with(LocalDensity.current) { WindowInsets.statusBars.getTop(LocalDensity.current).toFloat().toDp() })
+                        .height(with(LocalDensity.current) {
+                            WindowInsets.statusBars
+                                .getTop(LocalDensity.current)
+                                .toFloat()
+                                .toDp()
+                        })
                         .background(colorScheme.background)
                         .align(Alignment.TopCenter)
                 )
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .height(with(LocalDensity.current) { WindowInsets.navigationBars.getBottom(LocalDensity.current).toFloat().toDp() })
+                        .height(with(LocalDensity.current) {
+                            WindowInsets.navigationBars
+                                .getBottom(LocalDensity.current)
+                                .toFloat()
+                                .toDp()
+                        })
                         .background(colorScheme.background)
                         .align(Alignment.BottomCenter)
                 )
                 Box(
-                    modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .windowInsetsPadding(WindowInsets.systemBars),
                     contentAlignment = Alignment.Center
                 ) {
                     content()

@@ -30,7 +30,7 @@ class EjercicioRutinasViewModel : ViewModelBase() {
 
     private val _contadorEjercicios = MutableLiveData(0)
 
-    private val _voto = MutableLiveData<VotodDto>(VotodDto(null,FirebaseAuth.getInstance().currentUser!!.uid,ente.rutina.value!!,0.0f))
+    private val _voto = MutableLiveData<VotodDto>(VotodDto(null,FirebaseAuth.getInstance().currentUser!!.uid,ente.rutina.value!!,"",0.0f))
     val voto: LiveData<VotodDto> = _voto
 
     private val _finalizado = MutableLiveData(false)
@@ -251,7 +251,6 @@ class EjercicioRutinasViewModel : ViewModelBase() {
                 )
                 if (response.isSuccessful && response.body() != null) {
                     _voto.value = response.body()
-                    Log.d("DEBUG", "Respuesta del servidor: ${response.body()}")
                     mostrarToast(R.string.votoGuardado)
                 }else{
                     mostrarToast(R.string.dato_defecto)

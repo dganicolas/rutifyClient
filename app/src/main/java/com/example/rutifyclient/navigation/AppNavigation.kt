@@ -12,22 +12,25 @@ import androidx.navigation.navArgument
 import com.example.rutifyclient.pantalla.Ajustes.Ajustes
 import com.example.rutifyclient.pantalla.commons.SplashScreen
 import com.example.rutifyclient.pantalla.comunidad.Foro
+import com.example.rutifyclient.pantalla.comunidad.buscador.Buscador
 import com.example.rutifyclient.pantalla.comunidad.comentarios.DetallesComentario
 import com.example.rutifyclient.pantalla.comunidad.perfil
 import com.example.rutifyclient.pantalla.estadisticas.Estadisticas
 import com.example.rutifyclient.pantalla.login.Login
 import com.example.rutifyclient.pantalla.miZona.MiZona
 import com.example.rutifyclient.pantalla.register.Registro
+import com.example.rutifyclient.pantalla.rutinas.Actividad
 import com.example.rutifyclient.pantalla.rutinas.CrearRutinas
 import com.example.rutifyclient.pantalla.rutinas.PantallaBusquedaRutinasOnline
 import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
-import com.example.rutifyclient.pantalla.rutinas.RutinasFavoritas
 import com.example.rutifyclient.pantalla.rutinas.hacerRutina.HacerEjercicioRutina
+import com.example.rutifyclient.pantalla.tienda.Tienda
 import com.example.rutifyclient.pantalla.zonaAdmin.zonaAdmin
+import com.example.rutifyclient.viewModel.ajustes.SettingsViewModel
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(settingsViewModel: SettingsViewModel) {
     val navControlador = rememberNavController()
     val duracion = 700
     NavHost(
@@ -92,8 +95,13 @@ fun AppNavigation() {
         composable(Rutas.buscarRutinas) {
             PantallaBusquedaRutinasOnline(navControlador)
         }
+
         composable(Rutas.Ajustes) {
-            Ajustes(navControlador)
+            Ajustes(navControlador,settingsViewModel)
+        }
+
+        composable(Rutas.BuscarComentarios) {
+            Buscador(navControlador)
         }
 
         composable(Rutas.Estadisticas) {
@@ -104,7 +112,7 @@ fun AppNavigation() {
             arguments = listOf(navArgument("idFirebase") { type = NavType.StringType })
         ) { backStackEntry ->
             val idRutina: String = backStackEntry.arguments?.getString("idFirebase") ?: ""
-            RutinasFavoritas(navControlador,idRutina)
+            Actividad(navControlador,idRutina)
         }
 
         composable(
@@ -116,6 +124,11 @@ fun AppNavigation() {
         composable(Rutas.Login) {
             Login(navControlador)
         }
+
+        composable(Rutas.Tienda) {
+            Tienda(navControlador)
+        }
+
         composable(Rutas.DetallesComentario,
             arguments = listOf(navArgument("idComentario") { type = NavType.StringType })) {
                 backStackEntry ->

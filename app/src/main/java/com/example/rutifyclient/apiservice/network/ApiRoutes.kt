@@ -7,6 +7,8 @@ object ApiRoutes {
     const val ESTADISTICAS = "v1/estadisticas"
     const val VOTOS = "v1/votos"
     const val ESTADISTICASDIARIAS = "v1/estadisticasDiarias"
-    const val COMUNIDAD = "v1/comunidad"
+    const val COMENTARIOS = "v1/comentarios"
     const val MODERACION = "v1/moderacion"
+    const val STRIPE = "v1/pagos"
+    const val COSMETICOS = "/v1/cosmeticos"
 }

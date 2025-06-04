@@ -1,7 +1,10 @@
 package com.example.rutifyclient.componentes.selectores
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
@@ -9,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
+import com.example.rutifyclient.componentes.transformation.FechaVisualTransformation
 import java.util.Calendar
 
 @Composable
@@ -16,9 +20,13 @@ fun SelectorFechaNacimiento(
     fechaNacimiento: String,
     onFechaSeleccionada: (String) -> Unit,
     onFechaInvalida: () -> Unit,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
 ) {
     val context = LocalContext.current
-    val calendario = Calendar.getInstance()
+    val calendario = Calendar.getInstance().apply {
+        add(Calendar.YEAR, -16)
+    }
 
     // Configuración del DatePicker
     val datePickerDialog = DatePickerDialog(
@@ -53,15 +61,18 @@ fun SelectorFechaNacimiento(
         calendario.get(Calendar.DAY_OF_MONTH)
     )
 
-    // Componente de campo de texto, que abre el calendario al hacer clic
     CampoTexto(
         value = fechaNacimiento,
-        onValueChange = {},
+        onValueChange = {
+            onFechaSeleccionada(it)
+        },
         textoIdLabel = R.string.fecha_nacimiento,
         modifierIcon = Modifier
             .clickable { datePickerDialog.show() },
         icono = Icons.Default.DateRange,
+        visualTransformation = FechaVisualTransformation(),
         descripcion = "Seleccionar fecha",
-        readOnly = true
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }

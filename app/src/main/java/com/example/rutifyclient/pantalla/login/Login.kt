@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -16,38 +17,39 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonSecundario
+import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
 import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConTexto
 import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogNormal
-import com.example.rutifyclient.componentes.tarjetas.FormularioCard
 import com.example.rutifyclient.componentes.espaciadores.SpacerHorizontal
+import com.example.rutifyclient.componentes.tarjetas.FormularioCard
 import com.example.rutifyclient.componentes.textos.TextoEnlace
 import com.example.rutifyclient.componentes.textos.TextoInformativo
-import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.viewModel.login.LoginViewModel
 
 @Composable
 fun Login(navControlador: NavHostController) {
+    val focusManager = LocalFocusManager.current
     val viewModel: LoginViewModel = viewModel()
     val correo by viewModel.textoCorreo.observeAsState("dfdf")
     val contrasena by viewModel.textoContrasena.observeAsState("")
     val tituloVentana by viewModel.tituloVentanaModal.observeAsState(R.string.dato_defecto)
     val mensajeVentana by viewModel.mensajeVentanaModal.observeAsState(R.string.dato_defecto)
     val mostrarVentana by viewModel.mostrarVentanaModal.observeAsState(false)
-    val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
-    val estado by viewModel.estado.observeAsState(true)
-    val sinInternet by viewModel.sinInternet.observeAsState(true)
+    val estado by viewModel.estado.observeAsState(false)
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
     val mostrarVentanaContrasenaPerdida by viewModel.mostrarVentanaContrasenaPerdida.observeAsState(
         false
     )
@@ -89,7 +91,7 @@ fun Login(navControlador: NavHostController) {
             contentAlignment = Alignment.Center
         ) {
             FormularioCard(R.string.bienvenida) {
-                TextoSubtitulo(textoId = R.string.iniciar_sesion)
+                TextoInformativo(textoId = R.string.iniciar_sesion)
 
                 CampoTexto(
                     value = correo,
@@ -97,12 +99,11 @@ fun Login(navControlador: NavHostController) {
                     textoIdLabel = R.string.correo,
                     error = !viewModel.comprobarCorreo(correo),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email
-                    ),
+                        keyboardType = KeyboardType.Email,imeAction = ImeAction.Next
+                    )
                 )
                 CampoTexto(
                     value = contrasena,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     onValueChange = { viewModel.cambiarContrasena(it) },
                     textoIdLabel = R.string.contrasena,
                     error = viewModel.comprobarContrasena(contrasena),
@@ -110,7 +111,12 @@ fun Login(navControlador: NavHostController) {
                     icono = if (mostrarContrasena) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                     modifierIcon = Modifier
                         .clickable { viewModel.mostrarContrasena(!mostrarContrasena) },
-                )
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password,imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions( onDone = {
+                        focusManager.clearFocus()
+                        iniciarSesion()
+                    }
+                ))
                 ButtonPrincipal(
                     textoId = R.string.iniciar_sesion,
                     enabled = estado,

@@ -2,10 +2,8 @@ package com.example.rutifyclient.componentes.camposDeTextos
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -16,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 
 @Composable
@@ -31,6 +28,7 @@ fun CampoTexto(
     readOnly: Boolean = false,
     icono: ImageVector? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     descripcion: String? = null,
     modifierIcon: Modifier = Modifier,
     maxLength: Int? = null,
@@ -56,6 +54,7 @@ fun CampoTexto(
             unfocusedLabelColor = colorScheme.secondary // Color de la etiqueta cuando no está enfocado
         ),
         visualTransformation = visualTransformation,
+        keyboardActions = keyboardActions,
         singleLine = singleLine,
         maxLines = maxLines,
         isError = error,

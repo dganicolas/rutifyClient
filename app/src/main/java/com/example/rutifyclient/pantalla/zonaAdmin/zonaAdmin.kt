@@ -39,14 +39,14 @@ fun zonaAdmin(navControlador: NavHostController) {
         onReintentar = {
             viewModel.obtenerUsuario()
         },
-        topBar = ({ TopBarBase(R.string.zonaAdmin)}),
+        topBar = ({ TopBarBase(R.string.administrarComentarios)}),
         bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.MiZona) })
     ) {
         LazyColumn(
             modifier = Modifier.padding(it)
         ) {
             items(comentarios, key = { comentario -> comentario._id!! }) { comentario ->
-                TarjetaComentario(idFirebase,true,comentario, navControlador,listaEstados,true, 100.dp,
+                TarjetaComentario(idFirebase!!,true,comentario, navControlador,listaEstados,true, 100.dp,
                     { viewModel.eliminarComentario(it) },({viewModel.aprobarComentario(it)}))
                 SpacerVertical(10.dp)
             }

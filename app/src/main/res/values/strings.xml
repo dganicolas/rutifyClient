@@ -12,6 +12,7 @@
     <string name="salir">Salir</string>
     <string name="enviar">Enviar</string>
     <string name="texto_input">%1$s</string>
+    <string name="ad_icon_desc">Icono del anuncio</string>
     <!-- fin cosas generales -->
     <!-- Pantalla Login -->
     <string name="bienvenida">¡Bienvenido a Rutify!</string>
@@ -159,7 +160,7 @@
     <string name="estadisticas_diarias_guardadas">Estadisticas diarias guardadas</string>
     <string name="rutinasFavoritas">Rutinas favoritas</string>
     <string name="estadisticas">Estadisticas</string>
-    <string name="noExistenMediciones">NO Existen estadisticas</string>
+    <string name="noExistenMediciones">No Existen estadisticas</string>
     <string name="horasActivoEst">Horas activos: %1$.2f</string>
     <string name="completadoRetoHoy">ya has completado el reto de hoy</string>
     <string name="buscarRutinas">Buscar Rutinas</string>
@@ -182,10 +183,34 @@
     <string name="comentarioAprobado">El comentario ha sido aprobado</string>
     <string name="hilo">"Hilo de %1$s"</string>
     <string name="crearComentarioNuevo">Publicar comentario</string>
-    <string name="verComentarios">Opiniones</string>
+    <string name="verComentarios">Comunidad</string>
     <string name="Buscar">Buscar</string>
     <string name="comentarioCreados">Comentarios publicados</string>
     <string name="ComentariosPublicados">Publicados: %1$d</string>
     <string name="VotosRealizados">"Votos: %1$d"</string>
-    <string name="votosCreados">votosCreados</string>
+    <string name="votosCreados">Votos creados</string>
+    <string name="votoEliminado">El voto ha sido eliminado</string>
+    <string name="actividad">Actividad</string>
+    <string name="Comentarios">Comentario:</string>
+    <string name="buscar">Buscador</string>
+    <string name="noEncontrado">Este usuario no existe</string>
+    <string name="buscarCuentas">Buscar cuentas</string>
+    <string name="buscarComentariosPorAutor">Buscar comentarios por autor</string>
+    <string name="error_busqueda">Error al recoger la informacion</string>
+    <string name="reportarUsuario">¿estas seguro de reportar a este usuario?</string>
+    <string name="usuarioReportado">has reportado a este usuario</string>
+    <string name="usuarioYaReportado">Ya reportaste a este usuario</string>
+    <string name="errorReportando">Error insperado a la hora de reportar</string>
+    <string name="usuarioreportadorNoExiste">Tu usuario no existe</string>
+    <string name="avatarCambiado">tu foto de avatar se ha cambiado</string>
+    <string name="administrarComentarios">Administrar comentarios</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="error_fecha_futura">La fecha nacimiento debe ser mayor de 16 años</string>
+    <string name="monedas">Monedas: %1$d</string>
+    <string name="precio">Precio: %1$.2f€</string>
+    <string name="comprar">Comprar</string>
+    <string name="comprarMonedas">Comprar monedas</string>
+    <string name="pagoCompletado">Pago completado</string>
+    <string name="pagoCancelado">Pago cancelado</string>
+    <string name="seguroComprar">¿Seguro que quieres comprar este item?</string>
 </resources>

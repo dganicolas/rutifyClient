@@ -14,5 +14,12 @@ data class UsuarioInformacionDto(
     val countRutinas: Long,
     val fechaUltimoReto: LocalDate,
     val countComentarios: Long = 0,
-    val countVotos: Long = 0
+    val countVotos: Long = 0,
+    val monedas: Int = 0,
+    var indumentaria: Indumentaria = Indumentaria(
+        colorPiel = "default",
+        camiseta = "default",
+        pantalon = "default",
+        tenis = "default"
+    )
 )

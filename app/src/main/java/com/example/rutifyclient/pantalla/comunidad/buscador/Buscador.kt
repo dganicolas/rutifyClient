@@ -1,105 +1,158 @@
 package com.example.rutifyclient.pantalla.comunidad.buscador
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
-import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
-import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
-import com.example.rutifyclient.navigation.Rutas
+import androidx.navigation.NavHostController
+import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.barras.TopBarBase
+import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
+import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
+import com.example.rutifyclient.componentes.icono.Icono
+import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
+import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.utils.PantallaBusquedaUsuarios
+import com.example.rutifyclient.utils.PantallaComentarios
+import com.example.rutifyclient.viewModel.BuscadorViewModel
 
-@Preview
 @Composable
-fun Buscador() {
-    val focusManager = LocalFocusManager.current
-    val usuarios = listOf(
-        UsuarioBusquedaDto("1", "xX_ElRey_Xx", "H", true, "a1"),          // Corto
-        UsuarioBusquedaDto("2", "LaSuperEstrella123", "M", false, "a2"),   // Largo
-        UsuarioBusquedaDto("3", "Pedro_123", "H", true, "a3"),             // Medio
-        UsuarioBusquedaDto("4", "Maria_JuegaBien", "M", false, "a4"),      // Medio
-        UsuarioBusquedaDto("5", "Carlos2025", "H", true, "a5"),            // Medio
-        UsuarioBusquedaDto("6", "Lucia_Fantastica_xX", "M", false, "a6"),  // Largo
-        UsuarioBusquedaDto("7", "Luis_1234", "H", true, "a7"),             // Medio
-        UsuarioBusquedaDto("8", "Paula_Juega", "M", false, "a8"),          // Medio
-        UsuarioBusquedaDto("9", "Sergio_ElBest", "H", false, "a9"),        // Medio
-        UsuarioBusquedaDto("10", "Raquel_Pro_89", "M", true, "a10"),       // Medio
-        UsuarioBusquedaDto("11", "Javi_Rapido", "H", true, "a11"),         // Medio
-        UsuarioBusquedaDto("12", "Claudia_EsLaMejor", "M", false, "a12"), // Largo
-        UsuarioBusquedaDto("13", "Eduardo_Futuro_23", "H", false, "a13"),  // Largo
-        UsuarioBusquedaDto("14", "XxXxXxElena_MeHizoFamosaXxXxXx", "M", true, "a14"),  // Largo
-        UsuarioBusquedaDto("15", "Miguel_2025", "H", true, "a15"),         // Medio
-        UsuarioBusquedaDto("16", "Carmen_VamosX", "M", false, "a16"),      // Medio
-        UsuarioBusquedaDto("17", "Rafa_TengoElPoder", "H", true, "a17"),   // Largo
-        UsuarioBusquedaDto("18", "Isabel_100", "M", false, "a18"),         // Medio
-        UsuarioBusquedaDto("19", "Antonio_FuturoCampeon", "H", true, "a19"),// Largo
-        UsuarioBusquedaDto("20", "Veronica_ElJuegoMaster", "M", true, "a20") // Largo
+fun Buscador(navControlador: NavHostController) {
+    val viewModel: BuscadorViewModel = viewModel()
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
+    val textoBusqueda by viewModel.textoBusqueda.observeAsState("")
+    val estado by viewModel.estado.observeAsState(true)
+    val pestanaActiva by viewModel.pestanaActiva.observeAsState(0)
+    val listaUsuarios by viewModel.listaUsuarios.observeAsState(emptyList())
+    val idFirebase by viewModel.idFirebase.observeAsState("")
+    val esSuyaOEsAdmin by viewModel.esSuyaOEsAdmin.observeAsState(false)
+    val comentarios by viewModel.listaComentarios.observeAsState(emptyList())
+    val listaEstados by viewModel.listaEstado.observeAsState(emptyMap())
+    val mostrarVentanaEliminarComentario by viewModel.mostrarVentanaEliminarComentario.observeAsState(false)
+    val pestanas = listOf(
+        R.string.buscarCuentas,
+        R.string.buscarComentariosPorAutor,
     )
-
-    val buscarTexto = remember { mutableStateOf("") }
-
+    val buscar: () -> Unit = {
+        if(pestanaActiva == 0 && textoBusqueda != ""){
+            viewModel.buscarCuentasPorNombre()
+        }
+        if(pestanaActiva == 1 && textoBusqueda != ""){
+            viewModel.buscarComentariosPorAutor()
+        }
+    }
+    LaunchedEffect(pestanaActiva) {
+        buscar()
+    }
+    LaunchedEffect(Unit) {
+        viewModel.comprobarAdmin()
+    }
     PantallaBase(
         viewModel = viewModel(),
-        cargando = false,
-        sinInternet = false,
+        cargando = !estado,
+        sinInternet = sinInternet,
         onReintentar = {},
-        bottomBar = ({ NavigationBarAbajoPrincipal(rememberNavController(), Rutas.MiZona) })
+        topBar = ({
+            TopBarBase(R.string.buscar, ({
+                Icono(
+                    descripcion = R.string.volver,
+                    icono = Icons.AutoMirrored.Filled.ArrowBack,
+                    onClick = {
+                        navControlador.popBackStack()
+                    },
+                    tint = colorScheme.onBackground
+
+                )
+            }))
+        })
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            // Barra de búsqueda fija en la parte superior
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TextField(
-                    value = buscarTexto.value,
-                    onValueChange = { buscarTexto.value = it },
-                    label = { Text("Buscar Usuario") },
-                    leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Buscar") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            // Aquí haces la llamada al endpoint
-                            focusManager.clearFocus()
+        if (mostrarVentanaEliminarComentario) {
+            AlertDialogConfirmar(
+                titulo = R.string.eliminarComentario,
+                mensaje = R.string.accionIrreversible,
+                aceptar = {
+                    viewModel.borrarComentario()
+                    viewModel.mostrarventanaEliminar()
+                },
+                denegar = { viewModel.mostrarventanaEliminar() }
+            )
+        }
+        Column(modifier = Modifier.padding(it)) {
+            TarjetaNormal(Modifier.padding(16.dp)) {
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CampoTexto(
+                            Modifier.weight(1f),
+                            value = textoBusqueda,
+                            textoIdLabel = R.string.buscar,
+                            onValueChange = { viewModel.onChangeNombreBusqueda(it) }
+                        )
+                        Icono(
+                            descripcion = R.string.icono,
+                            icono = Icons.Default.Search,
+                            onClick = { buscar() },
+                            modifier = Modifier
+                                .size(45.dp)
+                                .weight(0.12f)
+                        )
+                    }
+                    ScrollableTabRow(selectedTabIndex = pestanaActiva,
+                        containerColor = colorScheme.surface,
+                        contentColor = colorScheme.onBackground,
+                        indicator = { tabPositions ->
+                            SecondaryIndicator(
+                                Modifier.tabIndicatorOffset(tabPositions[pestanaActiva]),
+                                color = colorScheme.primary
+                            )
+                        }) {
+                        pestanas.forEachIndexed { index, textoId ->
+                            Tab(
+                                selected = pestanaActiva == index,
+                                onClick = { viewModel.setPestanaActiva(index) },
+                                selectedContentColor = colorScheme.primary,
+                                unselectedContentColor = colorScheme.onSurface.copy(alpha = 0.6f),
+                                text = { TextoInformativo(textoId = textoId) }
+                            )
                         }
-                    )
+                    }
+                }
+            }
+            if(pestanaActiva ==0){
+                PantallaBusquedaUsuarios(listaUsuarios, navControlador)
+            }else if(pestanaActiva ==1){
+                PantallaComentarios(
+                    idFirebase!!,
+                    esSuyaOEsAdmin,
+                    { comentario ->
+                        viewModel.guardarComentarioAEliminar(comentario)
+                        viewModel.mostrarventanaEliminar()
+                    },
+                    comentarios,
+                    navControlador,
+                    listaEstados
                 )
             }
-            PantallaBusquedaUsuarios(usuarios, rememberNavController())
-
         }
     }
 }

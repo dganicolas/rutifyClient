@@ -93,7 +93,7 @@ fun AcordeonGrupo(grupo: String,
                                         }
                                         .build()
                                 ),
-                                contentDescription = "GIF como imagen estática",
+                                contentDescription = "GIF ",
                                 modifier = Modifier
                                     .width(80.dp)
                                     .height(80.dp)

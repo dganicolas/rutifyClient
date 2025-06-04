@@ -34,7 +34,7 @@ import com.example.rutifyclient.utils.obtenerAvatarResource
 fun TarjetaBuscadorPersonas(usuario: UsuarioBusquedaDto, navController: NavController) {
     OutlinedCard(
         modifier = Modifier
-            .height(64.dp).fillMaxWidth().clickable { navController.navigate("detalles/${usuario.idFirebase}") },
+            .height(64.dp).fillMaxWidth().clickable { navController.navigate("perfil/${usuario.idFirebase}") },
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         shape = shapes.medium,
         border = BorderStroke(2.dp, colorScheme.primary),

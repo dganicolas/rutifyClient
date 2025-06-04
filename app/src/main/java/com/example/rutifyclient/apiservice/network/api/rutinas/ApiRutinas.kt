@@ -32,7 +32,7 @@ interface ApiRutinas {
     @DELETE("${ApiRoutes.RUTINAS}/eliminar/{idRutina}")
     suspend fun eliminarRutina(
         @Path("idRutina") idRutina: String
-    ): Response<Void>
+    ): Response<Unit>
 
     @GET("${ApiRoutes.RUTINAS}/buscarRutinas")
     suspend fun buscarRutinas(

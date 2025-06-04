@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.LocalFireDepartment
-import androidx.compose.material.icons.filled.Store
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +34,7 @@ import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
+import com.example.rutifyclient.componentes.ventanas.mostrarVentanaCambiarIconoRutinas
 import com.example.rutifyclient.componentes.ventanas.ventanaModal
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
@@ -43,8 +43,10 @@ import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.pantalla.rutinas.hacerRutina.pantallaHacerejercicio
+import com.example.rutifyclient.utils.mostrarVentanaCambiarIconoAvatar
 import com.example.rutifyclient.viewModel.usuario.MiZonaViewModel
 import java.time.LocalDate
+import java.util.Locale
 
 @Composable
 fun MiZona(navControlador: NavHostController) {
@@ -65,6 +67,8 @@ fun MiZona(navControlador: NavHostController) {
         LocalDate.now(),0.0,0.0,0,0.0))
     val ultimosPesos by viewModel.ultimosPesos.observeAsState(listOf(0.0, 0.0, 0.0, 0.0, 0.0))
     val ejercicio by viewModel.ejerciciosReto.observeAsState(EjercicioDto("","","","","","",0.0,0.0,0))
+    val mostrarVentanacambiarIcono by viewModel.mostrarVentanacambiarIcono.observeAsState(false)
+    val imagenes by viewModel.imagenes.observeAsState(emptyList())
     val ventanaReto by viewModel.ventanaReto.observeAsState(false)
     val context = LocalContext.current
 
@@ -87,16 +91,14 @@ fun MiZona(navControlador: NavHostController) {
         onReintentar = {
             viewModel.obtenerUsuario()
         },
-        topBar = ({ TopBarBase(R.string.usuario, args = arrayOf(usuario.nombre), acciones = ({
-            Icono(
-                descripcion = R.string.tienda,
-                icono = Icons.Filled.Store,
-                onClick = {})
-        })) }),
+        topBar = ({ TopBarBase(R.string.usuario, args = arrayOf(usuario.nombre)) }),
         bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.MiZona) })
     ) {
+
         if(ventanaReto){
-            Box(modifier = Modifier.padding(it).zIndex(1f)){
+            Box(modifier = Modifier
+                .padding(it)
+                .zIndex(1f)){
                 ventanaModal {
 
                     pantallaHacerejercicio(
@@ -117,7 +119,7 @@ fun MiZona(navControlador: NavHostController) {
                 .padding(5.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            cuadroAvatar(usuario)
+            cuadroAvatar(usuario, { viewModel.mostrarVentanacambiarIcono()})
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -148,7 +150,7 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable {verEstadisticas() },
+                        .clickable { verEstadisticas() },
                     modifierTarjeta = Modifier
                         .weight(1f)
                 ) {
@@ -167,7 +169,7 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable {verEstadisticas() },
+                        .clickable { verEstadisticas() },
                     modifierTarjeta = Modifier
                         .weight(1f)
                 ) {
@@ -205,7 +207,9 @@ fun MiZona(navControlador: NavHostController) {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(5.dp).clickable { verEstadisticas() },
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .clickable { verEstadisticas() },
                         ) {
                             TextoSubtitulo(R.string.pesoUsuario, ultimosPesos[4])
                             PesoGraph(pesos = ultimosPesos)
@@ -216,17 +220,18 @@ fun MiZona(navControlador: NavHostController) {
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth()
-                        .clickable { navControlador.navigate("rutinasFavoritas/${""}")},
+                        .clickable { navControlador.navigate("rutinasFavoritas/${""}") },
                     modifierTarjeta = Modifier
-                        .fillMaxHeight(0.53f).clickable { navControlador.navigate("rutinasFavoritas/${""}") }
+                        .fillMaxHeight(0.53f)
+                        .clickable { navControlador.navigate("rutinasFavoritas/${""}") }
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextoSubtitulo(R.string.misRutinas, countRutinasFavoritas)
-                        TextoSubtitulo(R.string.rutinasCreadasCount, usuario.countRutinas)
-                        TextoSubtitulo(R.string.ComentariosPublicados, usuario.countComentarios)
-                        TextoSubtitulo(R.string.VotosRealizados, usuario.countVotos)
+                        TextoInformativo(R.string.misRutinas, countRutinasFavoritas)
+                        TextoInformativo(R.string.rutinasCreadasCount, usuario.countRutinas)
+                        TextoInformativo(R.string.ComentariosPublicados, usuario.countComentarios)
+                        TextoInformativo(R.string.VotosRealizados, usuario.countVotos)
                     }
                 }
             }
@@ -234,11 +239,13 @@ fun MiZona(navControlador: NavHostController) {
                 modifier = Modifier
                     .padding(5.dp)
                     .fillMaxWidth()
-                    .clickable {if(usuario.fechaUltimoReto == LocalDate.now()){
-                        viewModel.mostrarToast(R.string.completadoRetoHoy)
-                    }else{
-                        viewModel.mostrarVentanaRetoDiario()
-                    } }
+                    .clickable {
+                        if (usuario.fechaUltimoReto == LocalDate.now()) {
+                            viewModel.mostrarToast(R.string.completadoRetoHoy)
+                        } else {
+                            viewModel.mostrarVentanaRetoDiario()
+                        }
+                    }
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -252,14 +259,16 @@ fun MiZona(navControlador: NavHostController) {
                         }else{
                             viewModel.mostrarVentanaRetoDiario()
                         }},
-                        modifier = Modifier.size(85.dp).weight(1f)
+                        modifier = Modifier
+                            .size(85.dp)
+                            .weight(1f)
                     )
                     Column(
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextoInformativo(R.string.texto_input,String.format("%02d:%02d:%02d", tiempoRestante / 3600, (tiempoRestante % 3600) / 60, tiempoRestante % 60))
-                        TextoSubtitulo(R.string.retoDiario)
+                        TextoInformativo(R.string.texto_input,String.format(Locale.US, "%02d:%02d:%02d", tiempoRestante / 3600, (tiempoRestante % 3600) / 60, tiempoRestante % 60))
+                        TextoInformativo(R.string.retoDiario)
                     }
                     Icono(
                         descripcion = R.string.descKcal,
@@ -271,11 +280,17 @@ fun MiZona(navControlador: NavHostController) {
                                 viewModel.mostrarVentanaRetoDiario()
                             }
                         },
-                        modifier = Modifier.size(85.dp).weight(1f)
+                        modifier = Modifier
+                            .size(85.dp)
+                            .weight(1f)
                     )
                 }
             }
         }
+    }
+    if (mostrarVentanacambiarIcono) {
+        mostrarVentanaCambiarIconoAvatar(imagenes) { viewModel.cambiarIcono(it)
+            viewModel.mostrarVentanacambiarIcono()}
     }
 }
 

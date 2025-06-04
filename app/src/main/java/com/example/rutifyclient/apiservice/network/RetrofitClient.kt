@@ -1,11 +1,15 @@
 package com.example.rutifyclient.apiservice.network
 
-import com.example.rutifyclient.apiservice.network.api.comunidad.ApiComunidad
+import com.example.rutifyclient.apiservice.network.api.coinPack.CoinPackApi
+import com.example.rutifyclient.apiservice.network.api.comunidad.comentarios.ApiComentarios
+import com.example.rutifyclient.apiservice.network.api.cosmeticos.CosmeticoApi
 import com.example.rutifyclient.apiservice.network.api.ejercicios.ApiEjercicios
 import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticas.ApiEstadisticas
 import com.example.rutifyclient.apiservice.network.api.estadisticas.estadisticasDiarias.ApiEstadisticasDiarias
 import com.example.rutifyclient.apiservice.network.api.moderacion.ApiModeracion
+import com.example.rutifyclient.apiservice.network.api.reportes.ApiReportes
 import com.example.rutifyclient.apiservice.network.api.rutinas.ApiRutinas
+import com.example.rutifyclient.apiservice.network.api.stripe.StripeApiService
 import com.example.rutifyclient.apiservice.network.api.usuarios.ApiUsuarios
 import com.example.rutifyclient.apiservice.network.api.votos.ApiVotos
 import com.google.android.gms.tasks.Tasks
@@ -70,6 +74,10 @@ object RetrofitClient {
             .build()
     }
 
+    val stripeApi: StripeApiService by lazy {
+        retrofit.create(StripeApiService::class.java)
+    }
+
     val apiUsuarios: ApiUsuarios by lazy {
         retrofit.create(ApiUsuarios::class.java)
     }
@@ -93,11 +101,23 @@ object RetrofitClient {
         retrofit.create(ApiEstadisticasDiarias::class.java)
     }
 
-    val apiComunidad: ApiComunidad by lazy {
-        retrofit.create(ApiComunidad::class.java)
+    val apiComentarios: ApiComentarios by lazy {
+        retrofit.create(ApiComentarios::class.java)
     }
 
     val apiModeracion: ApiModeracion by lazy {
         retrofit.create(ApiModeracion::class.java)
+    }
+
+    val apiReportes: ApiReportes by lazy {
+        retrofit.create(ApiReportes::class.java)
+    }
+
+    val apiCoinPack: CoinPackApi by lazy {
+        retrofit.create(CoinPackApi::class.java)
+    }
+
+    val apiCosmeticos: CosmeticoApi by lazy {
+        retrofit.create(CosmeticoApi::class.java)
     }
 }

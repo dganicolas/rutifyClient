@@ -4,13 +4,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -20,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -38,7 +44,7 @@ import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.componentes.ventanas.mostrarDetalleEjercicio
 import com.example.rutifyclient.componentes.ventanas.mostrarEjercicios
-import com.example.rutifyclient.componentes.ventanas.mostrarVentanaCambiarIcono
+import com.example.rutifyclient.componentes.ventanas.mostrarVentanaCambiarIconoRutinas
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
@@ -130,7 +136,7 @@ fun CrearRutinas(navControlador: NavHostController) {
                             descripcion = R.string.descripcionIconoRutina,
                             onClick = { if (!cargando) viewModel.abrirVentanaImagenes() },
                             modifier = Modifier
-                                .size(80.dp)
+                                .size(75.dp)
                                 .clip(RoundedCornerShape(8.dp))
                         )
                     }
@@ -140,14 +146,20 @@ fun CrearRutinas(navControlador: NavHostController) {
                             onValueChange = { nombre -> viewModel.cambiarNombre(nombre) },
                             textoIdLabel = R.string.nombreRutina,
                             mostrarContador = true,
-                            maxLength = limiteNombre
+                            maxLength = limiteNombre,
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next)
                         )
                     }
                     item {
                         CampoTexto(
+                            modifier = Modifier
+                                .fillMaxWidth().heightIn(min = 120.dp, max = 150.dp)
+                                .verticalScroll(rememberScrollState()),
                             value = descripcion,
                             onValueChange = { desc -> viewModel.cambiarDescripcion(desc) },
                             textoIdLabel = R.string.descripcionRutina,
+                            singleLine = false,
+                            maxLines = 4,
                             mostrarContador = true,
                             maxLength = limiteDescripcion
                         )
@@ -230,7 +242,7 @@ fun CrearRutinas(navControlador: NavHostController) {
                         { viewModel.anadirEjercicioALaLista() })
                 }
                 if (mostrarVentanacambiarIcono) {
-                    mostrarVentanaCambiarIcono(imagenes) { viewModel.cambiarIcono(it) }
+                    mostrarVentanaCambiarIconoRutinas(imagenes) { viewModel.cambiarIcono(it) }
                 }
             }
         }
