@@ -65,8 +65,8 @@ fun Tienda(navControlador: NavHostController) {
             R.string.seguroComprar,
             R.string.accionIrreversible,
             {
-                viewModel.comprarCosmetico()
                 viewModel.PopUpComprarCosmeticos()
+                viewModel.comprarCosmetico()
             },
             {
                 viewModel.PopUpComprarCosmeticos()
@@ -96,11 +96,12 @@ fun Tienda(navControlador: NavHostController) {
             ) {
                 item {
                     MostrarCosmeticosLazyRows(
-                        cosmeticosPorTipo
-                    ) { cosmetico ->
-                        viewModel.PopUpComprarCosmeticos()
-                        viewModel.guardarComesticos(cosmetico)
-                    }
+                        cosmeticosPorTipo,
+                        { cosmetico ->
+                            viewModel.PopUpComprarCosmeticos()
+                            viewModel.guardarComesticos(cosmetico)
+                        }
+                    )
 
                     TextoTitulo(R.string.comprarMonedas)
                     CoinPackGrid(

@@ -11,6 +11,7 @@ import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
+import com.example.rutifyclient.domain.tienda.cosmeticos.Cosmetico
 import com.example.rutifyclient.domain.usuario.ActualizarUsuarioDTO
 import com.example.rutifyclient.viewModel.ViewModelBase
 import com.google.firebase.auth.FirebaseAuth
@@ -48,6 +49,9 @@ class MiZonaViewModel : ViewModelBase() {
     private val _mostrarVentanacambiarIcono = MutableLiveData(false)
     val mostrarVentanacambiarIcono: LiveData<Boolean> = _mostrarVentanacambiarIcono
 
+    private val _mostrarVentanaCambiarRopa = MutableLiveData(false)
+    val mostrarVentanaCambiarRopa: LiveData<Boolean> = _mostrarVentanaCambiarRopa
+
     private val _tiempoRestante = MutableLiveData(0)
     val tiempoRestante: LiveData<Int> = _tiempoRestante
 
@@ -61,6 +65,11 @@ class MiZonaViewModel : ViewModelBase() {
 
     private val _countRutinasFavoritas = MutableLiveData<Int>()
     val countRutinasFavoritas: LiveData<Int> = _countRutinasFavoritas
+
+    private val _cosmeticoSeleccionado = MutableLiveData<Cosmetico?>(null)
+
+    private val _cosmeticosPorTipo = MutableLiveData<Map<String, List<Cosmetico>>>()
+    val cosmeticosPorTipo: LiveData<Map<String, List<Cosmetico>>> = _cosmeticosPorTipo
 
     fun obtenerCountRutinasFavoritas(context: Context) {
         val db = RutinaDatabase.obtenerInstancia(context)
@@ -209,6 +218,44 @@ class MiZonaViewModel : ViewModelBase() {
                 }
             }
         }
+
+    fun mostrarVentanaCambiarRopa() {
+        _mostrarVentanaCambiarRopa.value = !_mostrarVentanaCambiarRopa.value!!
+    }
+
+    fun obtenerComesticosComprados() {
+        viewModelScope.launch {
+            try {
+                val cosmeticos = RetrofitClient.apiCompras.obtenerComprasUsuario(_idFirebase.value!!)
+                val agrupados = cosmeticos.body()!!.groupBy { it.tipo }
+                _cosmeticosPorTipo.value = agrupados
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+            } finally {
+                _estado.value = true
+            }
+        }
+    }
+
+    fun ponerCosmetico(cosmetico: Cosmetico) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiUsuarios.aplicarCosmetico(cosmetico)
+                if (response.isSuccessful) {
+                    mostrarToast(R.string.equipoCambiado)
+                    obtenerUsuario()
+                } else {
+                    mostrarToastApi(response.errorBody()?.string() ?: "")
+                }
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+            } finally {
+                _estado.value = true
+            }
+        }
+    }
 
 
 }

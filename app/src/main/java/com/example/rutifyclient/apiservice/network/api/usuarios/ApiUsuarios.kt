@@ -1,6 +1,7 @@
 package com.example.rutifyclient.apiservice.network.api.usuarios
 
 import com.example.rutifyclient.apiservice.network.ApiRoutes
+import com.example.rutifyclient.domain.tienda.cosmeticos.Cosmetico
 import com.example.rutifyclient.domain.usuario.ActualizarUsuarioDTO
 import com.example.rutifyclient.domain.usuario.EliminarUsuarioDTO
 import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
@@ -52,4 +53,9 @@ interface ApiUsuarios {
     @POST("${ApiRoutes.USUARIOS}/reto-diario")
     suspend fun marcarRetoDiario(
     ): Response<Boolean>
+
+    @PUT("${ApiRoutes.USUARIOS}/avatar/cosmetico")
+    suspend fun aplicarCosmetico(
+        @Body cosmetico: Cosmetico
+    ): Response<Unit>
 }

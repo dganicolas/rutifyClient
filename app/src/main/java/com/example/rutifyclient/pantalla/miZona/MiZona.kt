@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,12 +30,14 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.avatar.cuadroAvatar
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.barras.TopBarBase
+import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.graficos.PesoGraph
 import com.example.rutifyclient.componentes.icono.Icono
+import com.example.rutifyclient.componentes.tarjetas.RutinasCard
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
-import com.example.rutifyclient.componentes.ventanas.mostrarVentanaCambiarIconoRutinas
+import com.example.rutifyclient.componentes.ventanas.MostrarCosmeticosLazyRows
 import com.example.rutifyclient.componentes.ventanas.ventanaModal
 import com.example.rutifyclient.domain.ejercicio.EjercicioDto
 import com.example.rutifyclient.domain.estadisticas.EstadisticasDiariasDto
@@ -53,22 +56,48 @@ fun MiZona(navControlador: NavHostController) {
     val viewModel: MiZonaViewModel = viewModel()
     val usuario by viewModel.usuario.observeAsState(
         UsuarioInformacionDto(
-            "", "", "", "", false, "", EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0,0.0), 0, LocalDate.now()
+            "",
+            "",
+            "",
+            "",
+            false,
+            "",
+            EstadisticasDto("", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0),
+            0,
+            LocalDate.now()
         )
     )
     val sinInternet by viewModel.sinInternet.observeAsState(false)
     val estado by viewModel.estado.observeAsState(true)
-    val metaKcal  by viewModel.metaKcal.observeAsState(0)
-    val metaRutinas  by viewModel.metaRutinas.observeAsState(0)
-    val countRutinasFavoritas  by viewModel.countRutinasFavoritas.observeAsState(0)
-    val metasMinActivos  by viewModel.metasMinActivos.observeAsState(0.0f)
-    val tiempoRestante  by viewModel.tiempoRestante.observeAsState(0)
-    val estadisticasDiarias  by viewModel.estadisticasDiarias.observeAsState(EstadisticasDiariasDto(null,"",
-        LocalDate.now(),0.0,0.0,0,0.0))
+    val metaKcal by viewModel.metaKcal.observeAsState(0)
+    val metaRutinas by viewModel.metaRutinas.observeAsState(0)
+    val countRutinasFavoritas by viewModel.countRutinasFavoritas.observeAsState(0)
+    val metasMinActivos by viewModel.metasMinActivos.observeAsState(0.0f)
+    val tiempoRestante by viewModel.tiempoRestante.observeAsState(0)
+    val estadisticasDiarias by viewModel.estadisticasDiarias.observeAsState(
+        EstadisticasDiariasDto(
+            null, "",
+            LocalDate.now(), 0.0, 0.0, 0, 0.0
+        )
+    )
     val ultimosPesos by viewModel.ultimosPesos.observeAsState(listOf(0.0, 0.0, 0.0, 0.0, 0.0))
-    val ejercicio by viewModel.ejerciciosReto.observeAsState(EjercicioDto("","","","","","",0.0,0.0,0))
+    val ejercicio by viewModel.ejerciciosReto.observeAsState(
+        EjercicioDto(
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            0.0,
+            0.0,
+            0
+        )
+    )
     val mostrarVentanacambiarIcono by viewModel.mostrarVentanacambiarIcono.observeAsState(false)
+    val mostrarVentanaCambiarRopa by viewModel.mostrarVentanaCambiarRopa.observeAsState(false)
     val imagenes by viewModel.imagenes.observeAsState(emptyList())
+    val cosmeticosPorTipo by viewModel.cosmeticosPorTipo.observeAsState(emptyMap())
     val ventanaReto by viewModel.ventanaReto.observeAsState(false)
     val context = LocalContext.current
 
@@ -81,6 +110,7 @@ fun MiZona(navControlador: NavHostController) {
         viewModel.iniciarContadorTiempoRestante()
         viewModel.obtenerUltimos5Pesos()
         viewModel.obtenerUsuario()
+        viewModel.obtenerComesticosComprados()
         viewModel.obtenerEstadisticasDiaria()
         viewModel.obtenerObjetivosLocal(context)
     }
@@ -95,10 +125,12 @@ fun MiZona(navControlador: NavHostController) {
         bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.MiZona) })
     ) {
 
-        if(ventanaReto){
-            Box(modifier = Modifier
-                .padding(it)
-                .zIndex(1f)){
+        if (ventanaReto) {
+            Box(
+                modifier = Modifier
+                    .padding(it)
+                    .zIndex(1f)
+            ) {
                 ventanaModal {
 
                     pantallaHacerejercicio(
@@ -109,7 +141,10 @@ fun MiZona(navControlador: NavHostController) {
                         ),
                         ejercicio,
                         tiempoRestante,
-                        { viewModel.cerrarVentanaReto() }, { viewModel.puntuarReto() },R.string.completarRetoDiario)
+                        { viewModel.cerrarVentanaReto() },
+                        { viewModel.puntuarReto() },
+                        R.string.completarRetoDiario
+                    )
                 }
             }
         }
@@ -119,7 +154,10 @@ fun MiZona(navControlador: NavHostController) {
                 .padding(5.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            cuadroAvatar(usuario, { viewModel.mostrarVentanacambiarIcono()})
+            cuadroAvatar(
+                usuario,
+                { viewModel.mostrarVentanacambiarIcono() },
+                { viewModel.mostrarVentanaCambiarRopa() })
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,8 +179,12 @@ fun MiZona(navControlador: NavHostController) {
                             descripcion = R.string.descKcal,
                             icono = Icons.Filled.LocalFireDepartment,
                             modifier = Modifier.size(85.dp),
-                            onClick = {verEstadisticas()})
-                        TextoInformativo(R.string.metaKcal, estadisticasDiarias.kCaloriasQuemadas, metaKcal)
+                            onClick = { verEstadisticas() })
+                        TextoInformativo(
+                            R.string.metaKcal,
+                            estadisticasDiarias.kCaloriasQuemadas,
+                            metaKcal
+                        )
                         TextoSubtitulo(R.string.kcal)
                     }
                 }
@@ -160,8 +202,12 @@ fun MiZona(navControlador: NavHostController) {
                         Icono(
                             descripcion = R.string.descKcal,
                             icono = Icons.Filled.EditNote, modifier = Modifier.size(85.dp),
-                            onClick = {verEstadisticas()})
-                        TextoInformativo(R.string.metaInt, estadisticasDiarias.ejerciciosRealizados, metaRutinas)
+                            onClick = { verEstadisticas() })
+                        TextoInformativo(
+                            R.string.metaInt,
+                            estadisticasDiarias.ejerciciosRealizados,
+                            metaRutinas
+                        )
                         TextoSubtitulo(R.string.ejerciciosHechos)
                     }
                 }
@@ -179,10 +225,14 @@ fun MiZona(navControlador: NavHostController) {
                         Icono(
                             descripcion = R.string.descKcal,
                             icono = Icons.Filled.AccessTime,
-                            onClick = {verEstadisticas()},
+                            onClick = { verEstadisticas() },
                             modifier = Modifier.size(85.dp)
                         )
-                        TextoInformativo(R.string.metaDouble, estadisticasDiarias.horasActivo, metasMinActivos)
+                        TextoInformativo(
+                            R.string.metaDouble,
+                            estadisticasDiarias.horasActivo,
+                            metasMinActivos
+                        )
                         TextoSubtitulo(R.string.horasActivo)
                     }
                 }
@@ -254,11 +304,13 @@ fun MiZona(navControlador: NavHostController) {
                     Icono(
                         descripcion = R.string.descKcal,
                         icono = Icons.Filled.EmojiEvents,
-                        onClick = {if(usuario.fechaUltimoReto == LocalDate.now()){
-                            viewModel.mostrarToast(R.string.completadoRetoHoy)
-                        }else{
-                            viewModel.mostrarVentanaRetoDiario()
-                        }},
+                        onClick = {
+                            if (usuario.fechaUltimoReto == LocalDate.now()) {
+                                viewModel.mostrarToast(R.string.completadoRetoHoy)
+                            } else {
+                                viewModel.mostrarVentanaRetoDiario()
+                            }
+                        },
                         modifier = Modifier
                             .size(85.dp)
                             .weight(1f)
@@ -267,16 +319,25 @@ fun MiZona(navControlador: NavHostController) {
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextoInformativo(R.string.texto_input,String.format(Locale.US, "%02d:%02d:%02d", tiempoRestante / 3600, (tiempoRestante % 3600) / 60, tiempoRestante % 60))
+                        TextoInformativo(
+                            R.string.texto_input,
+                            String.format(
+                                Locale.US,
+                                "%02d:%02d:%02d",
+                                tiempoRestante / 3600,
+                                (tiempoRestante % 3600) / 60,
+                                tiempoRestante % 60
+                            )
+                        )
                         TextoInformativo(R.string.retoDiario)
                     }
                     Icono(
                         descripcion = R.string.descKcal,
                         icono = Icons.Filled.EmojiEvents,
                         onClick = {
-                            if(usuario.fechaUltimoReto == LocalDate.now()){
+                            if (usuario.fechaUltimoReto == LocalDate.now()) {
                                 viewModel.mostrarToast(R.string.completadoRetoHoy)
-                            }else{
+                            } else {
                                 viewModel.mostrarVentanaRetoDiario()
                             }
                         },
@@ -289,8 +350,32 @@ fun MiZona(navControlador: NavHostController) {
         }
     }
     if (mostrarVentanacambiarIcono) {
-        mostrarVentanaCambiarIconoAvatar(imagenes) { viewModel.cambiarIcono(it)
-            viewModel.mostrarVentanacambiarIcono()}
+        mostrarVentanaCambiarIconoAvatar(imagenes) {
+            viewModel.cambiarIcono(it)
+            viewModel.mostrarVentanacambiarIcono()
+        }
+    }
+    if (mostrarVentanaCambiarRopa) {
+        Box{
+            RutinasCard(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize().zIndex(1f)
+                    .align(Alignment.TopStart)
+            ) {
+                item{
+                    ButtonPrincipal(R.string.cerrarVentana,onClick = {viewModel.mostrarVentanaCambiarRopa()})
+                    MostrarCosmeticosLazyRows(
+                        cosmeticosPorTipo,
+                        { cosmetico ->
+                            viewModel.mostrarVentanaCambiarRopa()
+                            viewModel.ponerCosmetico(cosmetico)
+                        },
+                        R.string.equipar
+                    )
+                }
+            }
+        }
     }
 }
 

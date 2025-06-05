@@ -1,11 +1,13 @@
 package com.example.rutifyclient.viewModel.stripe
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.stripe.PaymentRequestDto
 import com.example.rutifyclient.domain.tienda.CoinPack
+import com.example.rutifyclient.domain.tienda.compras.Compra
 import com.example.rutifyclient.domain.tienda.cosmeticos.Cosmetico
 import com.example.rutifyclient.viewModel.ViewModelBase
 import kotlinx.coroutines.launch
@@ -23,14 +25,16 @@ class TiendaViewModel : ViewModelBase() {
     private val _packSeleccionado = MutableLiveData<CoinPack?>(null)
     private val _cosmeticoSeleccionado = MutableLiveData<Cosmetico?>(null)
 
+    private val _cosmeticosPorTipo = MutableLiveData<Map<String, List<Cosmetico>>>()
+    val cosmeticosPorTipo: LiveData<Map<String, List<Cosmetico>>> = _cosmeticosPorTipo
+
     private val _showPaymentSheet = MutableLiveData(false)
     val showPaymentSheet: LiveData<Boolean> = _showPaymentSheet
 
     private val _packs = MutableLiveData(emptyList<CoinPack>())
     val packs: LiveData<List<CoinPack>> = _packs
 
-    private val _cosmeticosPorTipo = MutableLiveData<Map<String, List<Cosmetico>>>()
-    val cosmeticosPorTipo: LiveData<Map<String, List<Cosmetico>>> = _cosmeticosPorTipo
+
 
     private val _ventanaComprarComestico = MutableLiveData<Boolean>(false)
     val ventanaComprarComestico: LiveData<Boolean> = _ventanaComprarComestico
@@ -38,7 +42,12 @@ class TiendaViewModel : ViewModelBase() {
     fun fetchPaymentIntent(coins: Int) {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.stripeApi.createPaymentIntent(PaymentRequestDto(userId = _idFirebase.value!!,coins = coins))
+                val response = RetrofitClient.stripeApi.createPaymentIntent(
+                    PaymentRequestDto(
+                        userId = _idFirebase.value!!,
+                        coins = coins
+                    )
+                )
                 _clientSecret.value = response.body()?.clientSecret
             } catch (e: IOException) {
                 mostrarToastApi("Error de red: ${e.localizedMessage}")
@@ -83,7 +92,7 @@ class TiendaViewModel : ViewModelBase() {
         }
     }
 
-    fun obtenerPacks(){
+    fun obtenerPacks() {
         _estado.value = false
         viewModelScope.launch {
             try {
@@ -93,7 +102,7 @@ class TiendaViewModel : ViewModelBase() {
                 if (response.isSuccessful) {
                     _packs.value = response.body()
                 } else {
-                   mostrarToastApi(response.errorBody()?.string()?:"")
+                    mostrarToastApi(response.errorBody()?.string() ?: "")
                 }
             } catch (e: Exception) {
                 manejarErrorConexion(e)
@@ -110,9 +119,31 @@ class TiendaViewModel : ViewModelBase() {
 
     fun guardarComesticos(cosmetico: Cosmetico) {
         _cosmeticoSeleccionado.value = cosmetico
+        Log.i("XXXXXXXXXXXXXXXXXXX",cosmetico.toString())
     }
 
     fun comprarCosmetico() {
-        TODO("Not yet implemented")
+        _estado.value = false
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiCompras.registrarCompra(
+                    Compra(
+                    idUsuario = _idFirebase.value!!,
+                    idCosmetico = _cosmeticoSeleccionado.value!!._id!!,
+                )
+                )
+
+                if (response.isSuccessful) {
+                    mostrarToastApi(response.body()?.string() ?: "")
+                } else {
+                    mostrarToastApi(response.errorBody()?.string() ?: "")
+                }
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+            } finally {
+                _estado.value = true
+            }
+        }
     }
 }

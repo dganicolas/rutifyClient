@@ -20,6 +20,7 @@ fun CosmeticoCard(
     cosmetico: Cosmetico,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    textoBoton: Int = R.string.comprar
 ) {
     TarjetaNormal(
         modifier = modifier
@@ -39,7 +40,7 @@ fun CosmeticoCard(
             TextoSubtitulo(R.string.texto_input, cosmetico.nombre)
             TextoSubtitulo(R.string.texto_input, "${cosmetico.precioMonedas} monedas")
             ButtonPrincipal(
-                R.string.comprar,
+                textoBoton,
                 {
                     onClick()
                 },

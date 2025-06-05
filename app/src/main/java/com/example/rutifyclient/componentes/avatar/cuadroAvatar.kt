@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +28,7 @@ import com.example.rutifyclient.utils.obtenerAvatarResource
 import java.time.LocalDate
 
 @Composable
-fun cuadroAvatar(usuario: UsuarioInformacionDto,accion: () -> Unit = {}) {
+fun cuadroAvatar(usuario: UsuarioInformacionDto, cambiarCara: () -> Unit = {}, cambiarRopa: () -> Unit = {}) {
     Box(modifier = Modifier.fillMaxHeight(0.40f)) {
         TarjetaNormal(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -46,7 +45,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto,accion: () -> Unit = {}) {
                     imagen = painterResource(id = obtenerAvatarResource(usuario.avatarUrl)),
                     estado = false,
                     descripcion = R.string.avatarInfo,
-                    onClick = {accion()},
+                    onClick = {cambiarCara()},
                     modifier = Modifier
                         .align(Alignment.Center).offset(y = (-95).dp).zIndex(1f).size(65.dp)
                 )
@@ -56,7 +55,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto,accion: () -> Unit = {}) {
                     imagen = rememberAsyncImagePainter(model = usuario.indumentaria.camiseta),
                     estado = false,
                     descripcion = R.string.avatarInfo,
-                    onClick = {},
+                    onClick = {cambiarRopa()},
                     modifier = Modifier
                         .align(Alignment.Center)
                         .offset(y = (-40).dp).size(95.dp).zIndex(0.6f)
@@ -65,7 +64,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto,accion: () -> Unit = {}) {
                     imagen = rememberAsyncImagePainter(model = usuario.indumentaria.colorPiel),
                     estado = false,
                     descripcion = R.string.avatarInfo,
-                    onClick = {},
+                    onClick = {cambiarRopa()},
                     modifier = Modifier
                         .align(Alignment.Center)
                         .offset(y = (-35).dp, x= 3.dp).size(110
@@ -75,7 +74,7 @@ fun cuadroAvatar(usuario: UsuarioInformacionDto,accion: () -> Unit = {}) {
                     imagen = rememberAsyncImagePainter(model = usuario.indumentaria.pantalon),
                     estado = false,
                     descripcion = R.string.avatarInfo,
-                    onClick = {},
+                    onClick = {cambiarRopa()},
                     modifier = Modifier
                         .align(Alignment.Center)
                         .offset(y = 50.dp, x= 0.dp).size(120.dp).zIndex(0.4f) // Ajusta este valor según el tamaño de tus íconos

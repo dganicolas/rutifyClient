@@ -6,5 +6,5 @@ data class Compra(
     val id: String? = null,
     val idUsuario: String,
     val idCosmetico: String,
-    val fechaCompra: LocalDateTime = LocalDateTime.now()
+    val fechaCompra: String = LocalDateTime.now().toString()
 )

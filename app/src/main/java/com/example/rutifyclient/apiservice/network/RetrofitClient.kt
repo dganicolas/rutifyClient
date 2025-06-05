@@ -1,6 +1,7 @@
 package com.example.rutifyclient.apiservice.network
 
 import com.example.rutifyclient.apiservice.network.api.coinPack.CoinPackApi
+import com.example.rutifyclient.apiservice.network.api.compras.ApiCompras
 import com.example.rutifyclient.apiservice.network.api.comunidad.comentarios.ApiComentarios
 import com.example.rutifyclient.apiservice.network.api.cosmeticos.CosmeticoApi
 import com.example.rutifyclient.apiservice.network.api.ejercicios.ApiEjercicios
@@ -119,5 +120,9 @@ object RetrofitClient {
 
     val apiCosmeticos: CosmeticoApi by lazy {
         retrofit.create(CosmeticoApi::class.java)
+    }
+
+    val apiCompras: ApiCompras by lazy {
+        retrofit.create(ApiCompras::class.java)
     }
 }
