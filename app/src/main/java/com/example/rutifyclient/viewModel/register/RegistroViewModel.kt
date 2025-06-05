@@ -1,5 +1,8 @@
 package com.example.rutifyclient.viewModel.register
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -158,6 +161,12 @@ class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
             return false
         }
         return true
+    }
+
+    override fun mostrarPaginaTerminos(context: Activity) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(RetrofitClient.BASE_URL + "terminos-y-condiciones.html")
+        context.startActivity(intent)
     }
 
     private fun sexoEscogido(): String {

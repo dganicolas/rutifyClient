@@ -215,4 +215,5 @@
     <string name="seguroComprar">¿Seguro que quieres comprar este item?</string>
     <string name="equipar">equipar</string>
     <string name="equipoCambiado">La indumentaria del usuario cambio</string>
+    <string name="sesionExpirada">Sesión expirada. Por favor, inicia sesión nuevamente.</string>
 </resources>

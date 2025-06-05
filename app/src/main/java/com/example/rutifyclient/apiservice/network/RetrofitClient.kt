@@ -40,7 +40,7 @@ object RetrofitClient {
         .setPrettyPrinting()
         .create()
     //private const val BASE_URL = "https://app-adat-9a4d.onrender.com/"
-    private const val BASE_URL = "http://192.168.1.43:8080/"
+    const val BASE_URL = "http://192.168.1.43:8080/"
     private val authInterceptor = Interceptor { chain ->
         val original = chain.request()
         val token = FirebaseAuth.getInstance().currentUser?.let {

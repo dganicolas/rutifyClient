@@ -27,8 +27,14 @@ fun Rutinas(navControlador: NavHostController) {
     val rutinas by viewModel.listaRutinas.observeAsState(listOf())
     val sinInternet by viewModel.sinInternet.observeAsState(false)
     val estado by viewModel.estado.observeAsState(true)
+    val obtenerRutinas: () -> Unit = {viewModel.obtenerRutinas {
+        navControlador.navigate(Rutas.Login) {
+            popUpTo(Rutas.Rutina) { inclusive = true }
+        }
+    }
+    }
     LaunchedEffect(Unit) {
-        viewModel.obtenerRutinas()
+        obtenerRutinas()
     }
 
     PantallaBase(
@@ -52,7 +58,7 @@ fun Rutinas(navControlador: NavHostController) {
         cargando = false,
         onReintentar = {
             viewModel.reiniciarPaginacion()
-            viewModel.obtenerRutinas()
+            obtenerRutinas()
         },
         sinInternet = sinInternet,
         iconoFloatingButton = Icons.Default.Add,
@@ -63,9 +69,9 @@ fun Rutinas(navControlador: NavHostController) {
                 rutinas,
                 estado,
                 navControlador,
-                { viewModel.obtenerRutinas() }) {
+                { obtenerRutinas() }) {
                 viewModel.reiniciarPaginacion()
-                viewModel.obtenerRutinas()
+                obtenerRutinas()
             }
 
         }
