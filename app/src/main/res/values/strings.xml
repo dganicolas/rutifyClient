@@ -23,7 +23,7 @@
     <string name="no_cuenta">¿No tienes una cuenta?</string>
     <string name="registrarse">Registrarse</string>
     <string name="indique_correo">Indique su correo</string>
-    <string name="sesion_iniciada">Sesion iniciada</string>
+    <string name="sesion_iniciada">Sesión iniciada</string>
     <string name="recuperar_contrasena">Restablecer contraseña</string>
     <string name="error_en_respuesta">Credenciales incorrectas.</string>
     <string name="contrasena_enviada">Se ha enviado un correo para restablecer tu contraseña.</string>
@@ -61,12 +61,12 @@
     <!-- pantalla Rutinas -->
     <string name="ejercicios">ejercicios: %1$d</string>
     <string name="equipo">Equipo: %1$s</string>
-    <string name="descripcion">Descripcion:\n %1$s</string>
+    <string name="descripcion">Descripción:\n %1$s</string>
     <string name="puntuacion">Ejercicios: %1$s</string>
     <string name="rutinas">Rutinas</string>
     <!-- pantalla detalles rutina-->
     <string name="titulo_rutina_detalle">%1$s</string>
-    <string name="titulo_descripcion">Descripcion</string>
+    <string name="titulo_descripcion">Descripción</string>
     <string name="titulo_ejercicios">Ejercicios</string>
     <string name="titulo_equipo">Equipo</string>
     <string name="mensaje_acordeon">%1$s</string>
@@ -76,9 +76,9 @@
     <string name="icono">Icono:</string>
     <string name="caloriasEstimadas">cal quemadas: %1$s</string>
     <string name="puntosGanados">exp ganada: %1$s</string>
-    <string name="descripcionEjercicio">descripcion:</string>
+    <string name="descripcionEjercicio">descripción:</string>
     <string name="nombreRutina">Nombre de la rutina:</string>
-    <string name="descripcionRutina">Descripcion de la rutina:</string>
+    <string name="descripcionRutina">Descripción de la rutina:</string>
     <string name="ejerciciosRutinas">Ejercicio:</string>
     <string name="grupoMuscular">Grupo: %1$s</string>
     <string name="cantidad">Repeticiones:</string>
@@ -92,18 +92,18 @@
     <string name="comentario">%1$s</string>
     <!-- pantalla Ajuste-->
     <string name="eliminar_cuenta">Eliminar cuenta</string>
-    <string name="noHayMasResultados">No hay mas rutinas</string>
+    <string name="noHayMasResultados">No hay más rutinas</string>
     <string name="rutinaCreada">Rutina creada exitosamente</string>
-    <string name="errorNombreRutinaVacio">el nombre de la rutina no puede estar vacia</string>
+    <string name="errorNombreRutinaVacio">el nombre de la rutina no puede estar vacía</string>
     <string name="descripcionIconoRutina">Imagen de la rutina</string>
-    <string name="descripcionRutinaVacia">La descripcion no puede estr vaica</string>
+    <string name="descripcionRutinaVacia">La descripción no puede estar vacía</string>
     <string name="ejercicioCon0Repeticion">"las repeticiones debe ser mayor a 0"</string>
-    <string name="listaEjerciciosVacia">debes de añadir como minimo 1 ejercicio</string>
-    <string name="iconoCambiado">la iamgen ha sido cambiada</string>
-    <string name="confirmar">Confirmacion</string>
+    <string name="listaEjerciciosVacia">debes de añadir como mínimo 1 ejercicio</string>
+    <string name="iconoCambiado">la imagen ha sido cambiada</string>
+    <string name="confirmar">Confirmación</string>
     <string name="cancelar">Cancelar</string>
     <string name="eliminarEjercicio">¿Seguro que quiere eliminar un ejercicio?</string>
-    <string name="cargandoMas">cargando mas rutinas</string>
+    <string name="cargandoMas">cargando más rutinas</string>
     <string name="rutinaGuardada">Rutina guardada en favoritos</string>
     <string name="rutinaNoGuardada">Rutina ha sido eliminado de favoritos</string>
     <string name="siguienteEjercicio">Siguiente ejercicio</string>
@@ -120,8 +120,8 @@
     <string name="puntuacionAbdominal">Abdominales: %1$.2f (+%2$.2f)</string>
     <string name="PuntuacionEspalda">Espalda: %1$.2f (+%2$.2f)</string>
     <string name="mensajeMotivador">¡Estás subiendo de nivel! Tu esfuerzo está dando resultados</string>
-    <string name="error_guardar">Error al guardar estadisticas intantalo de nuevo</string>
-    <string name="estadisticasGuardada">Las estadisticas han sido guardada</string>
+    <string name="error_guardar">Error al guardar estadísticas inténtalo de nuevo</string>
+    <string name="estadisticasGuardada">Las estadísticas han sido guardadas</string>
     <string name="sininternet">Sin conexión a internet</string>
     <string name="reintentar">Reintentar</string>
     <string name="puntuarRutina">Puntuar Rutina</string>
@@ -130,10 +130,10 @@
     <string name="estrella">estrella</string>
     <string name="eliminar">Eliminar</string>
     <string name="favorito">Favorito</string>
-    <string name="ErrorAlEliminarLaRutina">Error eliminando la rutina intentalo de nuevo</string>
+    <string name="ErrorAlEliminarLaRutina">Error eliminando la rutina inténtalo de nuevo</string>
     <string name="RutinaEliminada">La rutina ha sido eliminada</string>
-    <string name="tituloEliminarRutinaPopUp">¿Estas seguro de eliminar la rutina?</string>
-    <string name="mensajeEliminarRutinaPopUp">Esta accion es permanente</string>
+    <string name="tituloEliminarRutinaPopUp">¿Estás seguro de eliminar la rutina?</string>
+    <string name="mensajeEliminarRutinaPopUp">Esta acción es permanente</string>
     <string name="volver">volver</string>
     <string name="otroSexo">Otro</string>
     <string name="descKcal">Icono Kcal</string>
@@ -157,10 +157,10 @@
     <string name="metaInt">%1$d/%2$d</string>
     <string name="metaDouble">%1$.2f/%2$.2f</string>
     <string name="metaKcal">%1$.2f/%2$d</string>
-    <string name="estadisticas_diarias_guardadas">Estadisticas diarias guardadas</string>
+    <string name="estadisticas_diarias_guardadas">Estadísticas diarias guardadas</string>
     <string name="rutinasFavoritas">Rutinas favoritas</string>
-    <string name="estadisticas">Estadisticas</string>
-    <string name="noExistenMediciones">No Existen estadisticas</string>
+    <string name="estadisticas">Estadísticas</string>
+    <string name="noExistenMediciones">No existen estadísticas</string>
     <string name="horasActivoEst">Horas activos: %1$.2f</string>
     <string name="completadoRetoHoy">ya has completado el reto de hoy</string>
     <string name="buscarRutinas">Buscar Rutinas</string>
@@ -175,11 +175,11 @@
     <string name="perfilPrivado">Este usuario tiene el perfil en privado</string>
     <string name="estadoAnimo">Estado de ánimo</string>
     <string name="escribeComentario">Comparte tu experiencia</string>
-    <string name="eliminarComentario">¿Estas seguro de eliminar el comentario?</string>
-    <string name="accionIrreversible">Esta accion es irrevesible</string>
+    <string name="eliminarComentario">¿Estás seguro de eliminar el comentario?</string>
+    <string name="accionIrreversible">Esta acción es irrevesible</string>
     <string name="zonaAdmin">zona administrador</string>
-    <string name="verificar_moderacion">Verificar Moderación de comentarios</string>
-    <string name="comentarioEliminado">El comentario se elimino</string>
+    <string name="verificar_moderacion">Verificar moderación de comentarios</string>
+    <string name="comentarioEliminado">El comentario se eliminó</string>
     <string name="comentarioAprobado">El comentario ha sido aprobado</string>
     <string name="hilo">"Hilo de %1$s"</string>
     <string name="crearComentarioNuevo">Publicar comentario</string>
@@ -196,8 +196,8 @@
     <string name="noEncontrado">Este usuario no existe</string>
     <string name="buscarCuentas">Buscar cuentas</string>
     <string name="buscarComentariosPorAutor">Buscar comentarios por autor</string>
-    <string name="error_busqueda">Error al recoger la informacion</string>
-    <string name="reportarUsuario">¿estas seguro de reportar a este usuario?</string>
+    <string name="error_busqueda">Error al recoger la información</string>
+    <string name="reportarUsuario">¿estás seguro de reportar a este usuario?</string>
     <string name="usuarioReportado">has reportado a este usuario</string>
     <string name="usuarioYaReportado">Ya reportaste a este usuario</string>
     <string name="errorReportando">Error insperado a la hora de reportar</string>
@@ -205,7 +205,7 @@
     <string name="avatarCambiado">tu foto de avatar se ha cambiado</string>
     <string name="administrarComentarios">Administrar comentarios</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
-    <string name="error_fecha_futura">La fecha nacimiento debe ser mayor de 16 años</string>
+    <string name="error_fecha_futura">La fecha de nacimiento debe ser mayor de 16 años</string>
     <string name="monedas">Monedas: %1$d</string>
     <string name="precio">Precio: %1$.2f€</string>
     <string name="comprar">Comprar</string>
@@ -214,6 +214,18 @@
     <string name="pagoCancelado">Pago cancelado</string>
     <string name="seguroComprar">¿Seguro que quieres comprar este item?</string>
     <string name="equipar">equipar</string>
-    <string name="equipoCambiado">La indumentaria del usuario cambio</string>
+    <string name="equipoCambiado">La indumentaria del usuario cambió</string>
     <string name="sesionExpirada">Sesión expirada. Por favor, inicia sesión nuevamente.</string>
+    <string name="noHayComentariosNuevos">No hay comentarios nuevos</string>
+    <string name="tamanoFuente">Tamaño de fuente</string>
+    <string name="pequeno">Pequeña</string>
+    <string name="normal">Normal</string>
+    <string name="grande">Grande</string>
+    <string name="administrarUsuarios">Administrar usuarios</string>
+    <string name="tema">Tema</string>
+    <string name="seguirSistema">Seguir sistema</string>
+    <string name="claro">Claro</string>
+    <string name="oscuro">Oscuro</string>
+    <string name="noHayUsuariosNuevos">No hay usuarios con reportes</string>
+    <string name="publicarComentarioConImagen">Los comentarios con imagenes deben ser revisados por el equipo antes de su publicacion oficial</string>
 </resources>

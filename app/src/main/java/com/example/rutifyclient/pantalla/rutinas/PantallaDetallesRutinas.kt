@@ -64,6 +64,7 @@ fun PantallaDetallesRutinas(idRutina: String, navControlador: NavController) {
         viewModel.comprobarFavorito(context, idRutina)
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

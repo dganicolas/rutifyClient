@@ -28,14 +28,4 @@ interface ApiEstadisticas {
         @Path("usuarioId") usuarioId: String,
         @Body estadisticasActualizadas: EstadisticasPatchDto
     ): Response<EstadisticasDto>
-
-    @PUT("${ApiRoutes.ESTADISTICAS}/reiniciar/{usuarioId}")
-    suspend fun reiniciarEstadisticas(
-        @Path("usuarioId") usuarioId: String
-    ): Response<EstadisticasDto>
-
-    @DELETE("${ApiRoutes.ESTADISTICAS}/{usuarioId}")
-    suspend fun eliminarEstadisticas(
-        @Path("usuarioId") usuarioId: String
-    ): Response<EstadisticasDto>
 }

@@ -55,6 +55,7 @@ fun Estadisticas(navControlador: NavHostController) {
         viewModel.cambiarFecha(fecha)
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

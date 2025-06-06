@@ -20,7 +20,7 @@ class BuscarRutinasViewModel : ViewModelBase() {
 
     private val _toastFinalDeRutinaMostrado = MutableLiveData<Boolean>(false)
 
-    fun obtenerRutinas(navegarALogin: () -> Unit) {
+    fun obtenerRutinas() {
         _sinInternet.value = false
         if (_finalDeRutinas.value == true) {
             if (_toastFinalDeRutinaMostrado.value == false) {
@@ -46,10 +46,6 @@ class BuscarRutinasViewModel : ViewModelBase() {
                         mostrarToast(R.string.noHayMasResultados)
                     }
                     _listaRutinas.value = _listaRutinas.value!! + response.body()!!
-                }
-                if (response.code() == 401){
-                    mostrarToast(R.string.sesionExpirada)
-                    navegarALogin()
                 }
             } catch (e: Exception) {
                 manejarErrorConexion(e)

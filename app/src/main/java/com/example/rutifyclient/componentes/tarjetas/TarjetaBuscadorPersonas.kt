@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.WorkspacePremium
@@ -26,12 +27,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.rutifyclient.R
+import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.textos.TextoBuscador
 import com.example.rutifyclient.domain.usuario.UsuarioBusquedaDto
 import com.example.rutifyclient.utils.obtenerAvatarResource
 
 @Composable
-fun TarjetaBuscadorPersonas(usuario: UsuarioBusquedaDto, navController: NavController) {
+fun TarjetaBuscadorPersonas(
+    usuario: UsuarioBusquedaDto,
+    navController: NavController,
+    esAdmin: Boolean = false,
+    function: (UsuarioBusquedaDto) -> Unit = {}
+) {
     OutlinedCard(
         modifier = Modifier
             .height(64.dp).fillMaxWidth().clickable { navController.navigate("perfil/${usuario.idFirebase}") },
@@ -54,6 +62,9 @@ fun TarjetaBuscadorPersonas(usuario: UsuarioBusquedaDto, navController: NavContr
                 contentDescription = "Sexo"
             )
             TextoBuscador(usuario.nombre,Modifier.weight(1f))
+            if(esAdmin){
+                Icono(icono = Icons.Default.Delete,descripcion = R.string.icono,onClick = {function(usuario)})
+            }
             if (usuario.esPremium){
                 Icon(
                     modifier = Modifier.fillMaxHeight().size(38.dp),

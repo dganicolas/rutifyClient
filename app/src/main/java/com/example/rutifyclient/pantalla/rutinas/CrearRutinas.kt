@@ -106,6 +106,7 @@ fun CrearRutinas(navControlador: NavHostController) {
     Box() {
 
         PantallaBase(
+            navControlador,
             viewModel = viewModel,
             cargando = cargando,
             sinInternet = sinInternet,

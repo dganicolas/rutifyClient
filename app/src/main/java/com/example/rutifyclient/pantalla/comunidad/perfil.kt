@@ -64,6 +64,7 @@ fun perfil(navControlador: NavHostController, idFirebaseParam: String) {
         viewModel.obtenerUltimos5Pesos()
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

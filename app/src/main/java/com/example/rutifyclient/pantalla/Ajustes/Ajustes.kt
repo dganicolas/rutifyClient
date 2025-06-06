@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,7 +25,8 @@ import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonAlerta
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
-import com.example.rutifyclient.componentes.textos.TextoSubtitulo
+import com.example.rutifyclient.componentes.textos.TextoInformativo
+import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.domain.room.SettingsDtoRoom
 import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.pantalla.commons.PantallaBase
@@ -38,18 +37,22 @@ import com.google.firebase.auth.FirebaseAuth
 fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
     val settings by viewModel.settings.observeAsState(SettingsDtoRoom(0, 0, 0.0f, 0))
     val esAdmin by viewModel.esSuyaOEsAdmin.observeAsState(false)
+    val fontSizes by viewModel.fontSizes.observeAsState(emptyList())
+    val fontLabels by viewModel.fontLabels.observeAsState(emptyList())
+    val themeOptions by viewModel.themeOptions.observeAsState(emptyList())
     LaunchedEffect(Unit) {
         viewModel.obtenerUsuario()
         viewModel.comprobarAdmin()
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel(),
         cargando = false,
         sinInternet = false,
         onReintentar = {},
         bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.Ajustes) })
     ) {
-        Box(Modifier.padding(it)) {
+        Box(Modifier.padding(it).padding(5.dp)) {
             TarjetaNormal(Modifier.fillMaxSize()) {
                 Column {
                     Column(
@@ -61,11 +64,8 @@ fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
                                 .fillMaxWidth()
                                 .padding(16.dp)
                         ) {
-                            Text("Tamaño de fuente", style = typography.titleLarge)
+                            TextoTitulo(R.string.tamanoFuente)
                             Spacer(Modifier.height(8.dp))
-
-                            val fontSizes = listOf(0.8f, 1f, 1.2f)
-                            val fontLabels = listOf("Pequeña", "Normal", "Grande")
 
                             fontLabels.forEachIndexed { index, label ->
                                 Row(
@@ -86,17 +86,17 @@ fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
                                         onClick = null
                                     )
                                     Spacer(Modifier.width(8.dp))
-                                    Text(label)
+                                    TextoInformativo(label)
                                 }
+                                Spacer(Modifier.height(8.dp))
                             }
 
                             Spacer(Modifier.height(16.dp))
 
-                            // Tema
-                            Text("Tema", style = typography.titleLarge)
+                            TextoTitulo(R.string.tema)
                             Spacer(Modifier.height(8.dp))
 
-                            val themeOptions = listOf("Seguir sistema", "Claro", "Oscuro")
+
 
                             themeOptions.forEachIndexed { index, label ->
                                 Row(
@@ -117,9 +117,11 @@ fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
                                         onClick = null
                                     )
                                     Spacer(Modifier.width(8.dp))
-                                    Text(label)
+                                    TextoInformativo(label)
                                 }
+                                Spacer(Modifier.height(8.dp))
                             }
+                            Spacer(Modifier.height(35.dp))
                             ButtonPrincipal(
                                 textoId = R.string.cerrar_sesion,
                                 onClick = {
@@ -129,33 +131,45 @@ fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
                                     }
                                 },
                                 modifier = Modifier
-                                    .height(60.dp)
+                                    .height(50.dp)
                                     .fillMaxWidth()
                             )
-
+                            Spacer(Modifier.height(35.dp))
                             ButtonAlerta(
                                 textoId = R.string.eliminar_cuenta,
                                 onClick = {
 
                                 },
                                 modifier = Modifier
-                                    .height(60.dp)
+                                    .height(50.dp)
                                     .fillMaxWidth()
                             )
+                            Spacer(Modifier.height(35.dp))
+                            if (esAdmin) {
+                                TextoTitulo(R.string.zonaAdmin)
+                                Spacer(Modifier.height(12.dp))
+                                ButtonPrincipal(
+                                    R.string.administrarComentarios,
+                                    onClick = {
+                                        navControlador.navigate(Rutas.administrarComentarios)
+                                    },
+                                    modifier = Modifier
+                                        .height(50.dp)
+                                        .fillMaxWidth()
+                                )
+                                Spacer(Modifier.height(8.dp))
+                                ButtonPrincipal(
+                                    R.string.administrarUsuarios,
+                                    onClick = {
+                                        navControlador.navigate(Rutas.administrarUsuarios)
+                                    },
+                                    modifier = Modifier
+                                        .height(50.dp)
+                                        .fillMaxWidth()
+                                )
+                            }
                         }
-                        if (esAdmin) {
-                            TextoSubtitulo(R.string.zonaAdmin)
-                            ButtonPrincipal(
-                                R.string.administrarComentarios,
-                                onClick = {
-                                    navControlador.navigate(Rutas.zonaAdmin)
-                                },
-                                modifier = Modifier
-                                    .height(60.dp)
-                                    .fillMaxWidth()
-                            )
 
-                        }
                     }
 
                 }

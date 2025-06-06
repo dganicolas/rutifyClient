@@ -102,7 +102,11 @@ class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
     fun cambiarSexo(sexo: Int) {
         if (sexo == R.string.hombre) {
             _opcionEscogida.value = R.string.hombre
-        } else {
+        }else if(sexo == R.string.otroSexo)
+        {
+            _opcionEscogida.value = R.string.otroSexo
+        }
+        else {
             _opcionEscogida.value = R.string.mujer
         }
     }

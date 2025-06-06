@@ -13,11 +13,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import com.example.rutifyclient.R
+import com.example.rutifyclient.navigation.Rutas
 import com.example.rutifyclient.viewModel.ViewModelBase
 
 @Composable
 fun PantallaBase(
+    navControlador: NavController,
     viewModel: ViewModelBase,
     cargando: Boolean,
     sinInternet: Boolean,
@@ -26,6 +29,7 @@ fun PantallaBase(
     topBar: @Composable (() -> Unit)? = null,
     bottomBar: @Composable (() -> Unit)? = null,
     iconoFloatingButton: ImageVector? = null,
+    comprobar:Boolean = true,
     contenido: @Composable (PaddingValues) -> Unit,
 ) {
     val mensajeToast by viewModel.mensajeToast.observeAsState(R.string.dato_defecto)
@@ -33,6 +37,14 @@ fun PantallaBase(
     val toastMostradoApi by viewModel.mensajeToastApiMostrado.observeAsState(true)
     val mensajeToastApi by viewModel.mensajeToastApi.observeAsState("")
     val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        if(comprobar)
+        viewModel.comprobarAdmin() {
+            navControlador.navigate(Rutas.Login) {
+                popUpTo(Rutas.Rutina) { inclusive = true }
+            }
+        }
+    }
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {

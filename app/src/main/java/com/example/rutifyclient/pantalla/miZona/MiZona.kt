@@ -115,6 +115,7 @@ fun MiZona(navControlador: NavHostController) {
         viewModel.obtenerObjetivosLocal(context)
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,
@@ -371,8 +372,10 @@ fun MiZona(navControlador: NavHostController) {
                             viewModel.mostrarVentanaCambiarRopa()
                             viewModel.ponerCosmetico(cosmetico)
                         },
-                        R.string.equipar
+                        R.string.equipar,
+                        false
                     )
+                    ButtonPrincipal(R.string.cerrarVentana,onClick = {viewModel.mostrarVentanaCambiarRopa()})
                 }
             }
         }

@@ -60,6 +60,7 @@ fun HacerEjercicioRutina(navControlador: NavHostController) {
         viewModel.iniciarTemporizador()
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

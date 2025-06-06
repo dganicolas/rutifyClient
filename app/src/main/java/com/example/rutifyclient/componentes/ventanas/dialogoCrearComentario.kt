@@ -156,6 +156,9 @@ fun dialogoCrearComentario(
             ) {
                 ImagenAmpliable(imagenUri)
             }
+            if(imagenUri!= null){
+                TextoInformativo(R.string.publicarComentarioConImagen)
+            }
             ButtonPrincipal(R.string.publicar, onClick = { crearComentario() },
                 enabled = estado)
             ButtonSecundario(

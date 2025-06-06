@@ -14,6 +14,7 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.barras.TopBarBase
 import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
+import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmarCompra
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoTitulo
 import com.example.rutifyclient.componentes.ventanas.CoinPackGrid
@@ -61,7 +62,7 @@ fun Tienda(navControlador: NavHostController) {
     }
 
     if (ventanaComprarComestico) {
-        AlertDialogConfirmar(
+        AlertDialogConfirmarCompra(
             R.string.seguroComprar,
             R.string.accionIrreversible,
             {
@@ -76,6 +77,7 @@ fun Tienda(navControlador: NavHostController) {
     }
 
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

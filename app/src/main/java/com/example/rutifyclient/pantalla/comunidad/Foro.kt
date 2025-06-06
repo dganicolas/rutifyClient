@@ -93,6 +93,7 @@ fun Foro(navControlador: NavHostController) {
 
 
     PantallaBase(
+        navControlador,
         viewModel = viewModel(),
         cargando = !estado,
         sinInternet = sinInternet,

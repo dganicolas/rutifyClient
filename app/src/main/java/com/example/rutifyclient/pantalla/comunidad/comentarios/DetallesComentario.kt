@@ -77,6 +77,7 @@ fun DetallesComentario(navControlador: NavHostController, urlComentario: String)
     }
 
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

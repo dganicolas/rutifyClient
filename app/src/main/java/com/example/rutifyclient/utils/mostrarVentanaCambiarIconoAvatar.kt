@@ -40,7 +40,8 @@ fun mostrarVentanaCambiarIconoAvatar(imagenes: List<String>, cambio: (String) ->
                                 imagen = painterResource(id = obtenerAvatarResource(icono)),
                                 descripcion = R.string.descripcionIconoRutina,
                                 onClick = { cambio(icono) },
-                                modifier = Modifier.size(105.dp)
+                                modifier = Modifier.size(105.dp),
+                                estado = false
                             )
                         }
                     }

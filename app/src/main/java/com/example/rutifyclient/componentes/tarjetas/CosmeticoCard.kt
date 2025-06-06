@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
+import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.domain.tienda.cosmeticos.Cosmetico
 
@@ -20,7 +21,8 @@ fun CosmeticoCard(
     cosmetico: Cosmetico,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textoBoton: Int = R.string.comprar
+    textoBoton: Int = R.string.comprar,
+    estado: Boolean = true,
 ) {
     TarjetaNormal(
         modifier = modifier
@@ -38,7 +40,9 @@ fun CosmeticoCard(
                     .height(80.dp)
             )
             TextoSubtitulo(R.string.texto_input, cosmetico.nombre)
-            TextoSubtitulo(R.string.texto_input, "${cosmetico.precioMonedas} monedas")
+            if (estado) {
+                TextoInformativo(R.string.texto_input, "${cosmetico.precioMonedas} monedas")
+            }
             ButtonPrincipal(
                 textoBoton,
                 {

@@ -36,6 +36,7 @@ fun PantallaBusquedaRutinasOnline(navControlador: NavHostController) {
     val listaRutinas by viewModel.listaRutinas.observeAsState(emptyList())
     val sinInternet by viewModel.sinInternet.observeAsState(false)
     PantallaBase(
+        navControlador,
         viewModel,
         cargando = !estado,
         sinInternet = sinInternet,

@@ -11,6 +11,7 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
 import com.example.rutifyclient.componentes.icono.Icono
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
+import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoSubtitulo
 import com.example.rutifyclient.domain.tienda.CoinPack
 
@@ -32,7 +33,7 @@ fun CoinPackCard(
                 onClick = {})
             Spacer(modifier = Modifier.height(8.dp))
             TextoSubtitulo(R.string.monedas, pack.monedas)
-            TextoSubtitulo(R.string.precio, pack.precio)
+            TextoInformativo(R.string.precio, pack.precio)
 
             Spacer(modifier = Modifier.height(12.dp))
             ButtonPrincipal(

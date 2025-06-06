@@ -59,6 +59,8 @@ fun Registro(navControlador: NavHostController) {
     val activity = context as Activity
     val focusManager = LocalFocusManager.current
     PantallaBase(
+        navControlador,
+        comprobar = false,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,
@@ -105,7 +107,7 @@ fun Registro(navControlador: NavHostController) {
                     icono = if (mostrarContrasenaConfirmacion) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                     modifierIcon = Modifier
                         .clickable { viewModel.mostrarContrasenaConfirmacion(!mostrarContrasenaConfirmacion) },
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password,imeAction = ImeAction.Next),
                 )
 
                 SelectorFechaNacimiento(

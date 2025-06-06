@@ -66,6 +66,7 @@ fun Buscador(navControlador: NavHostController) {
         viewModel.comprobarAdmin()
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel(),
         cargando = !estado,
         sinInternet = sinInternet,

@@ -111,10 +111,10 @@ class EjercicioRutinasViewModel : ViewModelBase() {
             _estadisticasDtoCalculadas.value!!.kCaloriasQuemadas += (ejercicio.cantidad * ejercicio.caloriasQuemadasPorRepeticion)/1000
             when ( ejercicio.grupoMuscular.lowercase()){
                 "pecho" -> { _estadisticasDtoCalculadas.value!!.lvlPecho += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion}
-                "abdominal" -> { _estadisticasDtoCalculadas.value!!.lvlAbdominal += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
+                "abdominales" -> { _estadisticasDtoCalculadas.value!!.lvlAbdominal += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
                 "espalda" -> {_estadisticasDtoCalculadas.value!!.lvlEspalda += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion}
-                "hombro","bicep","tricep" -> {_estadisticasDtoCalculadas.value!!.lvlBrazo += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
-                "pierna" -> { _estadisticasDtoCalculadas.value!!.lvlPiernas += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
+                "hombros","biceps","triceps" -> {_estadisticasDtoCalculadas.value!!.lvlBrazo += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
+                "piernas" -> { _estadisticasDtoCalculadas.value!!.lvlPiernas += ejercicio.cantidad * ejercicio.puntoGanadosPorRepeticion }
                 else -> {}
             }
         }

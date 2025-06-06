@@ -26,7 +26,8 @@ import com.example.rutifyclient.pantalla.rutinas.PantallaDetallesRutinas
 import com.example.rutifyclient.pantalla.rutinas.Rutinas
 import com.example.rutifyclient.pantalla.rutinas.hacerRutina.HacerEjercicioRutina
 import com.example.rutifyclient.pantalla.tienda.Tienda
-import com.example.rutifyclient.pantalla.zonaAdmin.zonaAdmin
+import com.example.rutifyclient.pantalla.zonaAdmin.AdministrarComentarios
+import com.example.rutifyclient.pantalla.zonaAdmin.AdministrarUsuarios
 import com.example.rutifyclient.viewModel.ajustes.SettingsViewModel
 
 @Composable
@@ -88,8 +89,8 @@ fun AppNavigation(settingsViewModel: SettingsViewModel) {
             Foro(navControlador)
         }
 
-        composable(Rutas.zonaAdmin) {
-            zonaAdmin(navControlador)
+        composable(Rutas.administrarComentarios) {
+            AdministrarComentarios(navControlador)
         }
 
         composable(Rutas.buscarRutinas) {
@@ -106,6 +107,10 @@ fun AppNavigation(settingsViewModel: SettingsViewModel) {
 
         composable(Rutas.Estadisticas) {
             Estadisticas(navControlador)
+        }
+
+        composable(Rutas.administrarUsuarios) {
+            AdministrarUsuarios(navControlador)
         }
 
         composable(Rutas.rutinasFavoritas,

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.local.room.database.RutinaDatabase
 import com.example.rutifyclient.domain.room.SettingsDtoRoom
 import com.example.rutifyclient.viewModel.ViewModelBase
@@ -22,6 +23,15 @@ class SettingsViewModel(application: Application) : ViewModelBase() {
         )
     )
     val settings: LiveData<SettingsDtoRoom> = _settings
+
+    val _fontSizes:  MutableLiveData<List<Float>> =  MutableLiveData(listOf(0.8f, 1f, 1.2f))
+    val fontSizes: LiveData<List<Float>> =  _fontSizes
+
+    val _fontLabels:  MutableLiveData<List<Int>> = MutableLiveData(listOf(R.string.pequeno, R.string.normal, R.string.grande))
+    val fontLabels: LiveData<List<Int>> = _fontLabels
+
+    val _themeOptions:  MutableLiveData<List<Int>> = MutableLiveData(listOf(R.string.seguirSistema, R.string.claro, R.string.oscuro))
+    val themeOptions: LiveData<List<Int>> = _themeOptions
 
     init {
         viewModelScope.launch {

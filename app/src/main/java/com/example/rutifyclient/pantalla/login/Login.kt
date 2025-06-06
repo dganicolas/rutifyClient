@@ -67,7 +67,9 @@ fun Login(navControlador: NavHostController) {
         }
     }
     PantallaBase(
+        navControlador,
         viewModel,
+        comprobar = false,
         cargando = !estado,
         sinInternet = sinInternet,
         onReintentar = { viewModel.reiniciarInternet()}

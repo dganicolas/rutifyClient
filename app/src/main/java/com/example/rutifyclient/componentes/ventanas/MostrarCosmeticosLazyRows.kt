@@ -21,7 +21,8 @@ import com.example.rutifyclient.domain.tienda.cosmeticos.Cosmetico
 fun MostrarCosmeticosLazyRows(
     cosmeticosPorTipo: Map<String, List<Cosmetico>>,
     onCosmeticoClick: (Cosmetico) -> Unit,
-    textoBoton: Int = R.string.comprar
+    textoBoton: Int = R.string.comprar,
+    estado: Boolean = true
 ) {
     // Scroll vertical para toda la pantalla
     Column(
@@ -41,7 +42,8 @@ fun MostrarCosmeticosLazyRows(
                     CosmeticoCard(
                         cosmetico = cosmetico,
                         onClick = { onCosmeticoClick(cosmetico) },
-                        textoBoton = textoBoton
+                        textoBoton = textoBoton,
+                        estado = estado
                     )
                 }
             }

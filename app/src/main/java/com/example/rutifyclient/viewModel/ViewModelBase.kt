@@ -10,7 +10,6 @@ import com.example.rutifyclient.domain.estadisticas.EstadisticasDto
 import com.example.rutifyclient.domain.usuario.UsuarioInformacionDto
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.time.LocalDate
 
 open class ViewModelBase(): ViewModel() {
@@ -68,12 +67,16 @@ open class ViewModelBase(): ViewModel() {
         _mensajeToastApi.value = mensaje
     }
 
-    fun comprobarAdmin(){
+    fun comprobarAdmin(navegarALogin: () -> Unit = {}){
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.apiUsuarios.esAdmin(_idFirebase.value!!)
                 if (response.isSuccessful) {
                     _esSuyaOEsAdmin.value = response.body()
+                }
+                if (response.code() == 404){
+                    mostrarToast(R.string.sesionExpirada)
+                    navegarALogin()
                 }
             } catch (e: Exception) {
                 manejarErrorConexion(e)
@@ -89,7 +92,7 @@ open class ViewModelBase(): ViewModel() {
         viewModelScope.launch {
             try {
                 val response =
-                    RetrofitClient.apiUsuarios.obtenerDetalleUsuario(FirebaseAuth.getInstance().currentUser!!.uid)
+                    RetrofitClient.apiUsuarios.obtenerDetalleUsuario(_idFirebase.value!!)
 
                 if (response.isSuccessful) {
                     _usuario.value = response.body()

@@ -85,6 +85,7 @@ fun Actividad(navControlador: NavHostController, idFirebase: String?) {
         viewModel.comprobarAdmin()
     }
     PantallaBase(
+        navControlador,
         viewModel = viewModel,
         cargando = !estado,
         sinInternet = sinInternet,
