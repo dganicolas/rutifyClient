@@ -3,6 +3,7 @@ package com.example.rutifyclient.componentes.selectores
 import android.app.DatePickerDialog
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.camposDeTextos.CampoTexto
 import com.example.rutifyclient.componentes.transformation.FechaVisualTransformation
@@ -62,6 +64,7 @@ fun SelectorFechaNacimiento(
     )
 
     CampoTexto(
+        modifier = Modifier.fillMaxWidth().testTag("campo_fecha"),
         value = fechaNacimiento,
         onValueChange = {
             onFechaSeleccionada(it)

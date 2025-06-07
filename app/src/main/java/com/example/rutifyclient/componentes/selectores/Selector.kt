@@ -13,6 +13,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 
@@ -46,6 +47,7 @@ fun SelectorSexo(
             opciones.forEach {
                 Row(
                     modifier = Modifier
+                        .testTag("campo_selector")
                         .clickable { onSeleccionar(it) },
                     verticalAlignment = Alignment.CenterVertically
                 ) {

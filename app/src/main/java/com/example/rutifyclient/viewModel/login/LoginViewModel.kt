@@ -12,9 +12,6 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel() : ViewModelBase() {
 
-    private val _iniciandoSesion = MutableLiveData(true)
-    val iniciandoSesion: LiveData<Boolean> = _iniciandoSesion
-
     private val _textoCorreo = MutableLiveData("")
     val textoCorreo: LiveData<String> = _textoCorreo
 

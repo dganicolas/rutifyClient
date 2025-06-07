@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -75,6 +77,7 @@ fun Registro(navControlador: NavHostController) {
             FormularioCard(R.string.nueva_cuenta) {
                 TextoInformativo(textoId = R.string.registro_info)
                 CampoTexto(
+                    modifier = Modifier.fillMaxWidth().testTag("campo_nombre"),
                     value = nombre,
                     onValueChange = { viewModel.cambiarNombre(it) },
                     textoIdLabel = R.string.nombre,
@@ -82,6 +85,7 @@ fun Registro(navControlador: NavHostController) {
                 )
 
                 CampoTexto(
+                    modifier = Modifier.fillMaxWidth().testTag("campo_correo"),
                     value = correo,
                     onValueChange = { viewModel.cambiarCorreo(it) },
                     textoIdLabel = R.string.correo,
@@ -89,6 +93,7 @@ fun Registro(navControlador: NavHostController) {
                 )
 
                 CampoTexto(
+                    modifier = Modifier.fillMaxWidth().testTag("campo_contrasena"),
                     value = contrasena,
                     onValueChange = { viewModel.cambiarContrasena(it) },
                     textoIdLabel = R.string.contrasena,
@@ -100,6 +105,7 @@ fun Registro(navControlador: NavHostController) {
                 )
 
                 CampoTexto(
+                    modifier = Modifier.fillMaxWidth().testTag("campo_contrasena_confirmacion"),
                     value = contrasenaConfirmacion,
                     onValueChange = { viewModel.cambiarContrasenaConfirmacion(it) },
                     textoIdLabel = R.string.contrasena_confirmacion,
@@ -136,13 +142,14 @@ fun Registro(navControlador: NavHostController) {
                 )
 
                 ButtonPrincipal(textoId = R.string.registrarse, {
+
                     viewModel.registrarUsuario() {
                         if (it) {
                             navControlador.popBackStack(Rutas.Registro, true)
                             navControlador.navigate(Rutas.Login)
                         }
                     }
-                }, enabled = estado)
+                }, enabled = estado,modifier = Modifier.fillMaxWidth().testTag("boton-registrarse"),)
                 Row(
                 ) {
                     TextoInformativo(textoId = R.string.cuenta_existe)

@@ -75,6 +75,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.mockk)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.retrofit)
@@ -92,8 +93,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
     implementation(libs.androidx.material3)
-// Stripe Android SDK
     implementation(libs.stripe.android)
-    // Include the financial connections SDK to support US bank account as a payment method
     implementation(libs.financial.connections)
+    androidTestImplementation(libs.ui.test.junit4)
+
+
 }
