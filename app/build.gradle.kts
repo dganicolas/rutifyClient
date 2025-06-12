@@ -48,7 +48,11 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += listOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+                "META-INF/NOTICE.md"
+            )
         }
     }
     room {
@@ -69,12 +73,14 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.androidx.storage)
+    implementation(libs.androidx.navigation.testing.android)
     testImplementation(libs.junit)
     implementation(libs.play.services.ads)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.mockk)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.retrofit)
@@ -92,8 +98,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
     implementation(libs.androidx.material3)
-// Stripe Android SDK
     implementation(libs.stripe.android)
-    // Include the financial connections SDK to support US bank account as a payment method
     implementation(libs.financial.connections)
+    androidTestImplementation(libs.ui.test.junit4)
+
+
 }

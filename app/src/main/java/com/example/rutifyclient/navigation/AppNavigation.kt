@@ -72,7 +72,7 @@ fun AppNavigation(settingsViewModel: SettingsViewModel) {
         }
 
         composable(Rutas.Registro) {
-            Registro(navControlador)
+            Registro(navControlador = navControlador)
         }
         composable(Rutas.MiZona,
             arguments = listOf(navArgument("idFirebase") { type = NavType.StringType })) {

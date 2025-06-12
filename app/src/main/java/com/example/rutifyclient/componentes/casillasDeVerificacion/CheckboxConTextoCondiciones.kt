@@ -7,6 +7,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.textos.TextoEnlace
@@ -26,6 +27,7 @@ fun CheckboxConTextoCondiciones(
         modifier = Modifier.padding(8.dp).fillMaxWidth()
     ) {
         Checkbox(
+            modifier = Modifier.testTag("campo_terminos"),
             checked = mostrarContrasena,
             onCheckedChange = onCheckedChange
         )

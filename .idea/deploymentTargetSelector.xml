@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="Buscador">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="previewRutinas">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -25,7 +22,13 @@
       <SelectionState runConfigName="x">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="pre">
+      <SelectionState runConfigName="RegistroTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testRegistroExitoso()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="cuando_inicio_quiero_comprobar_si_funciona_el_boton_de_borrar_texto_funciona()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

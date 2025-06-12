@@ -18,7 +18,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
-class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
+open class RegistroViewModel : ViewModelBase(), IRegistroViewModel {
 
     private val _opcionesSexo = MutableLiveData(listOf(R.string.hombre, R.string.mujer, R.string.otroSexo))
     val opcionesSexo = _opcionesSexo
