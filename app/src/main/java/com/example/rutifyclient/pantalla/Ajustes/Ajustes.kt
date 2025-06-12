@@ -24,6 +24,7 @@ import com.example.rutifyclient.R
 import com.example.rutifyclient.componentes.barras.NavigationBarAbajoPrincipal
 import com.example.rutifyclient.componentes.botones.ButtonAlerta
 import com.example.rutifyclient.componentes.botones.ButtonPrincipal
+import com.example.rutifyclient.componentes.dialogoDeAlerta.AlertDialogConfirmar
 import com.example.rutifyclient.componentes.tarjetas.TarjetaNormal
 import com.example.rutifyclient.componentes.textos.TextoInformativo
 import com.example.rutifyclient.componentes.textos.TextoTitulo
@@ -40,15 +41,33 @@ fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
     val fontSizes by viewModel.fontSizes.observeAsState(emptyList())
     val fontLabels by viewModel.fontLabels.observeAsState(emptyList())
     val themeOptions by viewModel.themeOptions.observeAsState(emptyList())
+    val popupVentanaEliminarCUenta by viewModel.popupVentanaEliminarCUenta.observeAsState(false)
+    val estado by viewModel.estado.observeAsState(false)
+    val sinInternet by viewModel.sinInternet.observeAsState(false)
     LaunchedEffect(Unit) {
         viewModel.obtenerUsuario()
         viewModel.comprobarAdmin()
     }
+    if(popupVentanaEliminarCUenta){
+    AlertDialogConfirmar(
+        R.string.seguroEliminarCuenta,
+        R.string.accionIrreversible,
+        {
+            viewModel.mostrarPoupEliminarCuenta()
+            viewModel.eliminarCuenta{
+            navControlador.navigate(Rutas.Login) {
+                FirebaseAuth.getInstance().signOut()
+                popUpTo(0) { inclusive = true }
+            }
+        } },
+        {viewModel.mostrarPoupEliminarCuenta()},
+        R.string.eliminar_cuenta
+    )}
     PantallaBase(
         navControlador,
         viewModel = viewModel(),
-        cargando = false,
-        sinInternet = false,
+        cargando = !estado,
+        sinInternet = sinInternet,
         onReintentar = {},
         bottomBar = ({ NavigationBarAbajoPrincipal(navControlador, Rutas.Ajustes) })
     ) {
@@ -138,7 +157,7 @@ fun Ajustes(navControlador: NavHostController, viewModel: SettingsViewModel) {
                             ButtonAlerta(
                                 textoId = R.string.eliminar_cuenta,
                                 onClick = {
-
+                                    viewModel.mostrarPoupEliminarCuenta()
                                 },
                                 modifier = Modifier
                                     .height(50.dp)

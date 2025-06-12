@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rutifyclient.R
 import com.example.rutifyclient.apiservice.local.room.database.RutinaDatabase
+import com.example.rutifyclient.apiservice.network.RetrofitClient
 import com.example.rutifyclient.domain.room.SettingsDtoRoom
+import com.example.rutifyclient.domain.usuario.EliminarUsuarioDTO
 import com.example.rutifyclient.viewModel.ViewModelBase
 import kotlinx.coroutines.launch
 
@@ -33,6 +35,9 @@ class SettingsViewModel(application: Application) : ViewModelBase() {
     val _themeOptions:  MutableLiveData<List<Int>> = MutableLiveData(listOf(R.string.seguirSistema, R.string.claro, R.string.oscuro))
     val themeOptions: LiveData<List<Int>> = _themeOptions
 
+    val _popupVentanaEliminarCUenta:  MutableLiveData<Boolean> = MutableLiveData(false)
+    val popupVentanaEliminarCUenta: LiveData<Boolean> = _popupVentanaEliminarCUenta
+
     init {
         viewModelScope.launch {
             settingsDao.getSettings()?.let {
@@ -45,6 +50,26 @@ class SettingsViewModel(application: Application) : ViewModelBase() {
         _settings.value = newSettings
         viewModelScope.launch {
             settingsDao.insertSettings(newSettings)
+        }
+    }
+
+    fun mostrarPoupEliminarCuenta() {
+        _popupVentanaEliminarCUenta.value = !_popupVentanaEliminarCUenta.value!!
+    }
+
+    fun eliminarCuenta(navegarALogin: () -> Unit = {}) {
+        _estado.value = false
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiUsuarios.eliminarCuenta(EliminarUsuarioDTO(_usuario.value!!.correo))
+                if (response.isSuccessful) {
+                    navegarALogin()
+                }
+            } catch (e: Exception) {
+                manejarErrorConexion(e)
+                _sinInternet.value = true
+                mostrarToast(R.string.error_conexion)
+            }
         }
     }
 }

@@ -153,8 +153,8 @@ fun perfil(navControlador: NavHostController, idFirebaseParam: String) {
                             modifier = Modifier
                                 .padding(5.dp)
                         ) {
-                            TextoSubtitulo(R.string.pesoUsuario, ultimosPesos[4])
-                            PesoGraph(pesos = ultimosPesos)
+                            TextoSubtitulo(R.string.pesoUsuario, ultimosPesos[0])
+                            PesoGraph(pesos = ultimosPesos.reversed())
                         }
                     }
                 }

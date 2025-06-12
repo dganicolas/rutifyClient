@@ -14,6 +14,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -25,7 +26,7 @@ interface ApiUsuarios {
     @POST("${ApiRoutes.USUARIOS}/acceder")
     suspend fun loginUsuario(@Body usuario: UsuarioCredencialesDto): Response<UsuarioLoginDto>
 
-    @DELETE("${ApiRoutes.USUARIOS}/eliminar")
+    @HTTP(method = "DELETE", path = "${ApiRoutes.USUARIOS}/eliminar", hasBody = true)
     suspend fun eliminarCuenta(@Body correo: EliminarUsuarioDTO): Response<Unit>
 
     @GET("${ApiRoutes.USUARIOS}/buscar/{nombre}/{pagina}/{tamano}")
