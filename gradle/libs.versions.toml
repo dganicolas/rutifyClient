@@ -26,6 +26,7 @@ roomRuntime = "2.7.1"
 devtoolsKsp = "2.1.20-2.0.0"
 material3 = "1.4.0-alpha01"
 stripeAndroid = "21.15.1"
+navigationTestingAndroid = "2.9.0"
 
 [libraries]
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
@@ -66,6 +67,7 @@ androidx-datastore-core-android = { group = "androidx.datastore", name = "datast
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
 stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripeAndroid" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-navigation-testing-android = { group = "androidx.navigation", name = "navigation-testing-android", version.ref = "navigationTestingAndroid" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

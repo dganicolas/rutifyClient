@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.androidx.storage)
+    implementation(libs.androidx.navigation.testing.android)
     testImplementation(libs.junit)
     implementation(libs.play.services.ads)
     androidTestImplementation(libs.androidx.junit)

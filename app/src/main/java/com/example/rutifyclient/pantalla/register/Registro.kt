@@ -43,8 +43,7 @@ import com.example.rutifyclient.pantalla.commons.PantallaBase
 import com.example.rutifyclient.viewModel.register.RegistroViewModel
 
 @Composable
-fun Registro(navControlador: NavHostController) {
-    val viewModel: RegistroViewModel = viewModel()
+fun Registro(viewModel: RegistroViewModel = viewModel(),navControlador: NavHostController) {
     val nombre by viewModel.textoNombre.observeAsState("")
     val estado by viewModel.estado.observeAsState(true)
     val sinInternet by viewModel.sinInternet.observeAsState(false)
